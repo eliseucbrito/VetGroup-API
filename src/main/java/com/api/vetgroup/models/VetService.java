@@ -24,9 +24,8 @@ public class VetService implements Serializable {
     private Integer type;
     @Column(nullable = false, unique = false)
     private Integer status;
-    @Column(nullable = false, unique = false)
+    @Column(nullable = true, unique = false)
     private Double price;
-
 
 
     public Long getId() {

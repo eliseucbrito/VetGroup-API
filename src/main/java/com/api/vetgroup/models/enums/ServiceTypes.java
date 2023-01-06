@@ -6,8 +6,7 @@ public enum ServiceTypes {
     MEDICAL_CARE(2),
     HOME_CARE(3),
     SURGERY(4),
-    EMERGENCY(5),
-    CANCELED(6);
+    EMERGENCY(5);
 
     private int code;
 

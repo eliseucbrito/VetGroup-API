@@ -35,13 +35,13 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(reportModel));
     }
 
-    @PatchMapping(value = "/{id}")
+    @PatchMapping(value = "/{id}/type")
     public ResponseEntity<Object> updateReport(@PathVariable Long id, @RequestBody ReportDto reportDto) {
         Report report = service.findById(id);
         if (report.getType() != ReportTypes.REQUEST) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        service.requestStatus(id, reportDto.getApproved());
+        service.requestStatus(report, reportDto.getApproved());
         return ResponseEntity.noContent().build();
     }
 

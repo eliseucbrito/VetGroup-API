@@ -4,7 +4,8 @@ public enum ServiceStatus {
 
     SCHEDULED(1),
     WAITING_PAYMENT(2),
-    PAID(3);
+    PAID(3),
+    CANCELED(4);
 
     private int code;
 

@@ -12,7 +12,7 @@ public class ReportDto {
 
 
     @NotBlank
-    @Size(max = 70, min = 20)
+    @Size(max = 70, min = 15)
     private String title;
     @NotBlank
     private String description;
