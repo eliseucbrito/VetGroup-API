@@ -1,7 +1,6 @@
 package com.api.vetgroup.services;
 
 import com.api.vetgroup.models.Report;
-import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.models.enums.ReportTypes;
 import com.api.vetgroup.repositories.ReportRepository;
 import jakarta.transaction.Transactional;
@@ -40,15 +39,14 @@ public class ReportService {
     }
 
     @Transactional
-    public void requestStatus(Long id, Boolean approved) {
-        Optional<Report> report = repository.findById(id);
+    public void requestStatus(Report report, Boolean approved) {
         if (approved) {
-            report.get().setType(ReportTypes.APPROVED);
-            report.get().setApproved(true);
+            report.setType(ReportTypes.APPROVED);
+            report.setApproved(true);
         } else {
-            report.get().setType(ReportTypes.REJECTED);
-            report.get().setApproved(false);
+            report.setType(ReportTypes.REJECTED);
+            report.setApproved(false);
         }
-        update(report.get());
+        update(report);
     }
 }

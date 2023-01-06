@@ -2,9 +2,9 @@ package com.api.vetgroup.models.enums;
 
 public enum PatientSity {
 
-    TRINDADE(1),
-    OURICURI(2),
-    ARARIPINA(3);
+    TRINDADE_PE(1),
+    OURICURI_PE(2),
+    ARARIPINA_PE(3);
 
     private int code;
 

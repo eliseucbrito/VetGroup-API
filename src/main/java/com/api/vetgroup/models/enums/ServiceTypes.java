@@ -1,14 +1,17 @@
 package com.api.vetgroup.models.enums;
 
-public enum PatientStatus {
+public enum ServiceTypes {
 
-    NOT_INITIALIZED(1),
-    IN_PROGRESS(2),
-    COMPLETED(3);
+    EXAM(1),
+    MEDICAL_CARE(2),
+    HOME_CARE(3),
+    SURGERY(4),
+    EMERGENCY(5),
+    CANCELED(6);
 
     private int code;
 
-    private PatientStatus(int code) {
+    private ServiceTypes(int code) {
         this.code = code;
     }
 
@@ -16,8 +19,8 @@ public enum PatientStatus {
         return code;
     }
 
-    public static PatientStatus valueOf(int code) {
-        for (PatientStatus value : PatientStatus.values()) {
+    public static ServiceTypes valueOf(int code) {
+        for (ServiceTypes value : ServiceTypes.values()) {
             if (value.getCode() == code) {
                 return value;
             }
