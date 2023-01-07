@@ -2,11 +2,15 @@ package com.api.vetgroup.controllers;
 
 import com.api.vetgroup.dtos.ReportDto;
 import com.api.vetgroup.dtos.VetServiceDto;
+import com.api.vetgroup.models.Patient;
 import com.api.vetgroup.models.Report;
+import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.models.VetService;
 import com.api.vetgroup.models.enums.ReportTypes;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.models.enums.ServiceTypes;
+import com.api.vetgroup.services.PatientService;
+import com.api.vetgroup.services.StaffUserService;
 import com.api.vetgroup.services.VetServiceService;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
@@ -28,11 +32,21 @@ public class VetServiceController {
     @Autowired
     private VetServiceService service;
 
+    @Autowired
+    private StaffUserService staffService;
+
+    @Autowired
+    private PatientService patientService;
+
     @PostMapping(value = "/create")
     public ResponseEntity<Object> createNewService(@RequestBody @Valid VetServiceDto vetServiceDto) {
         var serviceModel = new VetService();
+        StaffUser staff = staffService.findById(vetServiceDto.getStaff_id());
+        Patient patient = patientService.findById(vetServiceDto.getPatient_id());
         BeanUtils.copyProperties(vetServiceDto, serviceModel);
         serviceModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
+        serviceModel.setStaff(staff);
+        serviceModel.setPatient(patient);
         serviceModel.setType(vetServiceDto.getType());
         if (vetServiceDto.getType() == ServiceTypes.EMERGENCY) {
             serviceModel.setStatus(ServiceStatus.WAITING_PAYMENT);

@@ -3,13 +3,16 @@ package com.api.vetgroup.models;
 import com.api.vetgroup.models.enums.PatientKind;
 import com.api.vetgroup.models.enums.PatientSity;
 import com.api.vetgroup.models.enums.PatientStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -38,7 +41,9 @@ public class Patient implements Serializable {
     @Column(nullable = false, unique = false)
     private String name;
 
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "patient")
+    private List<VetService> service = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -130,6 +135,10 @@ public class Patient implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<VetService> getService() {
+        return service;
     }
 
     @Override

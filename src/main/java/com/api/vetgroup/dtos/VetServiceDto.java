@@ -16,9 +16,12 @@ public class VetServiceDto {
     @NotBlank
     @Size(min = 20)
     private String description;
+    private Long staff_id;
+    private Long patient_id;
     private Double price;
     private ServiceTypes type;
     private ServiceStatus status;
+
 
     public String getDescription() {
         return description;
@@ -26,6 +29,22 @@ public class VetServiceDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getStaff_id() {
+        return staff_id;
+    }
+
+    public void setStaff_id(Long staff_id) {
+        this.staff_id = staff_id;
+    }
+
+    public Long getPatient_id() {
+        return patient_id;
+    }
+
+    public void setPatient_id(Long patient_id) {
+        this.patient_id = patient_id;
     }
 
     public Double getPrice() {

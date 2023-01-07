@@ -3,6 +3,7 @@ package com.api.vetgroup.dtos;
 import com.api.vetgroup.models.enums.ReportTypes;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,8 @@ public class ReportDto {
     private String title;
     @NotBlank
     private String description;
+    @NotNull
+    private Long staff_id;
     private ReportTypes type;
     private Boolean approved;
 
@@ -34,6 +37,14 @@ public class ReportDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getStaff_id() {
+        return staff_id;
+    }
+
+    public void setStaff_id(Long staff_id) {
+        this.staff_id = staff_id;
     }
 
     public ReportTypes getType() {

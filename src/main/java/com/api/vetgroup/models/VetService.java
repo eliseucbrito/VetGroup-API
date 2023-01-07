@@ -2,6 +2,7 @@ package com.api.vetgroup.models;
 
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.models.enums.ServiceTypes;
+import com.api.vetgroup.models.enums.StaffRole;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -26,6 +27,14 @@ public class VetService implements Serializable {
     private Integer status;
     @Column(nullable = true, unique = false)
     private Double price;
+
+    @ManyToOne
+    @JoinColumn(name = "staff_id")
+    private StaffUser staff;
+
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 
 
     public Long getId() {
@@ -72,12 +81,29 @@ public class VetService implements Serializable {
         }
     }
 
+
     public Double getPrice() {
         return price;
     }
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public StaffUser getStaff() {
+        return staff;
+    }
+
+    public void setStaff(StaffUser staff) {
+        this.staff = staff;
     }
 
     @Override

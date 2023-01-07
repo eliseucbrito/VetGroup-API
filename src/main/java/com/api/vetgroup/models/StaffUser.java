@@ -1,10 +1,13 @@
 package com.api.vetgroup.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.api.vetgroup.models.enums.StaffRole;
@@ -32,6 +35,14 @@ public class StaffUser implements Serializable {
     @Column(nullable = false, unique = false, length = 11)
     private String cpf;
     private Double base_salary;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "staff")
+    private List<Report> reports = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "staff")
+    private List<VetService> service = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -105,6 +116,14 @@ public class StaffUser implements Serializable {
 
     public void setBase_salary(Double base_salary) {
         this.base_salary = base_salary;
+    }
+
+    public List<Report> getReports() {
+        return reports;
+    }
+
+    public List<VetService> getService() {
+        return service;
     }
 
     @Override

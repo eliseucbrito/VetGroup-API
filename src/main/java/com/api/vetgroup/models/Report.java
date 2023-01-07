@@ -24,6 +24,10 @@ public class Report implements Serializable {
     private LocalDateTime created_at;
     private Boolean approved;
 
+    @ManyToOne
+    @JoinColumn(name = "staff_id")
+    private StaffUser staff;
+
     public Long getId() {
         return id;
     }
@@ -58,6 +62,14 @@ public class Report implements Serializable {
         }
     }
 
+    public StaffUser getStaff() {
+        return staff;
+    }
+
+    public void setStaff(StaffUser staff) {
+        this.staff = staff;
+    }
+
     public LocalDateTime getCreated_at() {
         return created_at;
     }
@@ -73,6 +85,8 @@ public class Report implements Serializable {
     public void setApproved(Boolean approved) {
         this.approved = approved;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

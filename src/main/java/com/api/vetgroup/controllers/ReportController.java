@@ -2,8 +2,10 @@ package com.api.vetgroup.controllers;
 
 import com.api.vetgroup.dtos.ReportDto;
 import com.api.vetgroup.models.Report;
+import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.models.enums.ReportTypes;
 import com.api.vetgroup.services.ReportService;
+import com.api.vetgroup.services.StaffUserService;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
@@ -26,11 +28,16 @@ public class ReportController {
     @Autowired
     private ReportService service;
 
+    @Autowired
+    private StaffUserService staffService;
+
     @PostMapping(value = "/create")
     public ResponseEntity<Object> createNewReport(@RequestBody @Valid ReportDto reportDto) {
         var reportModel = new Report();
+        StaffUser staff = staffService.findById(reportDto.getStaff_id());
         BeanUtils.copyProperties(reportDto, reportModel);
         reportModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
+        reportModel.setStaff(staff);
         reportModel.setType(reportDto.getType());
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(reportModel));
     }
