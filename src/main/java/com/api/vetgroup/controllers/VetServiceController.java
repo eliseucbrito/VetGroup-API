@@ -6,8 +6,10 @@ import com.api.vetgroup.models.Report;
 import com.api.vetgroup.models.VetService;
 import com.api.vetgroup.models.enums.ReportTypes;
 import com.api.vetgroup.models.enums.ServiceStatus;
+import com.api.vetgroup.models.enums.ServiceTypes;
 import com.api.vetgroup.services.VetServiceService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,15 +34,37 @@ public class VetServiceController {
         BeanUtils.copyProperties(vetServiceDto, serviceModel);
         serviceModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
         serviceModel.setType(vetServiceDto.getType());
+        if (vetServiceDto.getType() == ServiceTypes.EMERGENCY) {
+            serviceModel.setStatus(ServiceStatus.WAITING_PAYMENT);
+        }
         serviceModel.setStatus(vetServiceDto.getStatus());
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(serviceModel));
     }
 
     @PatchMapping(value = "/{id}/status")
     public ResponseEntity<Object> changeStatus(@PathVariable Long id, @RequestBody VetServiceDto vetServiceDto) {
-//        VetService vetService = service.findById(id);
+        VetService vetService = service.findById(id);
+
+        if (vetService.getType() == ServiceTypes.EMERGENCY && vetServiceDto.getStatus() == ServiceStatus.SCHEDULED) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Service of EMERGENCY not accept the status SCHEDULED");
+        }
+
+        if (vetService.getStatus() == vetServiceDto.getStatus()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This service is already "+vetService.getStatus());
+        }
+
+        if (vetService.getStatus() == ServiceStatus.PAID) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This service cant be "+vetServiceDto.getStatus()+ " because it is already PAID");
+        }
+
+        if (vetServiceDto.getStatus() == ServiceStatus.PAID) {
+            if (vetService.getPrice() == null || vetService.getPrice() == 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This service does not have an acceptable price");
+            }
+        }
+
         try {
-            service.changeStatus(id, vetServiceDto.getStatus());
+            service.changeStatus(vetService, vetServiceDto.getStatus());
             return ResponseEntity.noContent().build();
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e.getMessage());

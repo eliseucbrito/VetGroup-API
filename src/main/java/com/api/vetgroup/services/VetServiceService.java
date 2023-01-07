@@ -43,43 +43,32 @@ public class VetServiceService {
     }
 
     @Transactional
-    public void changeStatus(Long id, ServiceStatus status) throws IllegalAccessException {
-        Optional<VetService> service = repository.findById(id);
-
-        if (service.get().getType() == ServiceTypes.EMERGENCY && status == ServiceStatus.SCHEDULED) {
-            throw new IllegalArgumentException("Service of EMERGENCY not accept the status SCHEDULED");
-        }
+    public void changeStatus(VetService service, ServiceStatus status) throws IllegalAccessException {
 
         switch (status.getCode()) {
             case 1:
-                service.get().setStatus(ServiceStatus.SCHEDULED);
-                update(service.get());
+
+                service.setStatus(ServiceStatus.SCHEDULED);
+                update(service);
                 break;
             case 2:
-                service.get().setStatus(ServiceStatus.WAITING_PAYMENT);
-                update(service.get());
+
+                service.setStatus(ServiceStatus.WAITING_PAYMENT);
+                update(service);
                 break;
             case 3:
-                if (service.get().getPrice() == null || service.get().getPrice() == 0) {
-                    throw new IllegalAccessException("This service does not have an acceptable price");
-                }
-                service.get().setStatus(ServiceStatus.PAID);
-                update(service.get());
+
+                service.setStatus(ServiceStatus.PAID);
+                update(service);
                 break;
             case 4:
-                if (service.get().getStatus() == ServiceStatus.PAID) {
-                    throw new IllegalArgumentException("This service cant be CANCELED because it is already PAID");
-                }
 
-                if (service.get().getStatus() == ServiceStatus.CANCELED) {
-                    throw new IllegalArgumentException("This service is already CANCELED");
-                }
-                service.get().setStatus(ServiceStatus.CANCELED);
-                update(service.get());
+                service.setStatus(ServiceStatus.CANCELED);
+                update(service);
                 break;
             default:
                 throw new IllegalArgumentException("This service status not exists");
         }
-        update(service.get());
+        update(service);
     }
 }
