@@ -2,13 +2,8 @@ package com.api.vetgroup.dtos;
 
 import com.api.vetgroup.models.enums.PatientKind;
 import com.api.vetgroup.models.enums.PatientSity;
-import com.api.vetgroup.models.enums.PatientStatus;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
-import java.time.LocalDateTime;
-import java.util.Date;
 
 public class PatientDto {
 

@@ -3,12 +3,13 @@ package com.api.vetgroup.models.enums;
 public enum ServiceStatus {
 
     SCHEDULED(1),
-    WAITING_PAYMENT(2),
-    PAID(3),
-    CANCELED(4),
-    NOT_INITIALIZED(5),
-    IN_PROGRESS(6),
-    COMPLETED(7);
+    NOT_INITIALIZED(2),
+    IN_PROGRESS(3),
+    COMPLETED(4),
+    WAITING_PAYMENT(5),
+    PAID(6),
+    CANCELED(7);
+
 
 
     private int code;

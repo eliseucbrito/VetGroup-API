@@ -53,15 +53,30 @@ public class VetServiceService {
                 break;
             case 2:
 
-                service.setStatus(ServiceStatus.WAITING_PAYMENT);
+                service.setStatus(ServiceStatus.NOT_INITIALIZED);
                 update(service);
                 break;
             case 3:
 
-                service.setStatus(ServiceStatus.PAID);
+                service.setStatus(ServiceStatus.IN_PROGRESS);
                 update(service);
                 break;
             case 4:
+
+                service.setStatus(ServiceStatus.COMPLETED);
+                update(service);
+                break;
+            case 5:
+
+                service.setStatus(ServiceStatus.WAITING_PAYMENT);
+                update(service);
+                break;
+            case 6:
+
+                service.setStatus(ServiceStatus.PAID);
+                update(service);
+                break;
+            case 7:
 
                 service.setStatus(ServiceStatus.CANCELED);
                 update(service);

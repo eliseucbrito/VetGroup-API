@@ -81,7 +81,6 @@ public class VetService implements Serializable {
         }
     }
 
-
     public Double getPrice() {
         return price;
     }

@@ -2,7 +2,6 @@ package com.api.vetgroup.models;
 
 import com.api.vetgroup.models.enums.PatientKind;
 import com.api.vetgroup.models.enums.PatientSity;
-import com.api.vetgroup.models.enums.PatientStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
