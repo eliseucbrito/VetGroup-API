@@ -40,6 +40,11 @@ public class VetServiceController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<Object> createNewService(@RequestBody @Valid VetServiceDto vetServiceDto) {
+
+        if (vetServiceDto.getStaff_id() == null || vetServiceDto.getPatient_id() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requisition without STAFF_ID or PATIENT_ID");
+        }
+
         var serviceModel = new VetService();
         StaffUser staff = staffService.findById(vetServiceDto.getStaff_id());
         Patient patient = patientService.findById(vetServiceDto.getPatient_id());
