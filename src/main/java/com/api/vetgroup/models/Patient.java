@@ -31,8 +31,6 @@ public class Patient implements Serializable {
     @Column(nullable = false, unique = false)
     private Integer sity;
     @Column(nullable = false, unique = false)
-    private Integer status;
-    @Column(nullable = false, unique = false)
     private String avatar_url;
     @Column(nullable = false, unique = false)
     private String owner_contact;
@@ -86,16 +84,6 @@ public class Patient implements Serializable {
     public void setSity(PatientSity patientSity) {
         if (patientSity != null) {
             this.sity = patientSity.getCode();
-        }
-    }
-
-    public PatientStatus getStatus() {
-        return PatientStatus.valueOf(status);
-    }
-
-    public void setStatus(PatientStatus patientStatus) {
-        if (patientStatus != null) {
-            this.status = patientStatus.getCode();
         }
     }
 

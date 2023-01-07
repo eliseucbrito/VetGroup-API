@@ -29,7 +29,6 @@ public class PatientController {
         BeanUtils.copyProperties(patientDto, patientModel);
         patientModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
         patientModel.setSity(patientDto.getSity());
-        patientModel.setStatus(patientDto.getStatus());
         patientModel.setKind(patientDto.getKind());
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(patientModel));
     }

@@ -25,7 +25,6 @@ public class PatientDto {
     private String birth_date;
     private String avatar_url;
     private PatientSity sity;
-    private PatientStatus status;
     private PatientKind kind;
 
     public String getOwner() {
@@ -42,14 +41,6 @@ public class PatientDto {
 
     public void setSity(PatientSity sity) {
         this.sity = sity;
-    }
-
-    public PatientStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(PatientStatus status) {
-        this.status = status;
     }
 
     public PatientKind getKind() {
