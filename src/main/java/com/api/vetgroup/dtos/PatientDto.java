@@ -16,10 +16,8 @@ public class PatientDto {
     @NotBlank
     @Size(max = 11)
     private String owner_contact;
-    @NotBlank
     private String birth_date;
     private String avatar_url;
-    private PatientSity sity;
     private PatientKind kind;
 
     public String getOwner() {
@@ -28,14 +26,6 @@ public class PatientDto {
 
     public void setOwner(String owner) {
         this.owner = owner;
-    }
-
-    public PatientSity getSity() {
-        return sity;
-    }
-
-    public void setSity(PatientSity sity) {
-        this.sity = sity;
     }
 
     public PatientKind getKind() {

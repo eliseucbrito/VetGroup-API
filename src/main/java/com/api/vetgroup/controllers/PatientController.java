@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value = "/patient")
+@RequestMapping(value = "/patients")
 public class PatientController {
 
     @Autowired
@@ -28,8 +28,8 @@ public class PatientController {
         var patientModel = new Patient();
         BeanUtils.copyProperties(patientDto, patientModel);
         patientModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
-        patientModel.setSity(patientDto.getSity());
         patientModel.setKind(patientDto.getKind());
+        patientModel.setBirth_date(patientDto.getBirth_date());
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(patientModel));
     }
 

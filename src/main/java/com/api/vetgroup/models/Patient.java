@@ -28,8 +28,6 @@ public class Patient implements Serializable {
     private String owner;
     private LocalDateTime created_at;
     @Column(nullable = false, unique = false)
-    private Integer sity;
-    @Column(nullable = false, unique = false)
     private String avatar_url;
     @Column(nullable = false, unique = false)
     private String owner_contact;
@@ -76,16 +74,6 @@ public class Patient implements Serializable {
         this.created_at = created_at;
     }
 
-    public PatientSity getSity() {
-        return PatientSity.valueOf(sity);
-    }
-
-    public void setSity(PatientSity patientSity) {
-        if (patientSity != null) {
-            this.sity = patientSity.getCode();
-        }
-    }
-
     public String getAvatar_url() {
         return avatar_url;
     }
@@ -107,7 +95,7 @@ public class Patient implements Serializable {
     }
 
     public void setBirth_date(String birth_date) {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         try {
             Date dateFormatted = format.parse(birth_date);
             this.birth_date = dateFormatted;

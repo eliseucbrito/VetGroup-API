@@ -26,7 +26,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value = "/service")
+@RequestMapping(value = "/services")
 public class VetServiceController {
 
     @Autowired
