@@ -53,6 +53,7 @@ public class VetServiceController {
         serviceModel.setStaff(staff);
         serviceModel.setPatient(patient);
         serviceModel.setType(vetServiceDto.getType());
+        serviceModel.setCity(vetServiceDto.getCity());
         if (vetServiceDto.getType() == ServiceTypes.EMERGENCY) {
             serviceModel.setStatus(ServiceStatus.WAITING_PAYMENT);
         }

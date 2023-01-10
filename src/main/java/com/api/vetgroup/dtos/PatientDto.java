@@ -1,7 +1,6 @@
 package com.api.vetgroup.dtos;
 
 import com.api.vetgroup.models.enums.PatientKind;
-import com.api.vetgroup.models.enums.PatientSity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -16,6 +15,8 @@ public class PatientDto {
     @NotBlank
     @Size(max = 11)
     private String owner_contact;
+    @NotBlank
+    private String breed;
     private String birth_date;
     private String avatar_url;
     private PatientKind kind;
@@ -50,6 +51,14 @@ public class PatientDto {
 
     public void setOwner_contact(String owner_contact) {
         this.owner_contact = owner_contact;
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
     }
 
     public String getBirth_date() {

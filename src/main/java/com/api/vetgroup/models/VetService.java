@@ -1,5 +1,6 @@
 package com.api.vetgroup.models;
 
+import com.api.vetgroup.models.enums.ServiceCity;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.models.enums.ServiceTypes;
 import com.api.vetgroup.models.enums.StaffRole;
@@ -25,6 +26,11 @@ public class VetService implements Serializable {
     private Integer type;
     @Column(nullable = false, unique = false)
     private Integer status;
+    @Column(nullable = false, unique = false)
+    private Integer city;
+
+
+
     @Column(nullable = true, unique = false)
     private Double price;
 
@@ -78,6 +84,16 @@ public class VetService implements Serializable {
     public void setStatus(ServiceStatus status) {
         if (status != null) {
             this.status = status.getCode();
+        }
+    }
+
+    public ServiceCity getCity() {
+        return ServiceCity.valueOf(city);
+    }
+
+    public void setCity(ServiceCity city) {
+        if (city != null) {
+            this.city = city.getCode();
         }
     }
 

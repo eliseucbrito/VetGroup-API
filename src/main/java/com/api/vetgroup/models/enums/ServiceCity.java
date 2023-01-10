@@ -1,6 +1,6 @@
 package com.api.vetgroup.models.enums;
 
-public enum PatientSity {
+public enum ServiceCity {
 
     TRINDADE_PE(1),
     OURICURI_PE(2),
@@ -8,7 +8,7 @@ public enum PatientSity {
 
     private int code;
 
-    private PatientSity(int code) {
+    private ServiceCity(int code) {
         this.code = code;
     }
 
@@ -16,8 +16,8 @@ public enum PatientSity {
         return code;
     }
 
-    public static PatientSity valueOf(int code) {
-        for (PatientSity value : PatientSity.values()) {
+    public static ServiceCity valueOf(int code) {
+        for (ServiceCity value : ServiceCity.values()) {
             if (value.getCode() == code) {
                 return value;
             }

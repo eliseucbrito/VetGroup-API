@@ -1,7 +1,6 @@
 package com.api.vetgroup.models;
 
 import com.api.vetgroup.models.enums.PatientKind;
-import com.api.vetgroup.models.enums.PatientSity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -35,6 +34,8 @@ public class Patient implements Serializable {
     private Date birth_date;
     @Column(nullable = false, unique = false)
     private String name;
+    @Column(nullable = false, unique = false)
+    private String breed;
 
     @JsonIgnore
     @OneToMany(mappedBy = "patient")
@@ -110,6 +111,14 @@ public class Patient implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
     }
 
     public List<VetService> getService() {

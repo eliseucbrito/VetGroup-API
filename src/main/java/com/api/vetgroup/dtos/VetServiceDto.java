@@ -1,15 +1,10 @@
 package com.api.vetgroup.dtos;
 
+import com.api.vetgroup.models.enums.ServiceCity;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.models.enums.ServiceTypes;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
-import java.time.LocalDateTime;
 
 public class VetServiceDto {
 
@@ -21,6 +16,7 @@ public class VetServiceDto {
     private Double price;
     private ServiceTypes type;
     private ServiceStatus status;
+    private ServiceCity city;
 
 
     public String getDescription() {
@@ -69,5 +65,13 @@ public class VetServiceDto {
 
     public void setStatus(ServiceStatus status) {
         this.status = status;
+    }
+
+    public ServiceCity getCity() {
+        return city;
+    }
+
+    public void setCity(ServiceCity city) {
+        this.city = city;
     }
 }
