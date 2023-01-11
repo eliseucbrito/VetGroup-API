@@ -38,4 +38,14 @@ public class RoomService {
     public void update(Room room) {
         repository.save(room);
     }
+
+    public void changeInUse(Room room, Boolean in_use) {
+
+        if (room.getIn_use()) {
+            throw new IllegalArgumentException("Room is already in use");
+        }
+
+        room.setIn_use(in_use);
+        update(room);
+    }
 }

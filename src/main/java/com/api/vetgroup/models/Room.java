@@ -24,8 +24,8 @@ public class Room implements Serializable {
     @Column(nullable = false)
     private LocalDateTime created_at;
 
-
     private StaffUser staff;
+
 
     public Long getId() {
         return id;
@@ -60,6 +60,7 @@ public class Room implements Serializable {
     public void setIn_use(Boolean in_use) {
         if (in_use == null) {
             this.in_use = false;
+            this.staff = null;
         } else {
             this.in_use = in_use;
         }

@@ -31,6 +31,21 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(roomModel));
     }
 
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<Object> updateInUse(
+            @PathVariable Long id,
+            @RequestParam(value = "in_use", required = true, defaultValue = "false") boolean in_use)
+    {
+        Room room = service.findById(id);
+        try {
+            service.changeInUse(room, in_use);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+
     @GetMapping
     public ResponseEntity<List<Room>> findAll() {
         List<Room> list = service.findAll();

@@ -5,6 +5,8 @@ import com.api.vetgroup.models.enums.ReportTypes;
 import com.api.vetgroup.repositories.ReportRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,6 +42,15 @@ public class ReportService {
 
     @Transactional
     public void requestStatus(Report report, Boolean approved) {
+
+        if (report.getType() == ReportTypes.APPROVED) {
+            throw new IllegalArgumentException("This Report is already approved");
+        }
+
+        if (report.getType() != ReportTypes.REQUEST) {
+            throw new IllegalArgumentException("This Report Type don't accept STATUS");
+        }
+
         if (approved) {
             report.setType(ReportTypes.APPROVED);
             report.setApproved(true);

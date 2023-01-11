@@ -33,11 +33,6 @@ public class ReportController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<Object> createNewReport(@RequestBody @Valid ReportDto reportDto) {
-
-//        if (reportDto.getStaff_id() == null) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requisition without STAFF_ID");
-//        }
-
         var reportModel = new Report();
         StaffUser staff = staffService.findById(reportDto.getStaff_id());
         BeanUtils.copyProperties(reportDto, reportModel);
@@ -47,13 +42,17 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(reportModel));
     }
 
-    @PatchMapping(value = "/{id}/type")
-    public ResponseEntity<Object> updateReport(@PathVariable Long id, @RequestBody ReportDto reportDto) {
-        Report report = service.findById(id);
-        if (report.getType() != ReportTypes.REQUEST) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<Object> updateApproved(
+            @PathVariable Long id,
+            @RequestParam(value = "approved", required = true, defaultValue = "false") boolean approved)
+    {
+        try {
+            Report report = service.findById(id);
+            service.requestStatus(report, approved);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        service.requestStatus(report, reportDto.getApproved());
         return ResponseEntity.noContent().build();
     }
 
