@@ -34,9 +34,9 @@ public class ReportController {
     @PostMapping(value = "/create")
     public ResponseEntity<Object> createNewReport(@RequestBody @Valid ReportDto reportDto) {
 
-        if (reportDto.getStaff_id() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requisition without STAFF_ID");
-        }
+//        if (reportDto.getStaff_id() == null) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requisition without STAFF_ID");
+//        }
 
         var reportModel = new Report();
         StaffUser staff = staffService.findById(reportDto.getStaff_id());

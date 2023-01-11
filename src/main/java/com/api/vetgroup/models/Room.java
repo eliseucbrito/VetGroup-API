@@ -4,6 +4,7 @@ import com.api.vetgroup.models.enums.RoomType;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -16,10 +17,12 @@ public class Room implements Serializable {
     private Long id;
     @Column(nullable = false, unique = true)
     private String name;
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private Integer type;
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private Boolean in_use;
+    @Column(nullable = false)
+    private LocalDateTime created_at;
 
 
     private StaffUser staff;
@@ -60,6 +63,14 @@ public class Room implements Serializable {
         } else {
             this.in_use = in_use;
         }
+    }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
     }
 
     @Override
