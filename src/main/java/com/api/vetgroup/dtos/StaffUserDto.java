@@ -1,9 +1,11 @@
 package com.api.vetgroup.dtos;
 
 import com.api.vetgroup.models.enums.StaffRole;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class StaffUserDto {
@@ -11,16 +13,18 @@ public class StaffUserDto {
     @NotBlank
     private String full_name;
     @NotBlank
+    @Email
     private String email;
     @NotBlank
     private String password;
     @NotBlank
     @Size(max = 11)
+    @CPF
     private String cpf;
     private StaffRole staff_role;
     private String avatar_url;
     private Double base_salary;
-
+    private Boolean on_duty;
 
     public String getFull_name() {
         return full_name;
@@ -76,5 +80,13 @@ public class StaffUserDto {
 
     public void setStaff_role(StaffRole staff_role) {
         this.staff_role = staff_role;
+    }
+
+    public Boolean getOn_duty() {
+        return on_duty;
+    }
+
+    public void setOn_duty(Boolean on_duty) {
+        this.on_duty = on_duty;
     }
 }

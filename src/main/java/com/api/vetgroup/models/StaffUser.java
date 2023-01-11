@@ -11,10 +11,12 @@ import java.util.List;
 import java.util.Objects;
 
 import com.api.vetgroup.models.enums.StaffRole;
+import jakarta.validation.constraints.Email;
+import org.hibernate.validator.constraints.br.CPF;
 
 
 @Entity
-@Table(name = "TB_STAFF_USERS")
+@Table(name = "TB_STAFF")
 public class StaffUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -25,16 +27,19 @@ public class StaffUser implements Serializable {
     private Integer staff_role;
     @Column(nullable = false, unique = false, length = 70)
     private String full_name;
-    @Column(nullable = false, unique = false, length = 255)
+    @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false, unique = false)
     private String password;
     @Column(nullable = true, unique = false)
     private String avatar_url;
     private LocalDateTime created_at;
-    @Column(nullable = false, unique = false, length = 11)
+    @Column(nullable = false, unique = true, length = 11)
     private String cpf;
+    @Column(nullable = true, unique = false)
     private Double base_salary;
+    @Column(nullable = true, unique = false)
+    private Boolean on_duty;
 
     @JsonIgnore
     @OneToMany(mappedBy = "staff")
@@ -116,6 +121,18 @@ public class StaffUser implements Serializable {
 
     public void setBase_salary(Double base_salary) {
         this.base_salary = base_salary;
+    }
+
+    public Boolean getOn_duty() {
+        return on_duty;
+    }
+
+    public void setOn_duty(Boolean on_duty) {
+        if (on_duty == null) {
+            this.on_duty = false;
+        } else {
+            this.on_duty = on_duty;
+        }
     }
 
     public List<Report> getReports() {
