@@ -2,7 +2,10 @@ package com.api.vetgroup.controllers;
 
 import com.api.vetgroup.dtos.RoomDto;
 import com.api.vetgroup.models.Room;
+import com.api.vetgroup.models.RoomAccessList;
+import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.services.RoomService;
+import com.api.vetgroup.services.StaffUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -34,21 +38,27 @@ public class RoomController {
     @PatchMapping(value = "/{id}")
     public ResponseEntity<Object> updateInUse(
             @PathVariable Long id,
-            @RequestParam(value = "in_use", required = true, defaultValue = "false") boolean in_use)
+            @RequestBody RoomDto roomDto)
     {
-        Room room = service.findById(id);
+
         try {
-            service.changeInUse(room, in_use);
+            service.changeInUse(id, roomDto.getIn_use(), roomDto.getStaff_id());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 
     @GetMapping
     public ResponseEntity<List<Room>> findAll() {
         List<Room> list = service.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @GetMapping(value = "/access-list")
+    public ResponseEntity<List<RoomAccessList>> findAllRoomAccess() {
+        List<RoomAccessList> list = service.findAllRoomAccess();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 

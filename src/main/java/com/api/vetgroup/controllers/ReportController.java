@@ -50,10 +50,10 @@ public class ReportController {
         try {
             Report report = service.findById(id);
             service.requestStatus(report, approved);
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

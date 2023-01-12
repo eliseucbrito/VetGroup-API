@@ -6,9 +6,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import com.api.vetgroup.models.enums.StaffRole;
 import jakarta.validation.constraints.Email;
@@ -48,6 +46,14 @@ public class StaffUser implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<VetService> service = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "staff")
+    private List<Room> room = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "staff")
+    private List<RoomAccessList> access_list = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -141,6 +147,14 @@ public class StaffUser implements Serializable {
 
     public List<VetService> getService() {
         return service;
+    }
+
+    public List<Room> getRoom() {
+        return room;
+    }
+
+    public List<RoomAccessList> getAccess_lists() {
+        return access_list;
     }
 
     @Override

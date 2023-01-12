@@ -1,11 +1,12 @@
 package com.api.vetgroup.models;
 
 import com.api.vetgroup.models.enums.RoomType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "TB_ROOMS")
@@ -24,7 +25,13 @@ public class Room implements Serializable {
     @Column(nullable = false)
     private LocalDateTime created_at;
 
+    @ManyToOne
+    @JoinColumn(name = "staff_id")
     private StaffUser staff;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "room")
+    private List<RoomAccessList> access_list = new ArrayList<>();
 
 
     public Long getId() {
@@ -72,6 +79,18 @@ public class Room implements Serializable {
 
     public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
+    }
+
+    public StaffUser getStaff() {
+        return staff;
+    }
+
+    public void setStaff(StaffUser staff) {
+        this.staff = staff;
+    }
+
+    public List<RoomAccessList> getAccess_list() {
+        return access_list;
     }
 
     @Override

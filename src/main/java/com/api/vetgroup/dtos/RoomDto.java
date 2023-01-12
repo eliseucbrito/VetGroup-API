@@ -13,6 +13,7 @@ public class RoomDto {
     private String name;
     private Boolean in_use;
     private RoomType type;
+    private Long staff_id;
 
     public String getName() {
         return name;
@@ -36,5 +37,13 @@ public class RoomDto {
 
     public void setType(RoomType type) {
         this.type = type;
+    }
+
+    public Long getStaff_id() {
+        return staff_id;
+    }
+
+    public void setStaff_id(Long staff_id) {
+        this.staff_id = staff_id;
     }
 }
