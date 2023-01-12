@@ -7,6 +7,7 @@ import com.api.vetgroup.repositories.RoomAccessRepository;
 import com.api.vetgroup.repositories.RoomRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class RoomService {
     }
 
     public List<RoomAccessList> findAllRoomAccess() {
-        return roomAccessRepository.findAll();
+        return roomAccessRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public Room findById(Long id) {

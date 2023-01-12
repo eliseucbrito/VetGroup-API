@@ -9,6 +9,7 @@ import com.api.vetgroup.repositories.ReportRepository;
 import com.api.vetgroup.repositories.ServiceRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class VetServiceService {
     @Autowired
     private ServiceRepository repository;
 
-    public List<VetService> findAll() {return repository.findAll();}
+    public List<VetService> findAll() {return repository.findAll(Sort.by(Sort.Direction.DESC, "id"));}
 
     public VetService findById(Long id) {
         Optional<VetService> obj = repository.findById(id);

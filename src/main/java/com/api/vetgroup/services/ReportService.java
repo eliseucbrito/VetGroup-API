@@ -5,6 +5,7 @@ import com.api.vetgroup.models.enums.ReportTypes;
 import com.api.vetgroup.repositories.ReportRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class ReportService {
     @Autowired
     private ReportRepository repository;
 
-    public List<Report> findAll() {return repository.findAll();}
+    public List<Report> findAll() {return repository.findAll(Sort.by(Sort.Direction.DESC, "id"));}
 
     public Report findById(Long id) {
         Optional<Report> obj = repository.findById(id);
@@ -60,4 +61,5 @@ public class ReportService {
         }
         update(report);
     }
+
 }
