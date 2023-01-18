@@ -38,4 +38,11 @@ public class PatientController {
         List<Patient> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Patient> findByID(@PathVariable Long id) {
+        Patient obj = service.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(obj);
+    }
+
 }

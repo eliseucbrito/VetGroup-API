@@ -2,6 +2,7 @@ package com.api.vetgroup.models;
 
 import com.api.vetgroup.models.enums.PatientKind;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -39,6 +40,7 @@ public class Patient implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "patient")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<VetService> service = new ArrayList<>();
 
     public Long getId() {
