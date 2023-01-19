@@ -17,6 +17,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,7 @@ public class VetServiceController {
     @Autowired
     private PatientService patientService;
 
-    @PostMapping(value = "/create")
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNewService(@RequestBody @Valid VetServiceDto vetServiceDto) {
 
         if (vetServiceDto.getStaff_id() == null || vetServiceDto.getPatient_id() == null) {
@@ -61,7 +62,7 @@ public class VetServiceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(serviceModel));
     }
 
-    @PatchMapping(value = "/{id}/status")
+    @PatchMapping(value = "/{id}/status", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> changeStatus(@PathVariable Long id, @RequestBody VetServiceDto vetServiceDto) {
         VetService vetService = service.findById(id);
 
@@ -91,25 +92,25 @@ public class VetServiceController {
         }
     }
 
-    @GetMapping
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<VetService>> findAll() {
         List<VetService> list = service.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VetService> findById(@PathVariable Long id) {
         VetService obj = service.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(obj);
     }
 
-    @GetMapping(value = "/patient")
+    @GetMapping(value = "/patient", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<VetService>> findPatientServices(@RequestParam(value = "id") Long patient_id) {
         List<VetService> list = service.findServicesByPatientId(patient_id);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteService(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

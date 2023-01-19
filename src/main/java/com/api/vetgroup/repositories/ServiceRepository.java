@@ -13,3 +13,4 @@ public interface ServiceRepository extends JpaRepository<VetService, Long> {
     @Query(value = "SELECT * FROM tb_service as S WHERE S.patient_id = ?1 ORDER BY S.created_at DESC", nativeQuery = true)
     public List<VetService> findServicesByPatientId(Long id);
 }
+ 

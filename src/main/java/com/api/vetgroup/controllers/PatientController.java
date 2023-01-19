@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class PatientController {
     @Autowired
     private PatientService service;
 
-    @PostMapping(value = "/create")
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNewPatient(@RequestBody @Valid PatientDto patientDto) {
         var patientModel = new Patient();
         BeanUtils.copyProperties(patientDto, patientModel);
@@ -33,13 +34,13 @@ public class PatientController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(patientModel));
     }
 
-    @GetMapping
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Patient>> findAll() {
         List<Patient> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Patient> findByID(@PathVariable Long id) {
         Patient obj = service.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(obj);

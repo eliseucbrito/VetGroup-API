@@ -3,20 +3,18 @@ package com.api.vetgroup.controllers;
 import com.api.vetgroup.dtos.RoomDto;
 import com.api.vetgroup.models.Room;
 import com.api.vetgroup.models.RoomAccessList;
-import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.services.RoomService;
-import com.api.vetgroup.services.StaffUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -26,7 +24,7 @@ public class RoomController {
     @Autowired
     private RoomService service;
 
-    @PostMapping(value = "/create")
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNewRoom(@RequestBody @Valid RoomDto roomDto) {
         var roomModel = new Room();
         BeanUtils.copyProperties(roomDto, roomModel);
@@ -35,7 +33,7 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(roomModel));
     }
 
-    @PatchMapping(value = "/{id}")
+    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateInUse(
             @PathVariable Long id,
             @RequestBody RoomDto roomDto)
@@ -50,25 +48,25 @@ public class RoomController {
     }
 
 
-    @GetMapping
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Room>> findAll() {
         List<Room> list = service.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping(value = "/access-list")
+    @GetMapping(value = "/access-list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RoomAccessList>> findAllRoomAccess() {
         List<RoomAccessList> list = service.findAllRoomAccess();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Room> findById(@PathVariable Long id) {
         Room obj = service.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(obj);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();

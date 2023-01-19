@@ -9,6 +9,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +25,8 @@ public class StaffUserController {
     @Autowired
     private StaffUserService service;
 
-    @PostMapping(value = "/create")
-    public ResponseEntity<Object> createNewStaffUser(@RequestBody @Valid StaffUserDto staffUserDto) {
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StaffUser> createNewStaffUser(@RequestBody @Valid StaffUserDto staffUserDto) {
         var staffUserModel = new StaffUser();
         BeanUtils.copyProperties(staffUserDto, staffUserModel); // transforma do DTO para o Model
         staffUserModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
@@ -33,19 +34,19 @@ public class StaffUserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(staffUserModel));
     }
 
-    @GetMapping
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<StaffUser>> findAll() {
         List<StaffUser> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StaffUser> findById(@PathVariable Long id) {
         StaffUser obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity< Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
