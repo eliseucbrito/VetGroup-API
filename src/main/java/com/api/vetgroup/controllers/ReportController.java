@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value = "/reports")
+@RequestMapping(value = "/api/reports/v1")
 public class ReportController {
 
     @Autowired

@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value = "/staff")
+@RequestMapping(value = "/api/staff/v1")
 public class StaffUserController {
 
     @Autowired

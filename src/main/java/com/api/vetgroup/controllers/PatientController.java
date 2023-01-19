@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value = "/patients")
+@RequestMapping(value = "/api/patients/v1")
 public class PatientController {
 
     @Autowired
