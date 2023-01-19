@@ -34,13 +34,13 @@ public class StaffUserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(staffUserModel));
     }
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<StaffUser>> findAll() {
         List<StaffUser> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StaffUser> findById(@PathVariable Long id) {
         StaffUser obj = service.findById(id);
         return ResponseEntity.ok().body(obj);

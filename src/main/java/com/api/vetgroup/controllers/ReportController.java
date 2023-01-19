@@ -57,13 +57,13 @@ public class ReportController {
         }
     }
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Report>> findAll() {
         List<Report> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
-    @DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteReport(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();

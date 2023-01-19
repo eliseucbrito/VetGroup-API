@@ -48,19 +48,19 @@ public class RoomController {
     }
 
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Room>> findAll() {
         List<Room> list = service.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping(value = "/access-list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/access-list", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RoomAccessList>> findAllRoomAccess() {
         List<RoomAccessList> list = service.findAllRoomAccess();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Room> findById(@PathVariable Long id) {
         Room obj = service.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(obj);

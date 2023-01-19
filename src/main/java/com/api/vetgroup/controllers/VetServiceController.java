@@ -92,19 +92,19 @@ public class VetServiceController {
         }
     }
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<VetService>> findAll() {
         List<VetService> list = service.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VetService> findById(@PathVariable Long id) {
         VetService obj = service.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(obj);
     }
 
-    @GetMapping(value = "/patient", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/patient", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<VetService>> findPatientServices(@RequestParam(value = "id") Long patient_id) {
         List<VetService> list = service.findServicesByPatientId(patient_id);
         return ResponseEntity.status(HttpStatus.OK).body(list);
