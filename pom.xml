@@ -44,11 +44,13 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
+			<version>9.8.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-mysql</artifactId>
+			<version>9.8.1</version>
 		</dependency>
 
 		<dependency>
@@ -62,6 +64,12 @@
 			<artifactId>dozer-core</artifactId>
 			<version>${dozer.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.0.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -69,6 +77,12 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>9.8.1</version>
 			</plugin>
 		</plugins>
 	</build>

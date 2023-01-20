@@ -1,6 +1,5 @@
-DROP TABLE IF EXISTS `tb_patients`;
 CREATE TABLE `tb_patients` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `avatar_url` varchar(255) NOT NULL,
   `birth_date` datetime(6) NOT NULL,
   `breed` varchar(255) NOT NULL,

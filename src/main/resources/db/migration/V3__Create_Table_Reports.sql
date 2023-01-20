@@ -1,6 +1,5 @@
-DROP TABLE IF EXISTS `tb_reports`;
 CREATE TABLE `tb_reports` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `approved` bit(1) DEFAULT NULL,
   `created_at` datetime(6) DEFAULT NULL,
   `description` varchar(255) NOT NULL,

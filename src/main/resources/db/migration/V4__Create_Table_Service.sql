@@ -1,6 +1,5 @@
-DROP TABLE IF EXISTS `tb_service`;
 CREATE TABLE `tb_service` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `city` int NOT NULL,
   `created_at` datetime(6) NOT NULL,
   `description` varchar(255) NOT NULL,

@@ -1,6 +1,5 @@
-DROP TABLE IF EXISTS `tb_staff`;
 CREATE TABLE `tb_staff` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `avatar_url` varchar(255) DEFAULT NULL,
   `base_salary` double DEFAULT NULL,
   `cpf` varchar(11) NOT NULL,
