@@ -1,8 +1,10 @@
 package com.api.vetgroup.controllers;
 
 import com.api.vetgroup.dtos.StaffUserDto;
+import com.api.vetgroup.models.Report;
 import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.models.enums.StaffRole;
+import com.api.vetgroup.services.ReportService;
 import com.api.vetgroup.services.StaffUserService;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
@@ -25,6 +27,9 @@ public class StaffUserController {
     @Autowired
     private StaffUserService service;
 
+    @Autowired
+    private ReportService reportService;
+
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StaffUser> createNewStaffUser(@RequestBody @Valid StaffUserDto staffUserDto) {
         var staffUserModel = new StaffUser();
@@ -44,6 +49,12 @@ public class StaffUserController {
     public ResponseEntity<StaffUser> findById(@PathVariable Long id) {
         StaffUser obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @GetMapping(value = "/{id}/reports", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Report>> findReportByStaffId(@PathVariable Long id) {
+        List<Report> list = reportService.findReportByStaffId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

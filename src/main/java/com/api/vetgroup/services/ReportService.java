@@ -62,4 +62,8 @@ public class ReportService {
         update(report);
     }
 
+    public List<Report> findReportByStaffId(Long id) {
+        return repository.findReportByStaffId(id);
+    }
+
 }

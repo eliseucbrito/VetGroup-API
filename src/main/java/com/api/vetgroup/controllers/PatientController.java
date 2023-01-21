@@ -2,6 +2,7 @@ package com.api.vetgroup.controllers;
 
 import com.api.vetgroup.dtos.PatientDto;
 import com.api.vetgroup.models.Patient;
+import com.api.vetgroup.models.VetService;
 import com.api.vetgroup.services.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -44,6 +45,13 @@ public class PatientController {
     public ResponseEntity<Patient> findByID(@PathVariable Long id) {
         Patient obj = service.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(obj);
+    }
+
+    @GetMapping(value = "/{id}/details", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<VetService>> patientDetails(@PathVariable Long id) {
+        Patient obj = service.findById(id);
+        List<VetService> services = obj.getService();
+        return ResponseEntity.status(HttpStatus.OK).body(services);
     }
 
 }
