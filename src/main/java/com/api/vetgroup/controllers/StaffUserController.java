@@ -39,6 +39,18 @@ public class StaffUserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(staffUserModel));
     }
 
+    @PutMapping(value = "/{id}/duty", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> setOnDutyState(@PathVariable Long id, @RequestParam(value = "on-duty", required = true) Boolean on_duty) {
+        service.setOnDutyState(id, on_duty);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping(value = "/{id}/role", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> setNewRole(@PathVariable Long id, @RequestParam(value = "new-role", required = true) StaffRole new_role) {
+        service.setNewRole(id, new_role);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<StaffUser>> findAll() {
         List<StaffUser> list = service.findAll();
@@ -57,8 +69,8 @@ public class StaffUserController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity< Void> delete(@PathVariable Long id) {
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -22,8 +22,8 @@ public class Report implements Serializable {
     @Column(nullable = false, unique = false)
     private Integer type;
     private LocalDateTime created_at;
+    @Column(nullable = false, unique = false)
     private Boolean approved;
-
     @ManyToOne
     @JoinColumn(name = "staff_id")
     private StaffUser staff;

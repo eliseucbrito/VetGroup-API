@@ -40,6 +40,12 @@ public class StaffUser implements Serializable {
     @Column(nullable = true, unique = false)
     private Boolean on_duty;
 
+    @Column(nullable = true, unique = false)
+    private Integer weekly_work_load; // in minutes
+
+    @Column(nullable = true, unique = false)
+    private Integer work_load_completed; // in minutes
+
     @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<Report> reports = new ArrayList<>();
@@ -140,6 +146,22 @@ public class StaffUser implements Serializable {
         } else {
             this.on_duty = on_duty;
         }
+    }
+
+    public Integer getWeekly_work_load() {
+        return weekly_work_load;
+    }
+
+    public void setWeekly_work_load(Integer weekly_work_load) {
+        this.weekly_work_load = weekly_work_load;
+    }
+
+    public Integer getWork_load_completed() {
+        return work_load_completed;
+    }
+
+    public void setWork_load_completed(Integer work_load_completed) {
+        this.work_load_completed = work_load_completed;
     }
 
     public List<Report> getReports() {

@@ -8,5 +8,7 @@ CREATE TABLE `tb_staff` (
   `full_name` varchar(70) NOT NULL,
   `on_duty` bit(1) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
-  `staff_role` int NOT NULL
+  `staff_role` int NOT NULL,
+  `weekly_work_load` int,
+  `work_load_completed` int
 )

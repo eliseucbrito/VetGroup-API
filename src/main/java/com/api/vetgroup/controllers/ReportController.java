@@ -43,14 +43,13 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(reportModel));
     }
 
-    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateApproved(
             @PathVariable Long id,
-            @RequestParam(value = "approved", required = true, defaultValue = "false") boolean approved)
+            @RequestParam(value = "approved", required = true) boolean approved)
     {
         try {
-            Report report = service.findById(id);
-            service.requestStatus(report, approved);
+            service.setApprovedReport(id, approved);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

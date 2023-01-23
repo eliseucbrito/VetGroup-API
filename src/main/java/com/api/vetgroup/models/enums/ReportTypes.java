@@ -4,9 +4,7 @@ public enum ReportTypes {
 
     PAYMENT(1),
     REQUEST(2),
-    REPORT(3),
-    APPROVED(4),
-    REJECTED(5);
+    REPORT(3);
 
     private int code;
 

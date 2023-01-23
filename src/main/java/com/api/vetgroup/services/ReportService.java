@@ -6,8 +6,6 @@ import com.api.vetgroup.repositories.ReportRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,29 +39,23 @@ public class ReportService {
         repository.save(report);
     }
 
-    @Transactional
-    public void requestStatus(Report report, Boolean approved) {
-
-        if (report.getType() == ReportTypes.APPROVED) {
-            throw new IllegalArgumentException("This Report is already approved");
+    public void setApprovedReport(Long id, Boolean approved) {
+        Report report = findById(id);
+        if (report.getType() == ReportTypes.REPORT) {
+            throw new IllegalArgumentException("Report with type of REPORT can't be approved!");
         }
 
-        if (report.getType() != ReportTypes.REQUEST) {
-            throw new IllegalArgumentException("This Report Type don't accept STATUS");
+        if (report.getApproved()) {
+            throw new IllegalArgumentException("This Report is already approved!");
         }
 
-        if (approved) {
-            report.setType(ReportTypes.APPROVED);
-            report.setApproved(true);
-        } else {
-            report.setType(ReportTypes.REJECTED);
-            report.setApproved(false);
-        }
+        report.setApproved(approved);
         update(report);
     }
 
     public List<Report> findReportByStaffId(Long id) {
         return repository.findReportByStaffId(id);
     }
+
 
 }

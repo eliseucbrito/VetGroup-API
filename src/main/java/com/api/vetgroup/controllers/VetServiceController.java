@@ -110,6 +110,12 @@ public class VetServiceController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
+    @GetMapping(value = "/staff", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<VetService>> findServiceByStaffId(@RequestParam(value = "id") Long staff_id) {
+        List<VetService> list = service.findServicesByStaffId(staff_id);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
     @DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteService(@PathVariable Long id) {
         service.delete(id);

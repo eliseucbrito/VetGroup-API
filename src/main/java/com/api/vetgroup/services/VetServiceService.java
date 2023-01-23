@@ -1,11 +1,8 @@
 package com.api.vetgroup.services;
 
-import com.api.vetgroup.models.Report;
 import com.api.vetgroup.models.VetService;
-import com.api.vetgroup.models.enums.ReportTypes;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.models.enums.ServiceTypes;
-import com.api.vetgroup.repositories.ReportRepository;
 import com.api.vetgroup.repositories.ServiceRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +54,10 @@ public class VetServiceService {
 
     public List<VetService> findServicesByPatientId(Long id) {
         return repository.findServicesByPatientId(id);
+    }
+
+    public List<VetService> findServicesByStaffId(Long id) {
+        return repository.findServiceByStaffId(id);
     }
 
     @Transactional
