@@ -26,6 +26,12 @@ public class ReportService {
 
     @Transactional
     public Report insert(Report newReport) {
+        if (newReport.getType() != ReportTypes.PAYMENT) {
+            newReport.setPayment_value(null);
+        }
+        if (newReport.getType() == ReportTypes.PAYMENT && newReport.getPayment_value() == null) {
+            throw new IllegalArgumentException("Payment type report cannot have a null value");
+        }
         return repository.save(newReport);
     }
 

@@ -1,12 +1,14 @@
 package com.api.vetgroup.services;
 
 import com.api.vetgroup.models.StaffUser;
-import com.api.vetgroup.models.enums.StaffRole;
+import com.api.vetgroup.models.StaffRoleHistoric;
 import com.api.vetgroup.repositories.StaffRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +23,7 @@ public class StaffUserService {
     }
 
     public StaffUser findById(Long id) {
-        Optional<StaffUser> obj =  repository.findById(id);
+        Optional<StaffUser> obj = repository.findById(id);
         return obj.get();
     }
 
@@ -31,15 +33,22 @@ public class StaffUserService {
         update(staff);
     }
 
-    public void setNewRole(Long id, StaffRole new_role) {
-        StaffUser staff = findById(id);
-
-        if (staff.getStaffRole() == new_role) {
-            throw new IllegalArgumentException("This employee is already in the role of "+ new_role);
+    public void setNewRole(StaffRoleHistoric newRoleHistoric, StaffUser staff) {
+        if (staff.getStaffRole() == newRoleHistoric.getRole()) {
+            throw new IllegalArgumentException("This employee is already in the role of "+ newRoleHistoric.getRole());
         }
 
-        staff.setStaffRole(new_role);
+        staff.setStaffRole(newRoleHistoric.getRole());
+        staff.setWeekly_work_load(newRoleHistoric.getWeekly_work_load());
+        staff.setBase_salary(newRoleHistoric.getBase_salary());
+
         update(staff);
+    }
+
+    public List<StaffRoleHistoric> getRoleHistoricList(Long id) {
+        StaffUser staff = findById(id);
+        List<StaffRoleHistoric> roleHistoric = staff.getRole_historic();
+        return roleHistoric;
     }
 
     @Transactional

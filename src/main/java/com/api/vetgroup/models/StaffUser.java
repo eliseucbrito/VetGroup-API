@@ -1,17 +1,13 @@
 package com.api.vetgroup.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import com.api.vetgroup.models.enums.StaffRole;
-import jakarta.validation.constraints.Email;
-import org.hibernate.validator.constraints.br.CPF;
 
 
 @Entity
@@ -36,7 +32,7 @@ public class StaffUser implements Serializable {
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
     @Column(nullable = true, unique = false)
-    private Double base_salary;
+    private Integer base_salary;
     @Column(nullable = true, unique = false)
     private Boolean on_duty;
 
@@ -45,6 +41,14 @@ public class StaffUser implements Serializable {
 
     @Column(nullable = true, unique = false)
     private Integer work_load_completed; // in minutes
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "staff")
+    private List<StaffRoleHistoric> role_historic = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "promoted_by")
+    private List<StaffRoleHistoric> promoter = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "staff")
@@ -128,11 +132,11 @@ public class StaffUser implements Serializable {
         this.cpf = cpf;
     }
 
-    public Double getBase_salary() {
+    public Integer getBase_salary() {
         return base_salary;
     }
 
-    public void setBase_salary(Double base_salary) {
+    public void setBase_salary(Integer base_salary) {
         this.base_salary = base_salary;
     }
 
@@ -162,6 +166,10 @@ public class StaffUser implements Serializable {
 
     public void setWork_load_completed(Integer work_load_completed) {
         this.work_load_completed = work_load_completed;
+    }
+
+    public List<StaffRoleHistoric> getRole_historic() {
+        return role_historic;
     }
 
     public List<Report> getReports() {

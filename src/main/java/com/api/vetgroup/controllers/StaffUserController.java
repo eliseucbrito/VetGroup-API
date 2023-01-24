@@ -1,15 +1,17 @@
 package com.api.vetgroup.controllers;
 
+import com.api.vetgroup.dtos.RoleHistoricDto;
 import com.api.vetgroup.dtos.StaffUserDto;
 import com.api.vetgroup.models.Report;
 import com.api.vetgroup.models.StaffUser;
-import com.api.vetgroup.models.enums.StaffRole;
+import com.api.vetgroup.models.StaffRoleHistoric;
 import com.api.vetgroup.services.ReportService;
+import com.api.vetgroup.services.RoleHistoricService;
 import com.api.vetgroup.services.StaffUserService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,9 @@ public class StaffUserController {
     @Autowired
     private ReportService reportService;
 
+    @Autowired
+    private RoleHistoricService roleHistoricService;
+
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StaffUser> createNewStaffUser(@RequestBody @Valid StaffUserDto staffUserDto) {
         var staffUserModel = new StaffUser();
@@ -45,10 +50,22 @@ public class StaffUserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping(value = "/{id}/role", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> setNewRole(@PathVariable Long id, @RequestParam(value = "new-role", required = true) StaffRole new_role) {
-        service.setNewRole(id, new_role);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    @PutMapping(value = "/{id}/new-role", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> setNewRole(@PathVariable Long id, @RequestBody @Valid RoleHistoricDto roleHistoricDto) {
+        try {
+            StaffRoleHistoric roleHistoricModel = new StaffRoleHistoric();
+            StaffUser staffModel = service.findById(roleHistoricDto.getStaff());
+            StaffUser staffPromoterModel = service.findById(roleHistoricDto.getPromoted_by());
+            BeanUtils.copyProperties(roleHistoricDto, roleHistoricModel);
+            roleHistoricModel.setStaff(staffModel);
+            roleHistoricModel.setPromoted_by(staffPromoterModel);
+            roleHistoricModel.setRole(roleHistoricDto.getRole());
+            service.setNewRole(roleHistoricModel, staffModel);
+            roleHistoricService.insert(roleHistoricModel);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,6 +84,12 @@ public class StaffUserController {
     public ResponseEntity<List<Report>> findReportByStaffId(@PathVariable Long id) {
         List<Report> list = reportService.findReportByStaffId(id);
         return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @GetMapping(value = "/{id}/role-historic", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<StaffRoleHistoric>> findRoleHistoric(@PathVariable Long id) {
+        List<StaffRoleHistoric> roleHistoricList = service.getRoleHistoricList(id);
+        return ResponseEntity.ok().body(roleHistoricList);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

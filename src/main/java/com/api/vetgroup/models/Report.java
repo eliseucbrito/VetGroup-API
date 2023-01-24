@@ -19,10 +19,13 @@ public class Report implements Serializable {
     private String title;
     @Column(nullable = false, unique = false)
     private String description;
+
+    @Column(nullable = true, unique = false)
+    private Double payment_value;
     @Column(nullable = false, unique = false)
     private Integer type;
     private LocalDateTime created_at;
-    @Column(nullable = false, unique = false)
+    @Column(nullable = true, unique = false)
     private Boolean approved;
     @ManyToOne
     @JoinColumn(name = "staff_id")
@@ -50,6 +53,14 @@ public class Report implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Double getPayment_value() {
+        return payment_value;
+    }
+
+    public void setPayment_value(Double payment_value) {
+        this.payment_value = payment_value;
     }
 
     public ReportTypes getType() {

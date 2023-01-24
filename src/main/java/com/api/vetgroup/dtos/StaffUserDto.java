@@ -24,7 +24,7 @@ public class StaffUserDto {
     private String cpf;
     private StaffRole staff_role;
     private String avatar_url;
-    private Double base_salary;
+    private Integer base_salary;
     private Boolean on_duty;
 
     public String getFull_name() {
@@ -67,11 +67,11 @@ public class StaffUserDto {
         this.avatar_url = avatar_url;
     }
 
-    public Double getBase_salary() {
+    public Integer getBase_salary() {
         return base_salary;
     }
 
-    public void setBase_salary(Double base_salary) {
+    public void setBase_salary(Integer base_salary) {
         this.base_salary = base_salary;
     }
 

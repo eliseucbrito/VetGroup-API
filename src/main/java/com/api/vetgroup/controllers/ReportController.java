@@ -34,13 +34,17 @@ public class ReportController {
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNewReport(@RequestBody @Valid ReportDto reportDto) {
-        var reportModel = new Report();
-        StaffUser staff = staffService.findById(reportDto.getStaff_id());
-        BeanUtils.copyProperties(reportDto, reportModel);
-        reportModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
-        reportModel.setStaff(staff);
-        reportModel.setType(reportDto.getType());
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(reportModel));
+        try {
+            var reportModel = new Report();
+            StaffUser staff = staffService.findById(reportDto.getStaff_id());
+            BeanUtils.copyProperties(reportDto, reportModel);
+            reportModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
+            reportModel.setStaff(staff);
+            reportModel.setType(reportDto.getType());
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(reportModel));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -60,6 +64,12 @@ public class ReportController {
     public ResponseEntity<List<Report>> findAll() {
         List<Report> list = service.findAll();
         return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value  = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Report> findById(@PathVariable Long id) {
+        Report obj = service.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(obj);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

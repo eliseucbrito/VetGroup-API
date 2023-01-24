@@ -6,22 +6,21 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.LocalDateTime;
 
 
 public class ReportDto {
 
-
     @NotBlank
     @Size(max = 70, min = 15)
     private String title;
     @NotBlank
     private String description;
+    private Double payment_value;
     private Long staff_id;
     private ReportTypes type;
-    private Boolean approved;
-
 
     public String getTitle() {
         return title;
@@ -39,6 +38,14 @@ public class ReportDto {
         this.description = description;
     }
 
+    public Double getPayment_value() {
+        return payment_value;
+    }
+
+    public void setPayment_value(Double payment_value) {
+        this.payment_value = payment_value;
+    }
+
     public Long getStaff_id() {
         return staff_id;
     }
@@ -53,13 +60,5 @@ public class ReportDto {
 
     public void setType(ReportTypes type) {
         this.type = type;
-    }
-
-    public Boolean getApproved() {
-        return approved;
-    }
-
-    public void setApproved(Boolean approved) {
-        this.approved = approved;
     }
 }
