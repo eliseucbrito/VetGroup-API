@@ -6,5 +6,5 @@ CREATE TABLE `tb_reports` (
   `title` varchar(70) NOT NULL,
   `type` int NOT NULL,
   `staff_id` bigint DEFAULT NULL,
-  `payment_value` DOUBLE
+  `payment_value` int
 )

@@ -1,12 +1,12 @@
 package com.api.vetgroup.controllers;
 
-import com.api.vetgroup.dtos.ReportCreateDto;
+import com.api.vetgroup.dtos.create.ReportCreateDto;
+import com.api.vetgroup.dtos.ReportResponseDto;
 import com.api.vetgroup.models.Report;
-import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.services.ReportService;
 import com.api.vetgroup.services.StaffUserService;
+import com.api.vetgroup.services.customMappers.ReportMapper;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,17 +26,16 @@ public class ReportController {
     private ReportService service;
 
     @Autowired
+    private ReportMapper mapper;
+
+    @Autowired
     private StaffUserService staffService;
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNewReport(@RequestBody @Valid ReportCreateDto reportCreateDto) {
         try {
-            var reportModel = new Report();
-            StaffUser staff = staffService.findById(reportCreateDto.getStaff_id());
-            BeanUtils.copyProperties(reportCreateDto, reportModel);
-            reportModel.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
-            reportModel.setStaff(staff);
-            reportModel.setType(reportCreateDto.getType());
+            reportCreateDto.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            Report reportModel = mapper.convertDtoToReport(reportCreateDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(reportModel));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -63,9 +62,11 @@ public class ReportController {
     }
 
     @GetMapping(value  = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Report> findById(@PathVariable Long id) {
-        Report obj = service.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(obj);
+    public ResponseEntity<ReportResponseDto> findById(@PathVariable Long id) {
+        Report report = service.findById(id);
+        ReportResponseDto reportDto = mapper.convertReportToDto(report);
+
+        return ResponseEntity.status(HttpStatus.OK).body(reportDto);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

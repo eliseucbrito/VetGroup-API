@@ -21,6 +21,11 @@ public class ReportService {
 
     public Report findById(Long id) {
         Optional<Report> obj = repository.findById(id);
+
+        if(obj.isEmpty()) {
+            throw new IllegalArgumentException("This report not exists");
+        }
+
         return obj.get();
     }
 
@@ -30,7 +35,7 @@ public class ReportService {
             newReport.setPayment_value(null);
         }
         if (newReport.getType() == ReportTypes.PAYMENT && newReport.getPayment_value() == null) {
-            throw new IllegalArgumentException("Payment type report cannot have a null value");
+            throw new IllegalArgumentException("Report type payment cannot have a null value");
         }
         return repository.save(newReport);
     }

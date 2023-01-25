@@ -47,13 +47,25 @@ public class StaffMapper {
 
     public StaffUser convertDtoToStaff(StaffCreateDto staffDto) {
         try {
-            var staffUserModel = new StaffUser();
+            StaffUser staffUserModel = new StaffUser();
             BeanUtils.copyProperties(staffDto, staffUserModel);
 
             staffUserModel.setStaffRole(staffDto.getStaff_role());
             return staffUserModel;
         } catch (Exception e) {
             throw new RuntimeException("Error during conversion to StaffUser");
+        }
+    }
+
+    public StaffReducedDto convertStaffToReducedDto(StaffUser staff) {
+        try {
+            StaffReducedDto staffReducedDto = new StaffReducedDto();
+            BeanUtils.copyProperties(staff, staffReducedDto);
+
+            staffReducedDto.setRole(staff.getStaffRole());
+            return staffReducedDto;
+        } catch (Exception e) {
+            throw new RuntimeException("Error during conversion to StaffReducedDto");
         }
     }
 }

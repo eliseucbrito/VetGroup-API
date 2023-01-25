@@ -21,7 +21,7 @@ public class Report implements Serializable {
     private String description;
 
     @Column(nullable = true, unique = false)
-    private Double payment_value;
+    private Integer payment_value;
     @Column(nullable = false, unique = false)
     private Integer type;
     private LocalDateTime created_at;
@@ -55,11 +55,11 @@ public class Report implements Serializable {
         this.description = description;
     }
 
-    public Double getPayment_value() {
+    public Integer getPayment_value() {
         return payment_value;
     }
 
-    public void setPayment_value(Double payment_value) {
+    public void setPayment_value(Integer payment_value) {
         this.payment_value = payment_value;
     }
 

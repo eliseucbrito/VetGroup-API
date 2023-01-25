@@ -4,18 +4,33 @@ import com.api.vetgroup.models.enums.ServiceCity;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.models.enums.ServiceTypes;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.time.LocalDateTime;
 
 public class VetServiceDto {
 
+    private LocalDateTime created_at;
     @NotBlank
     @Size(min = 20)
     private String description;
+    @NotNull
     private Long staff_id;
+
+    @NotNull
     private Long patient_id;
+
+    @NotNull
     private Double price;
+
+    @NotNull
     private ServiceTypes type;
+
+    @NotNull
     private ServiceStatus status;
+
+    @NotNull
     private ServiceCity city;
 
 

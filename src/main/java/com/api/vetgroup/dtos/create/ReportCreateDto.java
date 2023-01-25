@@ -1,4 +1,4 @@
-package com.api.vetgroup.dtos;
+package com.api.vetgroup.dtos.create;
 
 import com.api.vetgroup.models.enums.ReportTypes;
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +15,7 @@ public class ReportCreateDto {
     private String title;
     @NotBlank
     private String description;
-    private Double payment_value;
+    private Integer payment_value;
     private Long staff_id;
     private ReportTypes type;
 
@@ -43,11 +43,11 @@ public class ReportCreateDto {
         this.description = description;
     }
 
-    public Double getPayment_value() {
+    public Integer getPayment_value() {
         return payment_value;
     }
 
-    public void setPayment_value(Double payment_value) {
+    public void setPayment_value(Integer payment_value) {
         this.payment_value = payment_value;
     }
 
