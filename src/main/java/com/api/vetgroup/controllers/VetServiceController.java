@@ -1,19 +1,15 @@
 package com.api.vetgroup.controllers;
 
-import com.api.vetgroup.dtos.ReportDto;
 import com.api.vetgroup.dtos.VetServiceDto;
 import com.api.vetgroup.models.Patient;
-import com.api.vetgroup.models.Report;
 import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.models.VetService;
-import com.api.vetgroup.models.enums.ReportTypes;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.models.enums.ServiceTypes;
 import com.api.vetgroup.services.PatientService;
 import com.api.vetgroup.services.StaffUserService;
 import com.api.vetgroup.services.VetServiceService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

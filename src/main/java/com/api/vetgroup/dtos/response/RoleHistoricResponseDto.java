@@ -1,5 +1,6 @@
-package com.api.vetgroup.dtos;
+package com.api.vetgroup.dtos.response;
 
+import com.api.vetgroup.dtos.StaffReducedDto;
 import com.api.vetgroup.models.enums.StaffRole;
 
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ public class RoleHistoricResponseDto {
     private StaffRole role;
     private Integer base_salary;
     private Integer weekly_work_load;
-    private PromoterDto promoter;
+    private StaffReducedDto promoter;
 
     public LocalDateTime getStarted_in() {
         return started_in;
@@ -44,11 +45,11 @@ public class RoleHistoricResponseDto {
         this.weekly_work_load = weekly_work_load;
     }
 
-    public PromoterDto getPromoter() {
+    public StaffReducedDto getPromoter() {
         return promoter;
     }
 
-    public void setPromoter(PromoterDto promoter) {
+    public void setPromoter(StaffReducedDto promoter) {
         this.promoter = promoter;
     }
 }

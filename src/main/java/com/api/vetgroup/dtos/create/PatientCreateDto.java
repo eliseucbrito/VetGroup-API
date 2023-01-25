@@ -1,32 +1,38 @@
-package com.api.vetgroup.dtos;
+package com.api.vetgroup.dtos.create;
 
-import com.api.vetgroup.models.VetService;
 import com.api.vetgroup.models.enums.PatientKind;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
-public class PatientResponseDto {
+public class PatientCreateDto {
 
-    private Long id;
+    private LocalDateTime created_at;
+    @NotBlank
+    @Size(max = 15)
     private String owner;
+    @NotBlank
+    @Size(max = 15)
     private String name;
+    @NotBlank
+    @Size(max = 11)
     private String owner_contact;
+    @NotBlank
     private String breed;
-    private Date birth_date;
+    @NotBlank
+    private String birth_date;
     private String avatar_url;
+    @NotNull
     private PatientKind kind;
-    private List<VetService> services;
 
-    public Long getId() {
-        return id;
+    public LocalDateTime getCreated_at() {
+        return created_at;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
     }
 
     public String getOwner() {
@@ -69,11 +75,11 @@ public class PatientResponseDto {
         this.breed = breed;
     }
 
-    public Date getBirth_date() {
+    public String getBirth_date() {
         return birth_date;
     }
 
-    public void setBirth_date(Date birth_date) {
+    public void setBirth_date(String birth_date) {
         this.birth_date = birth_date;
     }
 
@@ -83,13 +89,5 @@ public class PatientResponseDto {
 
     public void setAvatar_url(String avatar_url) {
         this.avatar_url = avatar_url;
-    }
-
-    public List<VetService> getService() {
-        return services;
-    }
-
-    public void setService(List<VetService> services) {
-        this.services = services;
     }
 }

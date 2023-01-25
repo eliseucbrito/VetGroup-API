@@ -1,6 +1,6 @@
 package com.api.vetgroup.services.customMappers;
 
-import com.api.vetgroup.dtos.RoleHistoricCreateDto;
+import com.api.vetgroup.dtos.create.RoleHistoricCreateDto;
 import com.api.vetgroup.models.RoleHistoric;
 import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.services.StaffUserService;

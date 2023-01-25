@@ -1,18 +1,15 @@
 package com.api.vetgroup.dtos;
 
 import com.api.vetgroup.models.enums.ReportTypes;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.LocalDateTime;
 
 
-public class ReportDto {
+public class ReportCreateDto {
 
+    private LocalDateTime created_at;
     @NotBlank
     @Size(max = 70, min = 15)
     private String title;
@@ -21,6 +18,14 @@ public class ReportDto {
     private Double payment_value;
     private Long staff_id;
     private ReportTypes type;
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
 
     public String getTitle() {
         return title;

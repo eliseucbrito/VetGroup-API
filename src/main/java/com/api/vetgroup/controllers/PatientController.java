@@ -1,13 +1,12 @@
 package com.api.vetgroup.controllers;
 
-import com.api.vetgroup.dtos.PatientCreateDto;
-import com.api.vetgroup.dtos.PatientResponseDto;
+import com.api.vetgroup.dtos.create.PatientCreateDto;
+import com.api.vetgroup.dtos.response.PatientResponseDto;
 import com.api.vetgroup.models.Patient;
 import com.api.vetgroup.models.VetService;
 import com.api.vetgroup.services.PatientService;
 import com.api.vetgroup.services.customMappers.PatientMapper;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

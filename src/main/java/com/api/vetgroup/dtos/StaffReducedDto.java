@@ -1,9 +1,12 @@
 package com.api.vetgroup.dtos;
 
-public class PromoterDto {
+import com.api.vetgroup.models.enums.StaffRole;
+
+public class StaffReducedDto {
 
     private Long id;
     private String full_name;
+    private StaffRole role;
 
     public Long getId() {
         return id;
@@ -19,5 +22,13 @@ public class PromoterDto {
 
     public void setFull_name(String full_name) {
         this.full_name = full_name;
+    }
+
+    public StaffRole getRole() {
+        return role;
+    }
+
+    public void setRole(StaffRole role) {
+        this.role = role;
     }
 }

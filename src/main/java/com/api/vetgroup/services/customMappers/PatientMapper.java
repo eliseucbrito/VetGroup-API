@@ -1,7 +1,7 @@
 package com.api.vetgroup.services.customMappers;
 
-import com.api.vetgroup.dtos.PatientCreateDto;
-import com.api.vetgroup.dtos.PatientResponseDto;
+import com.api.vetgroup.dtos.create.PatientCreateDto;
+import com.api.vetgroup.dtos.response.PatientResponseDto;
 import com.api.vetgroup.models.Patient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

@@ -1,36 +1,42 @@
-package com.api.vetgroup.dtos;
+package com.api.vetgroup.dtos.response;
 
+import com.api.vetgroup.models.*;
 import com.api.vetgroup.models.enums.StaffRole;
-import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class StaffCreateDto {
+public class StaffResponseDto {
 
-    @NotBlank
-    private String full_name;
-    @NotBlank
-    @Email
-    private String email;
-    @NotBlank
-    private String password;
-    @NotBlank
-    @Size(max = 11)
-    @CPF
-    private String cpf;
-    @NotNull
+    private Long id;
     private StaffRole staff_role;
+    private String full_name;
+    private String email;
     private String avatar_url;
-    @NotNull
+    private LocalDateTime created_at;
+    private String cpf;
     private Integer base_salary;
     private Boolean on_duty;
-    @NotNull
     private Integer weekly_work_load; // in minutes
     private Integer work_load_completed; // in minutes
     private List<RoleHistoricResponseDto> role_historic;
+    private List<RoomAccessList> access_list;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public StaffRole getStaff_role() {
+        return staff_role;
+    }
+
+    public void setStaff_role(StaffRole staff_role) {
+        this.staff_role = staff_role;
+    }
 
     public String getFull_name() {
         return full_name;
@@ -48,12 +54,20 @@ public class StaffCreateDto {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getAvatar_url() {
+        return avatar_url;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
+    }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
     }
 
     public String getCpf() {
@@ -64,28 +78,12 @@ public class StaffCreateDto {
         this.cpf = cpf;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
-    }
-
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
-    }
-
     public Integer getBase_salary() {
         return base_salary;
     }
 
     public void setBase_salary(Integer base_salary) {
         this.base_salary = base_salary;
-    }
-
-    public StaffRole getStaff_role() {
-        return staff_role;
-    }
-
-    public void setStaff_role(StaffRole staff_role) {
-        this.staff_role = staff_role;
     }
 
     public Boolean getOn_duty() {
@@ -118,5 +116,13 @@ public class StaffCreateDto {
 
     public void setRole_historic(List<RoleHistoricResponseDto> role_historic) {
         this.role_historic = role_historic;
+    }
+
+    public List<RoomAccessList> getAccess_list() {
+        return access_list;
+    }
+
+    public void setAccess_list(List<RoomAccessList> access_list) {
+        this.access_list = access_list;
     }
 }

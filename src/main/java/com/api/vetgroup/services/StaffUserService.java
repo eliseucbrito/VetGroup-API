@@ -1,10 +1,8 @@
 package com.api.vetgroup.services;
 
-import com.api.vetgroup.dtos.RoleHistoricCreateDto;
 import com.api.vetgroup.models.RoleHistoric;
 import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.repositories.StaffRepository;
-import com.api.vetgroup.services.customMappers.RoleHistoricMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

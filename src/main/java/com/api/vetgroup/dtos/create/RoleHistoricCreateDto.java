@@ -1,4 +1,4 @@
-package com.api.vetgroup.dtos;
+package com.api.vetgroup.dtos.create;
 
 import com.api.vetgroup.models.enums.StaffRole;
 

@@ -1,13 +1,11 @@
 package com.api.vetgroup.controllers;
 
-import com.api.vetgroup.dtos.ReportDto;
+import com.api.vetgroup.dtos.ReportCreateDto;
 import com.api.vetgroup.models.Report;
 import com.api.vetgroup.models.StaffUser;
-import com.api.vetgroup.models.enums.ReportTypes;
 import com.api.vetgroup.services.ReportService;
 import com.api.vetgroup.services.StaffUserService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpRequest;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -33,14 +29,14 @@ public class ReportController {
     private StaffUserService staffService;
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createNewReport(@RequestBody @Valid ReportDto reportDto) {
+    public ResponseEntity<Object> createNewReport(@RequestBody @Valid ReportCreateDto reportCreateDto) {
         try {
             var reportModel = new Report();
-            StaffUser staff = staffService.findById(reportDto.getStaff_id());
-            BeanUtils.copyProperties(reportDto, reportModel);
+            StaffUser staff = staffService.findById(reportCreateDto.getStaff_id());
+            BeanUtils.copyProperties(reportCreateDto, reportModel);
             reportModel.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
             reportModel.setStaff(staff);
-            reportModel.setType(reportDto.getType());
+            reportModel.setType(reportCreateDto.getType());
             return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(reportModel));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

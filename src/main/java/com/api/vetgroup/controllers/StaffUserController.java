@@ -1,8 +1,8 @@
 package com.api.vetgroup.controllers;
 
-import com.api.vetgroup.dtos.RoleHistoricCreateDto;
-import com.api.vetgroup.dtos.StaffCreateDto;
-import com.api.vetgroup.dtos.StaffResponseDto;
+import com.api.vetgroup.dtos.create.RoleHistoricCreateDto;
+import com.api.vetgroup.dtos.create.StaffCreateDto;
+import com.api.vetgroup.dtos.response.StaffResponseDto;
 import com.api.vetgroup.models.Report;
 import com.api.vetgroup.models.RoleHistoric;
 import com.api.vetgroup.models.StaffUser;
@@ -12,7 +12,6 @@ import com.api.vetgroup.services.StaffUserService;
 import com.api.vetgroup.services.customMappers.RoleHistoricMapper;
 import com.api.vetgroup.services.customMappers.StaffMapper;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
