@@ -106,6 +106,7 @@ public class VetService implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public Patient getPatient() {
         return patient;
     }
@@ -114,6 +115,7 @@ public class VetService implements Serializable {
         this.patient = patient;
     }
 
+    @JsonIgnore
     public StaffUser getStaff() {
         return staff;
     }

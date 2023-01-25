@@ -1,9 +1,11 @@
 package com.api.vetgroup.controllers;
 
-import com.api.vetgroup.dtos.PatientDto;
+import com.api.vetgroup.dtos.PatientCreateDto;
+import com.api.vetgroup.dtos.PatientResponseDto;
 import com.api.vetgroup.models.Patient;
 import com.api.vetgroup.models.VetService;
 import com.api.vetgroup.services.PatientService;
+import com.api.vetgroup.services.customMappers.PatientMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -25,13 +26,14 @@ public class PatientController {
     @Autowired
     private PatientService service;
 
+    @Autowired
+    private PatientMapper mapper;
+
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createNewPatient(@RequestBody @Valid PatientDto patientDto) {
-        var patientModel = new Patient();
-        BeanUtils.copyProperties(patientDto, patientModel);
-        patientModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
-        patientModel.setKind(patientDto.getKind());
-        patientModel.setBirth_date(patientDto.getBirth_date());
+    public ResponseEntity<Object> createNewPatient(@RequestBody @Valid PatientCreateDto patientCreateDto) {
+        patientCreateDto.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        Patient patientModel = mapper.convertDtoToPatient(patientCreateDto);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(patientModel));
     }
 
@@ -42,9 +44,11 @@ public class PatientController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Patient> findByID(@PathVariable Long id) {
-        Patient obj = service.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(obj);
+    public ResponseEntity<PatientResponseDto> findByID(@PathVariable Long id) {
+        Patient patient = service.findById(id);
+        PatientResponseDto patientDto = mapper.convertPatientToDto(patient);
+
+        return ResponseEntity.status(HttpStatus.OK).body(patientDto);
     }
 
     @GetMapping(value = "/{id}/details", produces = MediaType.APPLICATION_JSON_VALUE)

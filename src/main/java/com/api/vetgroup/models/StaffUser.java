@@ -44,15 +44,14 @@ public class StaffUser implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "staff")
-    private List<StaffRoleHistoric> role_historic = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "promoted_by")
-    private List<StaffRoleHistoric> promoter = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "staff")
     private List<Report> reports = new ArrayList<>();
+
+    @OneToMany(mappedBy = "staff")
+    private List<RoleHistoric> role_historic = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "promoter")
+    private List<RoleHistoric> promoter_historic = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "staff")
@@ -62,7 +61,6 @@ public class StaffUser implements Serializable {
     @OneToMany(mappedBy = "staff")
     private List<Room> room = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<RoomAccessList> access_list = new ArrayList<>();
 
@@ -168,8 +166,12 @@ public class StaffUser implements Serializable {
         this.work_load_completed = work_load_completed;
     }
 
-    public List<StaffRoleHistoric> getRole_historic() {
+    public List<RoleHistoric> getRole_historic() {
         return role_historic;
+    }
+
+    public List<RoleHistoric> getPromoter_historic() {
+        return promoter_historic;
     }
 
     public List<Report> getReports() {

@@ -29,11 +29,11 @@ public class RoomController {
         var roomModel = new Room();
         BeanUtils.copyProperties(roomDto, roomModel);
         roomModel.setType(roomDto.getType());
-        roomModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
+        roomModel.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(roomModel));
     }
 
-    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateInUse(
             @PathVariable Long id,
             @RequestBody RoomDto roomDto)

@@ -1,10 +1,8 @@
 package com.api.vetgroup.models;
 
-import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.models.enums.StaffRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "TB_ROLE_HISTORIC")
-public class StaffRoleHistoric implements Serializable {
+public class RoleHistoric implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +25,7 @@ public class StaffRoleHistoric implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "promoted_by")
-    private StaffUser promoted_by;
+    private StaffUser promoter;
 
     @ManyToOne
     @JoinColumn(name = "staff_id")
@@ -67,20 +65,20 @@ public class StaffRoleHistoric implements Serializable {
         this.base_salary = base_salary;
     }
 
-    public StaffUser getPromoted_by() {
-        return promoted_by;
-    }
-
-    public void setPromoted_by(StaffUser promoted_by) {
-        this.promoted_by = promoted_by;
-    }
-
     public Integer getWeekly_work_load() {
         return weekly_work_load;
     }
 
     public void setWeekly_work_load(Integer weekly_work_load) {
         this.weekly_work_load = weekly_work_load;
+    }
+
+    public StaffUser getPromoter() {
+        return promoter;
+    }
+
+    public void setPromoter(StaffUser promoter) {
+        this.promoter = promoter;
     }
 
     @JsonIgnore
@@ -97,7 +95,7 @@ public class StaffRoleHistoric implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        StaffRoleHistoric that = (StaffRoleHistoric) o;
+        RoleHistoric that = (RoleHistoric) o;
 
         return Objects.equals(id, that.id);
     }

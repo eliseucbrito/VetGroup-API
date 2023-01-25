@@ -1,17 +1,19 @@
 package com.api.vetgroup.controllers;
 
-import com.api.vetgroup.dtos.RoleHistoricDto;
-import com.api.vetgroup.dtos.StaffUserDto;
+import com.api.vetgroup.dtos.RoleHistoricCreateDto;
+import com.api.vetgroup.dtos.StaffCreateDto;
+import com.api.vetgroup.dtos.StaffResponseDto;
 import com.api.vetgroup.models.Report;
+import com.api.vetgroup.models.RoleHistoric;
 import com.api.vetgroup.models.StaffUser;
-import com.api.vetgroup.models.StaffRoleHistoric;
 import com.api.vetgroup.services.ReportService;
 import com.api.vetgroup.services.RoleHistoricService;
 import com.api.vetgroup.services.StaffUserService;
+import com.api.vetgroup.services.customMappers.RoleHistoricMapper;
+import com.api.vetgroup.services.customMappers.StaffMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,13 +37,19 @@ public class StaffUserController {
     @Autowired
     private RoleHistoricService roleHistoricService;
 
+    @Autowired
+    private StaffMapper mapper;
+
+    @Autowired
+    private RoleHistoricMapper roleHistoricMapper;
+
+
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<StaffUser> createNewStaffUser(@RequestBody @Valid StaffUserDto staffUserDto) {
-        var staffUserModel = new StaffUser();
-        BeanUtils.copyProperties(staffUserDto, staffUserModel); // transforma do DTO para o Model
-        staffUserModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
-        staffUserModel.setStaffRole(staffUserDto.getStaff_role()); // transform "STAFF-ROLE" to Code of Staff-Role
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(staffUserModel));
+    public ResponseEntity<StaffUser> createNewStaffUser(@RequestBody @Valid StaffCreateDto staffDto) {
+        StaffUser staffModel = mapper.convertDtoToStaff(staffDto);
+
+        staffModel.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(staffModel));
     }
 
     @PutMapping(value = "/{id}/duty", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,17 +59,14 @@ public class StaffUserController {
     }
 
     @PutMapping(value = "/{id}/new-role", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> setNewRole(@PathVariable Long id, @RequestBody @Valid RoleHistoricDto roleHistoricDto) {
+    public ResponseEntity<Object> setNewRole(@PathVariable Long id, @RequestBody @Valid RoleHistoricCreateDto roleHistoricCreateDto) {
         try {
-            StaffRoleHistoric roleHistoricModel = new StaffRoleHistoric();
-            StaffUser staffModel = service.findById(roleHistoricDto.getStaff());
-            StaffUser staffPromoterModel = service.findById(roleHistoricDto.getPromoted_by());
-            BeanUtils.copyProperties(roleHistoricDto, roleHistoricModel);
-            roleHistoricModel.setStaff(staffModel);
-            roleHistoricModel.setPromoted_by(staffPromoterModel);
-            roleHistoricModel.setRole(roleHistoricDto.getRole());
-            service.setNewRole(roleHistoricModel, staffModel);
-            roleHistoricService.insert(roleHistoricModel);
+            roleHistoricCreateDto.setStarted_in(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            RoleHistoric roleHistoric = roleHistoricMapper.convertToRoleHistoric(roleHistoricCreateDto, id);
+
+            service.setNewRole(roleHistoric);
+            roleHistoricService.insert(roleHistoric);
+
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -75,21 +80,16 @@ public class StaffUserController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<StaffUser> findById(@PathVariable Long id) {
-        StaffUser obj = service.findById(id);
-        return ResponseEntity.ok().body(obj);
+    public ResponseEntity<StaffResponseDto> findById(@PathVariable Long id) {
+        StaffUser staff = service.findById(id);
+        StaffResponseDto staffDto = mapper.convertStaffToDto(staff);
+        return ResponseEntity.ok().body(staffDto);
     }
 
     @GetMapping(value = "/{id}/reports", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Report>> findReportByStaffId(@PathVariable Long id) {
         List<Report> list = reportService.findReportByStaffId(id);
         return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
-
-    @GetMapping(value = "/{id}/role-historic", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<StaffRoleHistoric>> findRoleHistoric(@PathVariable Long id) {
-        List<StaffRoleHistoric> roleHistoricList = service.getRoleHistoricList(id);
-        return ResponseEntity.ok().body(roleHistoricList);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

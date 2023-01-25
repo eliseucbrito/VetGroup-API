@@ -12,16 +12,13 @@ import java.util.Objects;
 public class RoomAccessList implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime accessed_at;
-
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
-
     @ManyToOne
     @JoinColumn(name = "staff_id")
     private StaffUser staff;

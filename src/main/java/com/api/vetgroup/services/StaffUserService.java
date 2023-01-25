@@ -1,14 +1,14 @@
 package com.api.vetgroup.services;
 
+import com.api.vetgroup.dtos.RoleHistoricCreateDto;
+import com.api.vetgroup.models.RoleHistoric;
 import com.api.vetgroup.models.StaffUser;
-import com.api.vetgroup.models.StaffRoleHistoric;
 import com.api.vetgroup.repositories.StaffRepository;
+import com.api.vetgroup.services.customMappers.RoleHistoricMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +24,7 @@ public class StaffUserService {
 
     public StaffUser findById(Long id) {
         Optional<StaffUser> obj = repository.findById(id);
+
         return obj.get();
     }
 
@@ -33,22 +34,18 @@ public class StaffUserService {
         update(staff);
     }
 
-    public void setNewRole(StaffRoleHistoric newRoleHistoric, StaffUser staff) {
-        if (staff.getStaffRole() == newRoleHistoric.getRole()) {
-            throw new IllegalArgumentException("This employee is already in the role of "+ newRoleHistoric.getRole());
+    public void setNewRole(RoleHistoric new_role) {
+        StaffUser staff = new_role.getStaff();
+
+        if (staff.getStaffRole() == new_role.getRole()) {
+            throw new IllegalArgumentException("This employee is already in the role of "+ new_role.getRole());
         }
 
-        staff.setStaffRole(newRoleHistoric.getRole());
-        staff.setWeekly_work_load(newRoleHistoric.getWeekly_work_load());
-        staff.setBase_salary(newRoleHistoric.getBase_salary());
+        staff.setStaffRole(new_role.getRole());
+        staff.setWeekly_work_load(new_role.getWeekly_work_load());
+        staff.setBase_salary(new_role.getBase_salary());
 
         update(staff);
-    }
-
-    public List<StaffRoleHistoric> getRoleHistoricList(Long id) {
-        StaffUser staff = findById(id);
-        List<StaffRoleHistoric> roleHistoric = staff.getRole_historic();
-        return roleHistoric;
     }
 
     @Transactional

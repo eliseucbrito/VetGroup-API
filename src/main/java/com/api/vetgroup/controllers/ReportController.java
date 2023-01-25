@@ -38,7 +38,7 @@ public class ReportController {
             var reportModel = new Report();
             StaffUser staff = staffService.findById(reportDto.getStaff_id());
             BeanUtils.copyProperties(reportDto, reportModel);
-            reportModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
+            reportModel.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
             reportModel.setStaff(staff);
             reportModel.setType(reportDto.getType());
             return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(reportModel));

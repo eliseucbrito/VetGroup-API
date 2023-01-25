@@ -1,7 +1,7 @@
 package com.api.vetgroup.services;
 
 
-import com.api.vetgroup.models.StaffRoleHistoric;
+import com.api.vetgroup.models.RoleHistoric;
 import com.api.vetgroup.repositories.RoleHistoricRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +16,17 @@ public class RoleHistoricService {
     @Autowired
     private RoleHistoricRepository repository;
 
-    public List<StaffRoleHistoric> findAll() {
+    public List<RoleHistoric> findAll() {
         return repository.findAll();
     }
 
-    public StaffRoleHistoric findById(Long id) {
-        Optional<StaffRoleHistoric> obj =  repository.findById(id);
+    public RoleHistoric findById(Long id) {
+        Optional<RoleHistoric> obj =  repository.findById(id);
         return obj.get();
     }
 
     @Transactional
-    public StaffRoleHistoric insert(StaffRoleHistoric new_role) {
+    public RoleHistoric insert(RoleHistoric new_role) {
         return repository.save(new_role);
     }
 
@@ -36,7 +36,7 @@ public class RoleHistoricService {
     }
 
     @Transactional
-    public void update(StaffRoleHistoric user) {
+    public void update(RoleHistoric user) {
         repository.save(user);
     }
 }

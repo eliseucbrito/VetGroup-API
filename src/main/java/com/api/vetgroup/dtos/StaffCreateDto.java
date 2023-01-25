@@ -1,15 +1,13 @@
 package com.api.vetgroup.dtos;
 
 import com.api.vetgroup.models.enums.StaffRole;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.beans.factory.annotation.Autowired;
 
-public class StaffUserDto {
+import java.time.LocalDateTime;
+import java.util.List;
+
+public class StaffCreateDto {
 
     @NotBlank
     private String full_name;
@@ -22,10 +20,17 @@ public class StaffUserDto {
     @Size(max = 11)
     @CPF
     private String cpf;
+    @NotNull
     private StaffRole staff_role;
     private String avatar_url;
+    @NotNull
     private Integer base_salary;
     private Boolean on_duty;
+    @NotNull
+    private Integer weekly_work_load; // in minutes
+    private Integer work_load_completed; // in minutes
+    private List<RoleHistoricResponseDto> role_historic;
+
 
     public String getFull_name() {
         return full_name;
@@ -89,5 +94,29 @@ public class StaffUserDto {
 
     public void setOn_duty(Boolean on_duty) {
         this.on_duty = on_duty;
+    }
+
+    public Integer getWeekly_work_load() {
+        return weekly_work_load;
+    }
+
+    public void setWeekly_work_load(Integer weekly_work_load) {
+        this.weekly_work_load = weekly_work_load;
+    }
+
+    public Integer getWork_load_completed() {
+        return work_load_completed;
+    }
+
+    public void setWork_load_completed(Integer work_load_completed) {
+        this.work_load_completed = work_load_completed;
+    }
+
+    public List<RoleHistoricResponseDto> getRole_historic() {
+        return role_historic;
+    }
+
+    public void setRole_historic(List<RoleHistoricResponseDto> role_historic) {
+        this.role_historic = role_historic;
     }
 }

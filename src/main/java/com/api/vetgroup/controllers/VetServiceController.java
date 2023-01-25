@@ -50,7 +50,7 @@ public class VetServiceController {
         StaffUser staff = staffService.findById(vetServiceDto.getStaff_id());
         Patient patient = patientService.findById(vetServiceDto.getPatient_id());
         BeanUtils.copyProperties(vetServiceDto, serviceModel);
-        serviceModel.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
+        serviceModel.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         serviceModel.setStaff(staff);
         serviceModel.setPatient(patient);
         serviceModel.setType(vetServiceDto.getType());
