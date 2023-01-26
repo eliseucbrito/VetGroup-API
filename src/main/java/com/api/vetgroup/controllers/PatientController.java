@@ -31,15 +31,16 @@ public class PatientController {
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNewPatient(@RequestBody @Valid PatientCreateDto patientCreateDto) {
         patientCreateDto.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
-        Patient patientModel = mapper.convertDtoToPatient(patientCreateDto);
+        service.insert(mapper.convertDtoToPatient(patientCreateDto));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(patientModel));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Patient>> findAll() {
+    public ResponseEntity<List<PatientResponseDto>> findAll() {
         List<Patient> list = service.findAll();
-        return ResponseEntity.ok().body(list);
+        List<PatientResponseDto> listDto = mapper.convertListToDto(list);
+        return ResponseEntity.ok().body(listDto);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -50,11 +51,10 @@ public class PatientController {
         return ResponseEntity.status(HttpStatus.OK).body(patientDto);
     }
 
-    @GetMapping(value = "/{id}/details", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<VetService>> patientDetails(@PathVariable Long id) {
-        Patient obj = service.findById(id);
-        List<VetService> services = obj.getService();
-        return ResponseEntity.status(HttpStatus.OK).body(services);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

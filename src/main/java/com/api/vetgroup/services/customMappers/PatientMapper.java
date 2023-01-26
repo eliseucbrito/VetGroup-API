@@ -6,6 +6,9 @@ import com.api.vetgroup.models.Patient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class PatientMapper {
 
@@ -34,5 +37,14 @@ public class PatientMapper {
         } catch (Exception e) {
             throw new RuntimeException("Error during conversion to Patient");
         }
+    }
+
+    public List<PatientResponseDto> convertListToDto(List<Patient> list) {
+        List<PatientResponseDto> listDto = new ArrayList<PatientResponseDto>();
+
+        for(Patient patient : list) {
+            listDto.add(convertPatientToDto(patient));
+        }
+        return listDto;
     }
 }
