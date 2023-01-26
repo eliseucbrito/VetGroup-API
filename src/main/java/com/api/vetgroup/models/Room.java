@@ -65,7 +65,7 @@ public class Room implements Serializable {
     }
 
     public void setIn_use(Boolean in_use) {
-        if (in_use == null) {
+        if (in_use == null || !in_use) {
             this.in_use = false;
             this.staff = null;
         } else {

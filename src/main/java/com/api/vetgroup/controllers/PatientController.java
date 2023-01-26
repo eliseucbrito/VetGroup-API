@@ -3,7 +3,6 @@ package com.api.vetgroup.controllers;
 import com.api.vetgroup.dtos.create.PatientCreateDto;
 import com.api.vetgroup.dtos.response.PatientResponseDto;
 import com.api.vetgroup.models.Patient;
-import com.api.vetgroup.models.VetService;
 import com.api.vetgroup.services.PatientService;
 import com.api.vetgroup.services.customMappers.PatientMapper;
 import jakarta.validation.Valid;
@@ -12,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -56,5 +56,4 @@ public class PatientController {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
 }

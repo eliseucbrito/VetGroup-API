@@ -64,11 +64,14 @@ public class RoomService {
         }
 
         if (in_use) {
+            if (staff_id == null) {
+                throw new IllegalArgumentException("No staff-id was reported");
+            }
             StaffUser staff = staffService.findById(staff_id);
             RoomAccessList roomAccess = new RoomAccessList();
             roomAccess.setRoom(room);
             roomAccess.setStaff(staff);
-            roomAccess.setAccessed_at(LocalDateTime.now(ZoneId.of("UTC")));
+            roomAccess.setAccessed_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
             roomAccessRepository.save(roomAccess);
 
             room.setIn_use(true);
