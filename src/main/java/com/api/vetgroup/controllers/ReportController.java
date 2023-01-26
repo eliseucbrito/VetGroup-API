@@ -1,7 +1,7 @@
 package com.api.vetgroup.controllers;
 
 import com.api.vetgroup.dtos.create.ReportCreateDto;
-import com.api.vetgroup.dtos.ReportResponseDto;
+import com.api.vetgroup.dtos.response.ReportResponseDto;
 import com.api.vetgroup.models.Report;
 import com.api.vetgroup.services.ReportService;
 import com.api.vetgroup.services.StaffUserService;
@@ -56,9 +56,9 @@ public class ReportController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Report>> findAll() {
+    public ResponseEntity<List<ReportResponseDto>> findAll() {
         List<Report> list = service.findAll();
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok().body(mapper.convertListToDto(list));
     }
 
     @GetMapping(value  = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,6 +67,12 @@ public class ReportController {
         ReportResponseDto reportDto = mapper.convertReportToDto(report);
 
         return ResponseEntity.status(HttpStatus.OK).body(reportDto);
+    }
+
+    @GetMapping(params = "staff-id", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ReportResponseDto>> findReportByStaffId(@RequestParam(value = "staff-id", required = true) Long staff_id) {
+        List<Report> list = service.findReportByStaffId(staff_id);
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

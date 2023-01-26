@@ -1,18 +1,12 @@
 package com.api.vetgroup.controllers;
 
 import com.api.vetgroup.dtos.ServiceCreateDto;
-import com.api.vetgroup.dtos.ServiceResponseDto;
-import com.api.vetgroup.models.Patient;
-import com.api.vetgroup.models.StaffUser;
+import com.api.vetgroup.dtos.response.ServiceResponseDto;
+import com.api.vetgroup.dtos.ServiceStatusDto;
 import com.api.vetgroup.models.VetService;
-import com.api.vetgroup.models.enums.ServiceStatus;
-import com.api.vetgroup.models.enums.ServiceTypes;
-import com.api.vetgroup.services.PatientService;
-import com.api.vetgroup.services.StaffUserService;
 import com.api.vetgroup.services.VetServiceService;
 import com.api.vetgroup.services.customMappers.ServiceMapper;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,12 +26,6 @@ public class VetServiceController {
     private VetServiceService service;
 
     @Autowired
-    private StaffUserService staffService;
-
-    @Autowired
-    private PatientService patientService;
-
-    @Autowired
     private ServiceMapper serviceMapper;
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -50,32 +38,13 @@ public class VetServiceController {
     }
 
     @PatchMapping(value = "/{id}/status", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> changeStatus(@PathVariable Long id, @RequestBody ServiceCreateDto serviceCreateDto) {
-        VetService vetService = service.findById(id);
-
-        if (vetService.getType() == ServiceTypes.EMERGENCY && serviceCreateDto.getStatus() == ServiceStatus.SCHEDULED) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Service of EMERGENCY not accept the status SCHEDULED");
-        }
-
-        if (vetService.getStatus() == serviceCreateDto.getStatus()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This service is already "+vetService.getStatus());
-        }
-
-        if (vetService.getStatus() == ServiceStatus.PAID) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This service cant be "+ serviceCreateDto.getStatus()+ " because it is already PAID");
-        }
-
-        if (serviceCreateDto.getStatus() == ServiceStatus.PAID) {
-            if (vetService.getPrice() == null || vetService.getPrice() == 0) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This service does not have an acceptable price");
-            }
-        }
-
+    public ResponseEntity<Object> changeStatus(@PathVariable Long id, @RequestBody ServiceStatusDto statusDto) {
         try {
-            service.changeStatus(vetService, serviceCreateDto.getStatus());
+            service.changeStatus(id, statusDto.getStatus());
+
             return ResponseEntity.noContent().build();
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 

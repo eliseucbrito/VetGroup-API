@@ -68,4 +68,13 @@ public class StaffMapper {
             throw new RuntimeException("Error during conversion to StaffReducedDto");
         }
     }
+
+    public List<StaffResponseDto> convertListToDto(List<StaffUser> list) {
+        List<StaffResponseDto> listDto = new ArrayList<StaffResponseDto>();
+
+        for(StaffUser staff : list) {
+            listDto.add(convertStaffToDto(staff));
+        }
+        return listDto;
+    }
 }

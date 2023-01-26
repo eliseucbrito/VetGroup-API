@@ -1,7 +1,7 @@
 package com.api.vetgroup.services.customMappers;
 
 import com.api.vetgroup.dtos.ServiceCreateDto;
-import com.api.vetgroup.dtos.ServiceResponseDto;
+import com.api.vetgroup.dtos.response.ServiceResponseDto;
 import com.api.vetgroup.dtos.StaffReducedDto;
 import com.api.vetgroup.dtos.response.PatientResponseDto;
 import com.api.vetgroup.models.Patient;
@@ -13,7 +13,6 @@ import com.api.vetgroup.services.PatientService;
 import com.api.vetgroup.services.StaffUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 @Service

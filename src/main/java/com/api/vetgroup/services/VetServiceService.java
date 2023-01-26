@@ -7,6 +7,8 @@ import com.api.vetgroup.repositories.ServiceRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,47 +63,29 @@ public class VetServiceService {
     }
 
     @Transactional
-    public void changeStatus(VetService service, ServiceStatus status) throws IllegalAccessException {
+    public void changeStatus(Long id, ServiceStatus status) throws IllegalAccessException {
+        VetService service = findById(id);
 
-        switch (status.getCode()) {
-            case 1:
-
-                service.setStatus(ServiceStatus.SCHEDULED);
-                update(service);
-                break;
-            case 2:
-
-                service.setStatus(ServiceStatus.NOT_INITIALIZED);
-                update(service);
-                break;
-            case 3:
-
-                service.setStatus(ServiceStatus.IN_PROGRESS);
-                update(service);
-                break;
-            case 4:
-
-                service.setStatus(ServiceStatus.COMPLETED);
-                update(service);
-                break;
-            case 5:
-
-                service.setStatus(ServiceStatus.WAITING_PAYMENT);
-                update(service);
-                break;
-            case 6:
-
-                service.setStatus(ServiceStatus.PAID);
-                update(service);
-                break;
-            case 7:
-
-                service.setStatus(ServiceStatus.CANCELED);
-                update(service);
-                break;
-            default:
-                throw new IllegalArgumentException("This service status not exists");
+        if (service.getType() == ServiceTypes.EMERGENCY && status == ServiceStatus.SCHEDULED) {
+            throw new IllegalAccessException("Service of EMERGENCY not accept the status SCHEDULED");
         }
+
+        if (service.getStatus() == status) {
+            throw new IllegalArgumentException("This service is already "+ status);
+        }
+
+        if (service.getStatus() == ServiceStatus.PAID) {
+            throw new IllegalArgumentException("This service cant be "+ status + " because it is already PAID");
+        }
+
+        if (status == ServiceStatus.PAID) {
+            if (service.getPrice() == null || service.getPrice() == 0) {
+                throw new IllegalArgumentException("This service does not have an acceptable price");
+            }
+        }
+
+        service.setStatus(status);
+
         update(service);
     }
 }

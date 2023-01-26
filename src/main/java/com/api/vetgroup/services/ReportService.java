@@ -3,6 +3,7 @@ package com.api.vetgroup.services;
 import com.api.vetgroup.models.Report;
 import com.api.vetgroup.models.enums.ReportTypes;
 import com.api.vetgroup.repositories.ReportRepository;
+import com.api.vetgroup.services.customMappers.ReportMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;

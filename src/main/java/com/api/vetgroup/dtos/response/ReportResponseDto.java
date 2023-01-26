@@ -1,5 +1,6 @@
-package com.api.vetgroup.dtos;
+package com.api.vetgroup.dtos.response;
 
+import com.api.vetgroup.dtos.StaffReducedDto;
 import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.models.enums.ReportTypes;
 

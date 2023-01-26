@@ -1,7 +1,7 @@
 package com.api.vetgroup.services.customMappers;
 
 import com.api.vetgroup.dtos.create.ReportCreateDto;
-import com.api.vetgroup.dtos.ReportResponseDto;
+import com.api.vetgroup.dtos.response.ReportResponseDto;
 import com.api.vetgroup.dtos.StaffReducedDto;
 import com.api.vetgroup.models.Report;
 import com.api.vetgroup.models.StaffUser;
@@ -9,6 +9,9 @@ import com.api.vetgroup.services.StaffUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ReportMapper {
@@ -48,5 +51,15 @@ public class ReportMapper {
         } catch (Exception e) {
             throw new RuntimeException("Error during conversion to Report");
         }
+    }
+
+    public List<ReportResponseDto> convertListToDto(List<Report> list) {
+        List<ReportResponseDto> listDto = new ArrayList<ReportResponseDto>();
+
+        for(Report report : list) {
+            listDto.add(convertReportToDto(report));
+        }
+
+        return listDto;
     }
 }

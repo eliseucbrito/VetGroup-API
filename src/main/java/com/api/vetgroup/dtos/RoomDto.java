@@ -1,18 +1,17 @@
 package com.api.vetgroup.dtos;
 
 import com.api.vetgroup.models.enums.RoomType;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class RoomDto {
 
     @NotBlank
     private String name;
     private Boolean in_use;
+    @NotNull
     private RoomType type;
+    @NotBlank
     private Long staff_id;
 
     public String getName() {

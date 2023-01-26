@@ -29,16 +29,10 @@ public class StaffUserController {
 
     @Autowired
     private StaffUserService service;
-
-    @Autowired
-    private ReportService reportService;
-
     @Autowired
     private RoleHistoricService roleHistoricService;
-
     @Autowired
     private StaffMapper mapper;
-
     @Autowired
     private RoleHistoricMapper roleHistoricMapper;
 
@@ -51,13 +45,13 @@ public class StaffUserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(staffModel));
     }
 
-    @PutMapping(value = "/{id}/duty", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}", params = "on-duty" ,consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> setOnDutyState(@PathVariable Long id, @RequestParam(value = "on-duty", required = true) Boolean on_duty) {
         service.setOnDutyState(id, on_duty);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping(value = "/{id}/new-role", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> setNewRole(@PathVariable Long id, @RequestBody @Valid RoleHistoricCreateDto roleHistoricCreateDto) {
         try {
             roleHistoricCreateDto.setStarted_in(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
@@ -73,9 +67,9 @@ public class StaffUserController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<StaffUser>> findAll() {
+    public ResponseEntity<List<StaffResponseDto>> findAll() {
         List<StaffUser> list = service.findAll();
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok().body(mapper.convertListToDto(list));
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -83,12 +77,6 @@ public class StaffUserController {
         StaffUser staff = service.findById(id);
         StaffResponseDto staffDto = mapper.convertStaffToDto(staff);
         return ResponseEntity.ok().body(staffDto);
-    }
-
-    @GetMapping(value = "/{id}/reports", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Report>> findReportByStaffId(@PathVariable Long id) {
-        List<Report> list = reportService.findReportByStaffId(id);
-        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
