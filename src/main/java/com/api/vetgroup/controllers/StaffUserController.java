@@ -3,10 +3,8 @@ package com.api.vetgroup.controllers;
 import com.api.vetgroup.dtos.create.RoleHistoricCreateDto;
 import com.api.vetgroup.dtos.create.StaffCreateDto;
 import com.api.vetgroup.dtos.response.StaffResponseDto;
-import com.api.vetgroup.models.Report;
 import com.api.vetgroup.models.RoleHistoric;
 import com.api.vetgroup.models.StaffUser;
-import com.api.vetgroup.services.ReportService;
 import com.api.vetgroup.services.RoleHistoricService;
 import com.api.vetgroup.services.StaffUserService;
 import com.api.vetgroup.services.customMappers.RoleHistoricMapper;
@@ -74,8 +72,7 @@ public class StaffUserController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StaffResponseDto> findById(@PathVariable Long id) {
         StaffUser staff = service.findById(id);
-        StaffResponseDto staffDto = mapper.convertStaffToDto(staff);
-        return ResponseEntity.status(HttpStatus.OK).body(staffDto);
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertStaffToDto(staff));
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
