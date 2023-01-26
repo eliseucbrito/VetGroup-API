@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
-public class VetServiceDto {
+public class ServiceCreateDto {
 
     private LocalDateTime created_at;
     @NotBlank
@@ -33,6 +33,14 @@ public class VetServiceDto {
     @NotNull
     private ServiceCity city;
 
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
 
     public String getDescription() {
         return description;

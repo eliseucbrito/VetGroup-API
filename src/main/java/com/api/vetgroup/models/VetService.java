@@ -15,7 +15,6 @@ import java.util.Objects;
 @Table(name = "TB_SERVICE")
 public class VetService implements Serializable {
     private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,9 +28,6 @@ public class VetService implements Serializable {
     private Integer status;
     @Column(nullable = false, unique = false)
     private Integer city;
-
-
-
     @Column(nullable = true, unique = false)
     private Double price;
 

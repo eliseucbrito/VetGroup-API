@@ -72,11 +72,11 @@ public class StaffUser implements Serializable {
         this.id = id;
     }
 
-    public StaffRole getStaffRole() {
+    public StaffRole getStaff_Role() {
         return StaffRole.valueOf(staff_role);
     }
 
-    public void setStaffRole(StaffRole staff_role) {
+    public void setStaff_Role(StaffRole staff_role) {
         if (staff_role != null) {
             this.staff_role = staff_role.getCode();
         }

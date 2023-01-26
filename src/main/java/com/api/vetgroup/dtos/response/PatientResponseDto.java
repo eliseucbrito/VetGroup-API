@@ -19,7 +19,6 @@ public class PatientResponseDto {
     private Date birth_date;
     private String avatar_url;
     private PatientKind kind;
-    private List<VetService> services;
 
     public Long getId() {
         return id;
@@ -83,13 +82,5 @@ public class PatientResponseDto {
 
     public void setAvatar_url(String avatar_url) {
         this.avatar_url = avatar_url;
-    }
-
-    public List<VetService> getService() {
-        return services;
-    }
-
-    public void setService(List<VetService> services) {
-        this.services = services;
     }
 }

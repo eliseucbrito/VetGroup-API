@@ -1,6 +1,7 @@
 package com.api.vetgroup.controllers;
 
-import com.api.vetgroup.dtos.VetServiceDto;
+import com.api.vetgroup.dtos.ServiceCreateDto;
+import com.api.vetgroup.dtos.ServiceResponseDto;
 import com.api.vetgroup.models.Patient;
 import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.models.VetService;
@@ -9,6 +10,7 @@ import com.api.vetgroup.models.enums.ServiceTypes;
 import com.api.vetgroup.services.PatientService;
 import com.api.vetgroup.services.StaffUserService;
 import com.api.vetgroup.services.VetServiceService;
+import com.api.vetgroup.services.customMappers.ServiceMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,53 +37,42 @@ public class VetServiceController {
     @Autowired
     private PatientService patientService;
 
+    @Autowired
+    private ServiceMapper serviceMapper;
+
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createNewService(@RequestBody @Valid VetServiceDto vetServiceDto) {
+    public ResponseEntity<Object> createNewService(@RequestBody @Valid ServiceCreateDto serviceCreateDto) {
+        serviceCreateDto.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
 
-        if (vetServiceDto.getStaff_id() == null || vetServiceDto.getPatient_id() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requisition without STAFF_ID or PATIENT_ID");
-        }
+        VetService serviceModel = serviceMapper.convertDtoToService(serviceCreateDto);
 
-        var serviceModel = new VetService();
-        StaffUser staff = staffService.findById(vetServiceDto.getStaff_id());
-        Patient patient = patientService.findById(vetServiceDto.getPatient_id());
-        BeanUtils.copyProperties(vetServiceDto, serviceModel);
-        serviceModel.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
-        serviceModel.setStaff(staff);
-        serviceModel.setPatient(patient);
-        serviceModel.setType(vetServiceDto.getType());
-        serviceModel.setCity(vetServiceDto.getCity());
-        if (vetServiceDto.getType() == ServiceTypes.EMERGENCY) {
-            serviceModel.setStatus(ServiceStatus.WAITING_PAYMENT);
-        }
-        serviceModel.setStatus(vetServiceDto.getStatus());
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(serviceModel));
     }
 
     @PatchMapping(value = "/{id}/status", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> changeStatus(@PathVariable Long id, @RequestBody VetServiceDto vetServiceDto) {
+    public ResponseEntity<Object> changeStatus(@PathVariable Long id, @RequestBody ServiceCreateDto serviceCreateDto) {
         VetService vetService = service.findById(id);
 
-        if (vetService.getType() == ServiceTypes.EMERGENCY && vetServiceDto.getStatus() == ServiceStatus.SCHEDULED) {
+        if (vetService.getType() == ServiceTypes.EMERGENCY && serviceCreateDto.getStatus() == ServiceStatus.SCHEDULED) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Service of EMERGENCY not accept the status SCHEDULED");
         }
 
-        if (vetService.getStatus() == vetServiceDto.getStatus()) {
+        if (vetService.getStatus() == serviceCreateDto.getStatus()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This service is already "+vetService.getStatus());
         }
 
         if (vetService.getStatus() == ServiceStatus.PAID) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This service cant be "+vetServiceDto.getStatus()+ " because it is already PAID");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This service cant be "+ serviceCreateDto.getStatus()+ " because it is already PAID");
         }
 
-        if (vetServiceDto.getStatus() == ServiceStatus.PAID) {
+        if (serviceCreateDto.getStatus() == ServiceStatus.PAID) {
             if (vetService.getPrice() == null || vetService.getPrice() == 0) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This service does not have an acceptable price");
             }
         }
 
         try {
-            service.changeStatus(vetService, vetServiceDto.getStatus());
+            service.changeStatus(vetService, serviceCreateDto.getStatus());
             return ResponseEntity.noContent().build();
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e.getMessage());
@@ -95,9 +86,10 @@ public class VetServiceController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VetService> findById(@PathVariable Long id) {
+    public ResponseEntity<ServiceResponseDto> findById(@PathVariable Long id) {
         VetService obj = service.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(obj);
+        ServiceResponseDto serviceDto = serviceMapper.convertServiceToDto(obj);
+        return ResponseEntity.status(HttpStatus.OK).body(serviceDto);
     }
 
     @GetMapping(value = "/patient", produces = MediaType.APPLICATION_JSON_VALUE)

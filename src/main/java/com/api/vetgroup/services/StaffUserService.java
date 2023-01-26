@@ -35,11 +35,11 @@ public class StaffUserService {
     public void setNewRole(RoleHistoric new_role) {
         StaffUser staff = new_role.getStaff();
 
-        if (staff.getStaffRole() == new_role.getRole()) {
+        if (staff.getStaff_Role() == new_role.getRole()) {
             throw new IllegalArgumentException("This employee is already in the role of "+ new_role.getRole());
         }
 
-        staff.setStaffRole(new_role.getRole());
+        staff.setStaff_Role(new_role.getRole());
         staff.setWeekly_work_load(new_role.getWeekly_work_load());
         staff.setBase_salary(new_role.getBase_salary());
 

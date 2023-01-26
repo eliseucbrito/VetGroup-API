@@ -7,6 +7,7 @@ import com.api.vetgroup.dtos.response.StaffResponseDto;
 import com.api.vetgroup.models.RoleHistoric;
 import com.api.vetgroup.models.StaffUser;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,24 +21,23 @@ public class StaffMapper {
             StaffResponseDto staffDto = new StaffResponseDto();
             BeanUtils.copyProperties(staff, staffDto);
 
+            staffDto.setStaff_role(staff.getStaff_Role());
+            staffDto.setAccess_list(staff.getAccess_lists());
+
             List<RoleHistoricResponseDto> roleHistoricResponseDto = new ArrayList<>();
-            staffDto.setStaff_role(staff.getStaffRole());
 
             for(RoleHistoric historic : staff.getRole_historic()) {
                 RoleHistoricResponseDto historicDtoV2 = new RoleHistoricResponseDto();
-                StaffReducedDto staffReducedDto = new StaffReducedDto();
+                StaffReducedDto promoter = new StaffReducedDto();
 
                 BeanUtils.copyProperties(historic, historicDtoV2);
+                BeanUtils.copyProperties(historic.getPromoter(), promoter);
 
-                staffReducedDto.setId(historic.getPromoter().getId());
-                staffReducedDto.setFull_name(historic.getPromoter().getFull_name());
-                staffReducedDto.setRole(historic.getRole());
-
-                historicDtoV2.setPromoter(staffReducedDto);
+                promoter.setRole(historic.getPromoter().getStaff_Role());
+                historicDtoV2.setPromoter(promoter);
 
                 roleHistoricResponseDto.add(historicDtoV2);
             }
-
             staffDto.setRole_historic(roleHistoricResponseDto);
             return staffDto;
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class StaffMapper {
             StaffUser staffUserModel = new StaffUser();
             BeanUtils.copyProperties(staffDto, staffUserModel);
 
-            staffUserModel.setStaffRole(staffDto.getStaff_role());
+            staffUserModel.setStaff_Role(staffDto.getStaff_role());
             return staffUserModel;
         } catch (Exception e) {
             throw new RuntimeException("Error during conversion to StaffUser");
@@ -62,7 +62,7 @@ public class StaffMapper {
             StaffReducedDto staffReducedDto = new StaffReducedDto();
             BeanUtils.copyProperties(staff, staffReducedDto);
 
-            staffReducedDto.setRole(staff.getStaffRole());
+            staffReducedDto.setRole(staff.getStaff_Role());
             return staffReducedDto;
         } catch (Exception e) {
             throw new RuntimeException("Error during conversion to StaffReducedDto");

@@ -15,7 +15,6 @@ public class PatientMapper {
             BeanUtils.copyProperties(patient, patientDto);
 
             patientDto.setKind(patient.getKind());
-            patientDto.setService(patient.getService());
             patientDto.setBirth_date(patient.getBirth_date());
 
             return patientDto;
