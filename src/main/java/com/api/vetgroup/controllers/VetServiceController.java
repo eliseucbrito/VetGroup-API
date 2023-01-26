@@ -26,15 +26,17 @@ public class VetServiceController {
     private VetServiceService service;
 
     @Autowired
-    private ServiceMapper serviceMapper;
+    private ServiceMapper mapper;
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createNewService(@RequestBody @Valid ServiceCreateDto serviceCreateDto) {
+    public ResponseEntity<Void> createNewService(@RequestBody @Valid ServiceCreateDto serviceCreateDto) {
         serviceCreateDto.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
 
-        VetService serviceModel = serviceMapper.convertDtoToService(serviceCreateDto);
+        VetService serviceModel = mapper.convertDtoToService(serviceCreateDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(serviceModel));
+        service.insert(serviceModel);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping(value = "/{id}/status", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,38 +44,38 @@ public class VetServiceController {
         try {
             service.changeStatus(id, statusDto.getStatus());
 
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (IllegalAccessException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<VetService>> findAll() {
+    public ResponseEntity<List<ServiceResponseDto>> findAll() {
         List<VetService> list = service.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(list);
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ServiceResponseDto> findById(@PathVariable Long id) {
         VetService obj = service.findById(id);
-        ServiceResponseDto serviceDto = serviceMapper.convertServiceToDto(obj);
+        ServiceResponseDto serviceDto = mapper.convertServiceToDto(obj);
         return ResponseEntity.status(HttpStatus.OK).body(serviceDto);
     }
 
-    @GetMapping(value = "/patient", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<VetService>> findPatientServices(@RequestParam(value = "id") Long patient_id) {
+    @GetMapping(params = "patient-id", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ServiceResponseDto>> findPatientServices(@RequestParam(value = "patient-id") Long patient_id) {
         List<VetService> list = service.findServicesByPatientId(patient_id);
-        return ResponseEntity.status(HttpStatus.OK).body(list);
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
     }
 
-    @GetMapping(value = "/staff", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<VetService>> findServiceByStaffId(@RequestParam(value = "id") Long staff_id) {
+    @GetMapping(params = "staff-id", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ServiceResponseDto>> findServiceByStaffId(@RequestParam(value = "staff-id") Long staff_id) {
         List<VetService> list = service.findServicesByStaffId(staff_id);
-        return ResponseEntity.status(HttpStatus.OK).body(list);
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
     }
 
-    @DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteService(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

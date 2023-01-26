@@ -15,6 +15,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ServiceMapper {
 
@@ -69,6 +72,15 @@ public class ServiceMapper {
         } catch (Exception e) {
             throw new RuntimeException("Error during conversion to Service");
         }
+    }
+
+    public List<ServiceResponseDto> convertListToDto(List<VetService> list) {
+        List<ServiceResponseDto> listDto = new ArrayList<ServiceResponseDto>();
+
+        for(VetService service : list) {
+            listDto.add(convertServiceToDto(service));
+        }
+        return listDto;
     }
 
 }

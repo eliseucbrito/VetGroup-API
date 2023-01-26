@@ -36,13 +36,12 @@ public class StaffUserController {
     @Autowired
     private RoleHistoricMapper roleHistoricMapper;
 
-
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<StaffUser> createNewStaffUser(@RequestBody @Valid StaffCreateDto staffDto) {
+    public ResponseEntity<Void> createNewStaffUser(@RequestBody @Valid StaffCreateDto staffDto) {
         StaffUser staffModel = mapper.convertDtoToStaff(staffDto);
-
+        service.insert(staffModel);
         staffModel.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(staffModel));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping(value = "/{id}", params = "on-duty" ,consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -69,19 +68,19 @@ public class StaffUserController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<StaffResponseDto>> findAll() {
         List<StaffUser> list = service.findAll();
-        return ResponseEntity.ok().body(mapper.convertListToDto(list));
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StaffResponseDto> findById(@PathVariable Long id) {
         StaffUser staff = service.findById(id);
         StaffResponseDto staffDto = mapper.convertStaffToDto(staff);
-        return ResponseEntity.ok().body(staffDto);
+        return ResponseEntity.status(HttpStatus.OK).body(staffDto);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
