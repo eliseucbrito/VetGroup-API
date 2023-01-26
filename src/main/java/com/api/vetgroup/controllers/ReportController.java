@@ -28,28 +28,26 @@ public class ReportController {
     @Autowired
     private ReportMapper mapper;
 
-    @Autowired
-    private StaffUserService staffService;
-
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNewReport(@RequestBody @Valid ReportCreateDto reportCreateDto) {
         try {
             reportCreateDto.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
             Report reportModel = mapper.convertDtoToReport(reportCreateDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(reportModel));
+            service.insert(reportModel);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}", params = "approved", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateApproved(
             @PathVariable Long id,
-            @RequestParam(value = "approved", required = true) boolean approved)
+            @RequestParam(value = "approved", required = true) Boolean approved)
     {
         try {
             service.setApprovedReport(id, approved);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

@@ -4,6 +4,7 @@ import com.api.vetgroup.dtos.ServiceCreateDto;
 import com.api.vetgroup.dtos.response.ServiceResponseDto;
 import com.api.vetgroup.dtos.ServiceStatusDto;
 import com.api.vetgroup.models.VetService;
+import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.services.VetServiceService;
 import com.api.vetgroup.services.customMappers.ServiceMapper;
 import jakarta.validation.Valid;
@@ -39,11 +40,10 @@ public class VetServiceController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PatchMapping(value = "/{id}/status", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> changeStatus(@PathVariable Long id, @RequestBody ServiceStatusDto statusDto) {
+    @PatchMapping(value = "/{id}", params = "status", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> changeStatus(@PathVariable Long id, @RequestParam(value = "status", required = true) ServiceStatus status) {
         try {
-            service.changeStatus(id, statusDto.getStatus());
-
+            service.changeStatus(id, status);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (IllegalAccessException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -59,8 +59,7 @@ public class VetServiceController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ServiceResponseDto> findById(@PathVariable Long id) {
         VetService obj = service.findById(id);
-        ServiceResponseDto serviceDto = mapper.convertServiceToDto(obj);
-        return ResponseEntity.status(HttpStatus.OK).body(serviceDto);
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertServiceToDto(obj));
     }
 
     @GetMapping(params = "patient-id", produces = MediaType.APPLICATION_JSON_VALUE)

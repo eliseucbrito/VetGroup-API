@@ -53,12 +53,16 @@ public class ReportService {
 
     public void setApprovedReport(Long id, Boolean approved) {
         Report report = findById(id);
+
         if (report.getType() == ReportTypes.REPORT) {
             throw new IllegalArgumentException("Report with type of REPORT can't be approved!");
         }
 
-        if (report.getApproved()) {
-            throw new IllegalArgumentException("This Report is already approved!");
+        if (report.getApproved() != null) {
+            if (report.getApproved()) {
+                throw new IllegalArgumentException("This Report is already approved!");
+            }
+            throw new IllegalArgumentException("This Report is already was denied!");
         }
 
         report.setApproved(approved);
