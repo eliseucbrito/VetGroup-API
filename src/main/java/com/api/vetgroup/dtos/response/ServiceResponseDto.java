@@ -7,18 +7,26 @@ import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.models.enums.ServiceCity;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.models.enums.ServiceTypes;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class ServiceResponseDto {
 
     private Long id;
+
+    private String title;
     private String description;
     private LocalDateTime created_at;
+    @JsonSerialize(as = Date.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", timezone = "America/Sao_Paulo")
+    private Date service_date;
     private ServiceTypes type;
     private ServiceStatus status;
     private ServiceCity city;
-    private Double price;
+    private Integer price;
     private StaffReducedDto staff;
     private PatientResponseDto patient;
 
@@ -28,6 +36,14 @@ public class ServiceResponseDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -44,6 +60,14 @@ public class ServiceResponseDto {
 
     public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
+    }
+
+    public Date getService_date() {
+        return service_date;
+    }
+
+    public void setService_date(Date service_date) {
+        this.service_date = service_date;
     }
 
     public ServiceTypes getType() {
@@ -70,11 +94,11 @@ public class ServiceResponseDto {
         this.city = city;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

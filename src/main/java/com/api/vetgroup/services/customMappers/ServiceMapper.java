@@ -15,7 +15,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -58,6 +61,11 @@ public class ServiceMapper {
             StaffUser staff = staffService.findById(serviceDto.getStaff_id());
             Patient patient = patientService.findById(serviceDto.getPatient_id());
 
+            if (serviceDto.getService_date() != null) {
+                service.setService_date(new Date(serviceDto.getService_date()));
+            } else {
+                service.setService_date(new Date());
+            }
             service.setType(serviceDto.getType());
             service.setStaff(staff);
             service.setPatient(patient);

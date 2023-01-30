@@ -36,7 +36,7 @@ public class ReportService {
             newReport.setPayment_value(null);
         }
         if (newReport.getType() == ReportTypes.PAYMENT && newReport.getPayment_value() == null) {
-            throw new IllegalArgumentException("Report type payment cannot have a null value");
+            throw new IllegalArgumentException("Report type payment cannot have a null payment_value");
         }
         return repository.save(newReport);
     }

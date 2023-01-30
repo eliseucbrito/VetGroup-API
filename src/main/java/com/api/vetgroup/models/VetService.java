@@ -3,10 +3,14 @@ package com.api.vetgroup.models;
 import com.api.vetgroup.models.enums.ServiceCity;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.models.enums.ServiceTypes;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -17,9 +21,13 @@ public class VetService implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, unique = false)
+    private String title;
+    @Column(nullable = false, unique = false)
     private String description;
     @Column(nullable = false, unique = false)
     private LocalDateTime created_at;
+    @Column(nullable = true, unique = false)
+    private Date service_date;
     @Column(nullable = false, unique = false)
     private Integer type;
     @Column(nullable = false, unique = false)
@@ -27,7 +35,7 @@ public class VetService implements Serializable {
     @Column(nullable = false, unique = false)
     private Integer city;
     @Column(nullable = true, unique = false)
-    private Double price;
+    private Integer price;
 
     @ManyToOne
     @JoinColumn(name = "staff_id")
@@ -46,6 +54,14 @@ public class VetService implements Serializable {
         this.id = id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -60,6 +76,14 @@ public class VetService implements Serializable {
 
     public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
+    }
+
+    public Date getService_date() {
+        return service_date;
+    }
+
+    public void setService_date(Date service_date) {
+        this.service_date = service_date;
     }
 
     public ServiceTypes getType() {
@@ -92,11 +116,11 @@ public class VetService implements Serializable {
         }
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

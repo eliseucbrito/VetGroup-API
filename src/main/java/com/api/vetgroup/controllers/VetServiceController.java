@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -32,11 +33,9 @@ public class VetServiceController {
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createNewService(@RequestBody @Valid ServiceCreateDto serviceCreateDto) {
         serviceCreateDto.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
-
         VetService serviceModel = mapper.convertDtoToService(serviceCreateDto);
 
         service.insert(serviceModel);
-
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

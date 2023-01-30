@@ -8,10 +8,15 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class ServiceCreateDto {
 
     private LocalDateTime created_at;
+    private String service_date;
+    @NotNull
+    @Size(min = 5, max = 30)
+    private String title;
     @NotBlank
     @Size(min = 20)
     private String description;
@@ -22,7 +27,7 @@ public class ServiceCreateDto {
     private Long patient_id;
 
     @NotNull
-    private Double price;
+    private Integer price;
 
     @NotNull
     private ServiceTypes type;
@@ -40,6 +45,22 @@ public class ServiceCreateDto {
 
     public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
+    }
+
+    public String getService_date() {
+        return service_date;
+    }
+
+    public void setService_date(String service_date) {
+        this.service_date = service_date;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -66,11 +87,11 @@ public class ServiceCreateDto {
         this.patient_id = patient_id;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

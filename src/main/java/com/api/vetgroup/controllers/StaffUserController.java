@@ -37,8 +37,8 @@ public class StaffUserController {
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createNewStaffUser(@RequestBody @Valid StaffCreateDto staffDto) {
         StaffUser staffModel = mapper.convertDtoToStaff(staffDto);
-        service.insert(staffModel);
         staffModel.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        service.insert(staffModel);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

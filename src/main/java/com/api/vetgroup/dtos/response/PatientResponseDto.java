@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class PatientResponseDto {
 
     private Long id;
     private String owner;
+    private LocalDateTime created_at;
     private String name;
     private String owner_contact;
     private String breed;
@@ -34,6 +36,14 @@ public class PatientResponseDto {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
     }
 
     public PatientKind getKind() {

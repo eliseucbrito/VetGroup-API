@@ -10,8 +10,6 @@ public enum ServiceStatus {
     PAID(6),
     CANCELED(7);
 
-
-
     private int code;
 
     private ServiceStatus(int code) {

@@ -5,6 +5,7 @@ import com.api.vetgroup.models.enums.StaffRole;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class StaffCreateDto {

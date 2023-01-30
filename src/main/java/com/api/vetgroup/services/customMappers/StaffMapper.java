@@ -7,7 +7,6 @@ import com.api.vetgroup.dtos.response.StaffResponseDto;
 import com.api.vetgroup.models.RoleHistoric;
 import com.api.vetgroup.models.StaffUser;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

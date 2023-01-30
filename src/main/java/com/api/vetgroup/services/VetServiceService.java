@@ -41,6 +41,10 @@ public class VetServiceService {
             throw new IllegalArgumentException("This staff is not on duty");
         }
 
+        if (newService.getStatus() != ServiceStatus.SCHEDULED) {
+            newService.setService_date(null);
+        }
+
         return repository.save(newService);
     }
 
