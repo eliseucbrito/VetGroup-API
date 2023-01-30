@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -64,6 +65,21 @@ public class VetServiceService {
 
     public List<VetService> findServicesByStaffId(Long id) {
         return repository.findServiceByStaffId(id);
+    }
+
+    public void updateDescription(Long id, Long staff_id, String description) {
+        VetService service = findById(id);
+
+        if (service.getStaff().getId() != staff_id) {
+            throw new IllegalArgumentException("You can't have permission to update this description");
+        }
+
+        if (Objects.equals(service.getDescription(), description)) {
+            throw new IllegalArgumentException("The update data provided is the same as the old one");
+        }
+
+        service.setDescription(description);
+        update(service);
     }
 
     @Transactional

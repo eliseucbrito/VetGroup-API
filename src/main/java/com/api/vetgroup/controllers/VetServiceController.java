@@ -1,6 +1,7 @@
 package com.api.vetgroup.controllers;
 
 import com.api.vetgroup.dtos.ServiceCreateDto;
+import com.api.vetgroup.dtos.UpdateDescriptionDto;
 import com.api.vetgroup.dtos.response.ServiceResponseDto;
 import com.api.vetgroup.dtos.ServiceStatusDto;
 import com.api.vetgroup.models.VetService;
@@ -45,6 +46,18 @@ public class VetServiceController {
             service.changeStatus(id, status);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (IllegalAccessException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PatchMapping(value = "/{id}", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> updateDescription(@PathVariable Long id,
+                                                    @RequestBody(required = true)UpdateDescriptionDto descriptionDto)
+    {
+        try {
+            service.updateDescription(id, descriptionDto.getStaff_id(), descriptionDto.getDescription());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
