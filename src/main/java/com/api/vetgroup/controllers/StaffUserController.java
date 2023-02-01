@@ -1,5 +1,6 @@
 package com.api.vetgroup.controllers;
 
+import com.api.vetgroup.dtos.BooleanDto;
 import com.api.vetgroup.dtos.create.RoleHistoricCreateDto;
 import com.api.vetgroup.dtos.create.StaffCreateDto;
 import com.api.vetgroup.dtos.response.StaffResponseDto;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -42,9 +44,10 @@ public class StaffUserController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PatchMapping(value = "/{id}", params = "on-duty" ,consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> setOnDutyState(@PathVariable Long id, @RequestParam(value = "on-duty", required = true) Boolean on_duty) {
-        service.setOnDutyState(id, on_duty);
+    @PatchMapping(value = "/{id}/on-duty" ,consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> setOnDutyState(@PathVariable Long id, @RequestBody(required = true) BooleanDto booleanDto) {
+        System.out.println("ON-DUTY= "+booleanDto.getOn_duty());
+        service.setOnDutyState(id, booleanDto.getOn_duty());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

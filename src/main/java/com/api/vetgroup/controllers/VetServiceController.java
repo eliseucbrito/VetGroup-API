@@ -52,12 +52,15 @@ public class VetServiceController {
 
     @PatchMapping(value = "/{id}", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateDescription(@PathVariable Long id,
-                                                    @RequestBody(required = true)UpdateDescriptionDto descriptionDto)
+                                                    @RequestBody(required = true) UpdateDescriptionDto descriptionDto)
     {
         try {
+            System.out.println("ID "+id);
+            System.out.println("STAFF "+descriptionDto.getStaff_id());
+            System.out.println("ID "+descriptionDto.getDescription());
             service.updateDescription(id, descriptionDto.getStaff_id(), descriptionDto.getDescription());
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
