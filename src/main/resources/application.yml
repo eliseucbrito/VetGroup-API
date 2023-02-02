@@ -1,0 +1,22 @@
+security:
+  jwt:
+    token:
+      secret-key: 53cr37
+      expire-length: 3600000
+spring:
+  datasource:
+    username: developer
+    url: jdbc:mysql://localhost:3306/vet
+    password: Schultz81449487
+  jpa:
+    properties:
+      hibernate:
+        show_sql: 'true'
+        jdbc:
+          lob:
+            non_contextual_creation: 'true'
+    hibernate:
+      ddl-auto: none
+  jackson:
+    serialization:
+      fail-on-empty-beans: 'false'

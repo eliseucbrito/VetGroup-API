@@ -1,4 +1,4 @@
-﻿INSERT INTO `permission` (`description`) VALUES
+﻿INSERT INTO `tb_permissions` (`description`) VALUES
 	('CEO'),
 	('GENERAL_MANAGER'),
 	('MANAGER'),
