@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_permissions")
-public class Permission implements GrantedAuthority, Serializable {
+@Table(name = "tb_roles")
+public class Role implements GrantedAuthority, Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -18,7 +18,7 @@ public class Permission implements GrantedAuthority, Serializable {
     @Column(nullable = false, length = 180)
     private String description;
 
-    public Permission() {
+    public Role() {
     }
 
     public Long getId() {
@@ -42,10 +42,10 @@ public class Permission implements GrantedAuthority, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Permission that = (Permission) o;
+        Role role = (Role) o;
 
-        if (!Objects.equals(id, that.id)) return false;
-        return Objects.equals(description, that.description);
+        if (!Objects.equals(id, role.id)) return false;
+        return Objects.equals(description, role.description);
     }
 
     @Override

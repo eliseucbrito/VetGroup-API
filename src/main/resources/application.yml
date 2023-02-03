@@ -6,12 +6,12 @@ security:
 spring:
   datasource:
     username: developer
-    url: jdbc:mysql://localhost:3306/vet
+    url: jdbc:mysql://localhost:3306/jwt-creation
     password: Schultz81449487
   jpa:
     properties:
       hibernate:
-        show_sql: 'true'
+#        show_sql: 'true'
         jdbc:
           lob:
             non_contextual_creation: 'true'

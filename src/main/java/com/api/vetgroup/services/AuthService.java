@@ -26,17 +26,13 @@ public class AuthService {
 
     @SuppressWarnings("rawtypes")
     public ResponseEntity signin(AccountCredentialsDTO data) {
-        System.out.println("AUTH SERVICE SIGNIN "+data.getUsername());
         try {
             var userName = data.getUsername();
             var password = data.getPassword();
-            System.out.println("ANTES AUTHENTICATION MANAGER "+userName+" "+password);
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userName, password));
-            System.out.println("DEPOIS AUTHENTICATION MANAGER "+data.getUsername());
             var user = repository.findByUsername(userName);
             var tokenResponse = new TokenDTO();
-            System.out.println("DEPOIS TOKEN DTO "+tokenResponse);
             if (user != null) {
                 tokenResponse = tokenProvider.createAccessToken(userName, user.getRoles());
             } else {

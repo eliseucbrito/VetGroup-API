@@ -41,26 +41,26 @@ public class User implements UserDetails, Serializable {
     private Boolean enabled;
     
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_permission", 
+    @JoinTable(name = "tb_user_role",
             joinColumns = {@JoinColumn (name = "id_user")}, 
-            inverseJoinColumns = {@JoinColumn (name = "id_permission")})
-    private List<Permission> permissions;
+            inverseJoinColumns = {@JoinColumn (name = "id_role")})
+    private List<Role> roles;
 
     public User() {
     }
 
     public List<String> getRoles() {
-        List<String> roles = new ArrayList<>();
-        for (Permission permission:
-             permissions) {
-            roles.add(permission.getDescription());
+        List<String> rolesArray = new ArrayList<>();
+        for (Role role:
+                roles) {
+            rolesArray.add(role.getDescription());
         }
-        return roles;
+        return rolesArray;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.permissions;
+        return this.roles;
     }
 
     @Override
@@ -153,16 +153,13 @@ public class User implements UserDetails, Serializable {
         this.enabled = enabled;
     }
 
-    public List<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<Permission> permissions) {
-        this.permissions = permissions;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -179,7 +176,7 @@ public class User implements UserDetails, Serializable {
         if (!Objects.equals(credentialsNonExpired, user.credentialsNonExpired))
             return false;
         if (!Objects.equals(enabled, user.enabled)) return false;
-        return Objects.equals(permissions, user.permissions);
+        return Objects.equals(roles, user.roles);
     }
 
     @Override
@@ -192,7 +189,7 @@ public class User implements UserDetails, Serializable {
         result = 31 * result + (accountNonLocked != null ? accountNonLocked.hashCode() : 0);
         result = 31 * result + (credentialsNonExpired != null ? credentialsNonExpired.hashCode() : 0);
         result = 31 * result + (enabled != null ? enabled.hashCode() : 0);
-        result = 31 * result + (permissions != null ? permissions.hashCode() : 0);
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
         return result;
     }
 }

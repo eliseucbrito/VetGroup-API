@@ -3,6 +3,7 @@ package com.api.vetgroup.services;
 import com.api.vetgroup.models.RoleHistoric;
 import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.repositories.StaffRepository;
+import com.api.vetgroup.services.customMappers.UserMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,12 @@ public class StaffUserService {
 
     @Autowired
     private StaffRepository repository;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserMapper userMapper;
 
     public List<StaffUser> findAll() {
         return repository.findAll();
@@ -48,6 +55,8 @@ public class StaffUserService {
 
     @Transactional
     public StaffUser insert(StaffUser newUser) {
+        userService.insert(userMapper.convertStaffToUser(newUser));
+
         return repository.save(newUser);
     }
 

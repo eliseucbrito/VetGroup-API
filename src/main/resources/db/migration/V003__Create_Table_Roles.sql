@@ -1,4 +1,4 @@
-﻿CREATE TABLE IF NOT EXISTS `tb_permissions` (
+﻿CREATE TABLE IF NOT EXISTS `tb_roles` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
