@@ -19,13 +19,11 @@ public class StaffUser implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, unique = false)
-    private Integer staff_role;
+    private Long role;
     @Column(nullable = false, unique = false, length = 70)
     private String full_name;
     @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false, unique = false)
-    private String password;
     @Column(nullable = true, unique = false)
     private String avatar_url;
     private LocalDateTime created_at;
@@ -72,14 +70,12 @@ public class StaffUser implements Serializable {
         this.id = id;
     }
 
-    public StaffRole getStaff_Role() {
-        return StaffRole.valueOf(staff_role);
+    public Long getRole() {
+        return role;
     }
 
-    public void setStaff_Role(StaffRole staff_role) {
-        if (staff_role != null) {
-            this.staff_role = staff_role.getCode();
-        }
+    public void setRole(Long role) {
+        this.role = role;
     }
 
     public String getFull_name() {
@@ -96,14 +92,6 @@ public class StaffUser implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getAvatar_url() {

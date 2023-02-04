@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class RoleHistoricResponseDto {
 
     private LocalDateTime started_in;
-    private StaffRole role;
+    private String role;
     private Integer base_salary;
     private Integer weekly_work_load;
     private StaffReducedDto promoter;
@@ -21,11 +21,11 @@ public class RoleHistoricResponseDto {
         this.started_in = started_in;
     }
 
-    public StaffRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(StaffRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -52,4 +52,5 @@ public class RoleHistoricResponseDto {
     public void setPromoter(StaffReducedDto promoter) {
         this.promoter = promoter;
     }
+
 }

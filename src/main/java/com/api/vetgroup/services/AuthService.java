@@ -29,15 +29,30 @@ public class AuthService {
         try {
             var userName = data.getUsername();
             var password = data.getPassword();
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(userName, password));
             var user = repository.findByUsername(userName);
-            var tokenResponse = new TokenDTO();
-            if (user != null) {
-                tokenResponse = tokenProvider.createAccessToken(userName, user.getRoles());
-            } else {
+
+            if (user == null) {
                 throw new UsernameNotFoundException("Username "+userName+" not found!");
             }
+
+            if (!user.getAccountNonExpired()) {
+                throw new IllegalArgumentException("This account is expired!");
+            }
+
+            if (!user.getAccountNonLocked()) {
+                throw new IllegalArgumentException("This account is locked!");
+            }
+
+            if (!user.getCredentialsNonExpired()) {
+                throw new IllegalArgumentException("This account's credentials have expired!");
+            }
+
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(userName, password));
+
+            var tokenResponse = new TokenDTO();
+            tokenResponse = tokenProvider.createAccessToken(userName, user.getRoles());
+
             return ResponseEntity.ok(tokenResponse);
         } catch (Exception e) {
             throw new BadCredentialsException("Invalid username/password supplied!");

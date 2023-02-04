@@ -6,7 +6,7 @@ public class StaffReducedDto {
 
     private Long id;
     private String full_name;
-    private StaffRole role;
+    private String role;
     private String avatar_url;
 
     public Long getId() {
@@ -25,11 +25,11 @@ public class StaffReducedDto {
         this.full_name = full_name;
     }
 
-    public StaffRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(StaffRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

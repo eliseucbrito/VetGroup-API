@@ -22,7 +22,7 @@ public class StaffCreateDto {
     @CPF
     private String cpf;
     @NotNull
-    private StaffRole staff_role;
+    private String role;
     private String avatar_url;
     @NotNull
     private Integer base_salary;
@@ -81,12 +81,12 @@ public class StaffCreateDto {
         this.base_salary = base_salary;
     }
 
-    public StaffRole getStaff_role() {
-        return staff_role;
+    public String getRole() {
+        return role;
     }
 
-    public void setStaff_role(StaffRole staff_role) {
-        this.staff_role = staff_role;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Boolean getOn_duty() {

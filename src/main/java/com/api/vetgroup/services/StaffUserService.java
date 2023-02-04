@@ -6,6 +6,8 @@ import com.api.vetgroup.repositories.StaffRepository;
 import com.api.vetgroup.services.customMappers.UserMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +19,7 @@ public class StaffUserService {
     @Autowired
     private StaffRepository repository;
 
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private UserMapper userMapper;
 
     public List<StaffUser> findAll() {
         return repository.findAll();
@@ -42,11 +40,11 @@ public class StaffUserService {
     public void setNewRole(RoleHistoric new_role) {
         StaffUser staff = new_role.getStaff();
 
-        if (staff.getStaff_Role() == new_role.getRole()) {
+        if (staff.getRole() == new_role.getRole()) {
             throw new IllegalArgumentException("This employee is already in the role of "+ new_role.getRole());
         }
 
-        staff.setStaff_Role(new_role.getRole());
+        staff.setRole(new_role.getRole());
         staff.setWeekly_work_load(new_role.getWeekly_work_load());
         staff.setBase_salary(new_role.getBase_salary());
 
@@ -55,7 +53,16 @@ public class StaffUserService {
 
     @Transactional
     public StaffUser insert(StaffUser newUser) {
-        userService.insert(userMapper.convertStaffToUser(newUser));
+        StaffUser staffByCpf = repository.findByCpf(newUser.getCpf());
+        StaffUser staffByEmail = repository.findByEmail(newUser.getEmail());
+
+        if (staffByCpf != null) {
+            throw new IllegalArgumentException("This CPF is already registered, try logging");
+        }
+
+        if (staffByEmail != null) {
+            throw new IllegalArgumentException("This email is already registered, try logging");
+        }
 
         return repository.save(newUser);
     }

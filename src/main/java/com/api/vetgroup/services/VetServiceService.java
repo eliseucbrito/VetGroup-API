@@ -21,9 +21,6 @@ public class VetServiceService {
     @Autowired
     private ServiceRepository repository;
 
-//    @Autowired
-//    private ServiceCustomRepositoy customRepository;
-
     @Autowired
     private StaffUserService staffService;
 

@@ -17,8 +17,9 @@ public class RoleHistoric implements Serializable {
     private Long id;
     @Column(nullable = false, unique = false)
     private LocalDateTime started_in;
+
     @Column(nullable = false, unique = false)
-    private Integer role;
+    private Long role;
     @Column(nullable = false, unique = false)
     private Integer base_salary;
     private Integer weekly_work_load;
@@ -47,14 +48,12 @@ public class RoleHistoric implements Serializable {
         this.started_in = started_in;
     }
 
-    public StaffRole getRole() {
-        return StaffRole.valueOf(role);
+    public Long getRole() {
+        return role;
     }
 
-    public void setRole(StaffRole role) {
-        if (role != null) {
-            this.role = role.getCode();
-        }
+    public void setRole(Long role) {
+        this.role = role;
     }
 
     public Integer getBase_salary() {
