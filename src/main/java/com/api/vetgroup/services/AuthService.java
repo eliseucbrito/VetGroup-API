@@ -24,6 +24,9 @@ public class AuthService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
     @SuppressWarnings("rawtypes")
     public ResponseEntity signin(AccountCredentialsDTO data) {
         try {
@@ -60,13 +63,17 @@ public class AuthService {
     }
 
     @SuppressWarnings("rawtypes")
-    public ResponseEntity refreshToken(String username, String refreshToken) {
-        var user = repository.findByUsername(username);
+    public ResponseEntity refreshToken(String refreshToken) {
+        String jwtFormatted = refreshToken.substring("Bearer ".length());
+
+        String userEmail = jwtTokenProvider.decodedToken(jwtFormatted).getSubject();
+
+        var user = repository.findByUsername(userEmail);
         var tokenResponse = new TokenDTO();
         if (user != null) {
             tokenResponse = tokenProvider.refreshToken(refreshToken);
         } else {
-            throw new UsernameNotFoundException("Username "+username+" not found!");
+            throw new UsernameNotFoundException("User not found!");
         }
         return ResponseEntity.ok(tokenResponse);
     }

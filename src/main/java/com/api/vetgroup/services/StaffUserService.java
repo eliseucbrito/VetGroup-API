@@ -3,6 +3,7 @@ package com.api.vetgroup.services;
 import com.api.vetgroup.models.RoleHistoric;
 import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.repositories.StaffRepository;
+import com.api.vetgroup.security.jwt.JwtTokenProvider;
 import com.api.vetgroup.services.customMappers.UserMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class StaffUserService {
     @Autowired
     private StaffRepository repository;
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
 
     public List<StaffUser> findAll() {
@@ -65,6 +68,17 @@ public class StaffUserService {
         }
 
         return repository.save(newUser);
+    }
+
+    public StaffUser findByJwt(String jwtToken) {
+
+        String jwtFormatted = jwtToken.substring("Bearer ".length());
+        String[] chunks = jwtToken.split("\\.");
+
+        String userEmail = jwtTokenProvider.decodedToken(jwtFormatted).getSubject();
+
+        StaffUser staff = repository.findByEmail(userEmail);
+        return staff;
     }
 
     @Transactional

@@ -1,10 +1,12 @@
 package com.api.vetgroup.config;
 
+import com.api.vetgroup.exceptions.handler.FilterChainExceptionHandler;
 import com.api.vetgroup.security.jwt.JwtConfigurer;
 import com.api.vetgroup.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +31,9 @@ public class SecurityConfig {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
+
+    @Autowired
+    private FilterChainExceptionHandler filterChainExceptionHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -54,13 +60,41 @@ public class SecurityConfig {
         return http
                 .httpBasic().disable()
                 .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(filterChainExceptionHandler, LogoutFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                         .authorizeHttpRequests(authz -> authz
                                 .requestMatchers("/auth/signin",
-                                        "/auth/refresh/**",
+                                        "/auth/refresh",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**"
                                 ).permitAll()
+
+                                .requestMatchers(HttpMethod.GET,
+                                        "/api/staff/v1/**"
+                                ).permitAll()
+
+                                .requestMatchers(
+                                        "/api/staff/v1/create",
+                                        "/api/rooms/v1/create",
+                                        "/api/staff/v1/enable/**",
+                                        "/api/staff/v1/disable/**"
+                                ).hasAnyAuthority("CEO", "GENERAL_MANAGER")
+
+                                .requestMatchers("/api/rooms/v1/create"
+                                ).hasAnyAuthority("CEO", "GENERAL_MANAGER", "MANAGER")
+
+                                .requestMatchers("/api/reports/v1/create"
+                                ).hasAnyAuthority("CEO", "GENERAL_MANAGER", "MANAGER", "VETERINARY", "ASSISTANT")
+
+                                .requestMatchers(HttpMethod.PATCH, "/api/reports/v1/**"
+                                ).hasAnyAuthority("CEO", "GENERAL_MANAGER")
+
+                                .requestMatchers(HttpMethod.PATCH, "/api/rooms/v1/**"
+                                ).hasAnyAuthority("CEO", "GENERAL_MANAGER", "MANAGER", "VETERINARY")
+
+                                .requestMatchers(HttpMethod.DELETE, "/api/**"
+                                ).hasAnyAuthority("CEO", "GENERAL_MANAGER")
+
                                 .requestMatchers("/api/**").authenticated()
                 )
                 .cors()

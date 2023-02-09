@@ -35,21 +35,21 @@ public class AuthController {
 
     @SuppressWarnings("rawtypes")
     @Operation(summary = "Refresh token for authenticated user and returns a token")
-    @PutMapping(value = "/refresh/{username}")
-    public ResponseEntity refreshToken(@PathVariable("username") String username,
-                                       @RequestHeader("Authorization") String refreshToken)
+    @PutMapping(value = "/refresh")
+    public ResponseEntity refreshToken(@RequestHeader("Authorization") String refreshToken)
     {
-        if (checkIfParamsIsNotNull(username, refreshToken))
+        System.out.println(refreshToken);
+
+        if (checkIfParamsIsNotNull(refreshToken))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request");
 
-        var token = authService.refreshToken(username, refreshToken);
+        var token = authService.refreshToken(refreshToken);
         if (token == null) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request");
         return token;
     }
 
-    private static boolean checkIfParamsIsNotNull(String username, String refreshToken) {
-        return refreshToken == null || refreshToken.isBlank() ||
-                username == null || username.isBlank();
+    private static boolean checkIfParamsIsNotNull( String refreshToken) {
+        return refreshToken == null || refreshToken.isBlank();
     }
 
     private static boolean checkIfParamsIsNotNull(AccountCredentialsDTO data) {

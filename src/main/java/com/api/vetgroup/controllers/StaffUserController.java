@@ -12,6 +12,8 @@ import com.api.vetgroup.services.UserService;
 import com.api.vetgroup.services.customMappers.RoleHistoricMapper;
 import com.api.vetgroup.services.customMappers.StaffMapper;
 import com.api.vetgroup.services.customMappers.UserMapper;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -102,6 +104,15 @@ public class StaffUserController {
         }
     }
 
+    @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity findByToken(HttpServletRequest req) {
+        try {
+            String token = req.getHeader("Authorization");
+            return ResponseEntity.status(HttpStatus.OK).body(service.findByJwt(token));
+        } catch (TokenExpiredException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<StaffResponseDto>> findAll() {
