@@ -9,7 +9,7 @@ import java.util.List;
 public class StaffResponseDto {
 
     private Long id;
-    private String role;
+    private Role role;
     private String full_name;
     private String email;
     private String avatar_url;
@@ -30,11 +30,11 @@ public class StaffResponseDto {
         this.id = id;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

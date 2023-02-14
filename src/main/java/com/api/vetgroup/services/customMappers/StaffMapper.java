@@ -29,7 +29,7 @@ public class StaffMapper {
 
             Optional<Role> role = roleRepository.findById(staff.getRole());
 
-            staffDto.setRole(role.get().getDescription());
+            staffDto.setRole(role.get());
             staffDto.setAccess_list(staff.getAccess_lists());
 
             List<RoleHistoricResponseDto> roleHistoricResponseDto = new ArrayList<>();
@@ -45,7 +45,7 @@ public class StaffMapper {
                 BeanUtils.copyProperties(historic.getPromoter(), promoter);
 
                 historicDtoV2.setRole(historicRole.get().getDescription());
-                promoter.setRole(promoterRole.get().getDescription());
+                promoter.setRole(promoterRole.get());
                 historicDtoV2.setPromoter(promoter);
 
                 roleHistoricResponseDto.add(historicDtoV2);
@@ -78,7 +78,7 @@ public class StaffMapper {
 
             Optional<Role> role = roleRepository.findById(staff.getRole());
 
-            staffReducedDto.setRole(role.get().getDescription());
+            staffReducedDto.setRole(role.get());
             return staffReducedDto;
         } catch (Exception e) {
             throw new RuntimeException("Error during conversion to StaffReducedDto");

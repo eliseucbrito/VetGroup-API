@@ -1,12 +1,13 @@
 package com.api.vetgroup.dtos;
 
+import com.api.vetgroup.models.Role;
 import com.api.vetgroup.models.enums.StaffRole;
 
 public class StaffReducedDto {
 
     private Long id;
     private String full_name;
-    private String role;
+    private Role role;
     private String avatar_url;
 
     public Long getId() {
@@ -25,11 +26,11 @@ public class StaffReducedDto {
         this.full_name = full_name;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

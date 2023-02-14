@@ -10,6 +10,7 @@ import com.api.vetgroup.services.RoleHistoricService;
 import com.api.vetgroup.services.StaffUserService;
 import com.api.vetgroup.services.UserService;
 import com.api.vetgroup.services.customMappers.RoleHistoricMapper;
+import com.api.vetgroup.services.customMappers.RoleMapper;
 import com.api.vetgroup.services.customMappers.StaffMapper;
 import com.api.vetgroup.services.customMappers.UserMapper;
 import com.auth0.jwt.exceptions.TokenExpiredException;
@@ -36,6 +37,9 @@ public class StaffUserController {
     private RoleHistoricService roleHistoricService;
     @Autowired
     private StaffMapper mapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
     @Autowired
     private RoleHistoricMapper roleHistoricMapper;
     @Autowired
@@ -53,9 +57,9 @@ public class StaffUserController {
             roleHistoricService.insert(roleHistoricMapper.convertStaffToFirstRole(staffModel));
             userService.insert(userMapper.convertStaffDtoToUser(staffDto));
 
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).body(staffModel.getId());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -108,7 +112,7 @@ public class StaffUserController {
     public ResponseEntity findByToken(HttpServletRequest req) {
         try {
             String token = req.getHeader("Authorization");
-            return ResponseEntity.status(HttpStatus.OK).body(service.findByJwt(token));
+            return ResponseEntity.status(HttpStatus.OK).body(mapper.convertStaffToReducedDto(service.findByJwt(token)));
         } catch (TokenExpiredException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
@@ -117,6 +121,7 @@ public class StaffUserController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<StaffResponseDto>> findAll() {
         List<StaffUser> list = service.findAll();
+        roleMapper.convertCodeToString(1L);
         return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
     }
 
