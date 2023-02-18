@@ -15,7 +15,9 @@ public class RoomAccessList implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime accessed_at;
+
+    @Column(name = "accessed_at")
+    private LocalDateTime accessedAt;
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
@@ -31,12 +33,12 @@ public class RoomAccessList implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getAccessed_at() {
-        return accessed_at;
+    public LocalDateTime getAccessedAt() {
+        return accessedAt;
     }
 
-    public void setAccessed_at(LocalDateTime accessed_at) {
-        this.accessed_at = accessed_at;
+    public void setAccessedAt(LocalDateTime accessedAt) {
+        this.accessedAt = accessedAt;
     }
 
     public Room getRoom() {

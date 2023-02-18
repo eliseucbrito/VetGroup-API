@@ -11,9 +11,9 @@ public class ReportResponseDto {
     private Long id;
     private String title;
     private String description;
-    private Integer payment_value;
+    private Integer paymentValue;
     private ReportTypes type;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     private Boolean approved;
     private StaffReducedDto staff;
 
@@ -41,14 +41,6 @@ public class ReportResponseDto {
         this.description = description;
     }
 
-    public Integer getPayment_value() {
-        return payment_value;
-    }
-
-    public void setPayment_value(Integer payment_value) {
-        this.payment_value = payment_value;
-    }
-
     public ReportTypes getType() {
         return type;
     }
@@ -57,12 +49,20 @@ public class ReportResponseDto {
         this.type = type;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public Integer getPaymentValue() {
+        return paymentValue;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setPaymentValue(Integer paymentValue) {
+        this.paymentValue = paymentValue;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Boolean getApproved() {

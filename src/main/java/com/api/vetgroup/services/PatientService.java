@@ -20,19 +20,8 @@ public class PatientService {
     private PatientRepository repository;
 
     public List<Patient> findAll(String sort_by, String direction) {
-        var dir = Objects.equals(direction, "ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
-        List<Patient> list = new ArrayList<>();
-
-        if (!Objects.equals(sort_by, "created_at") && !Objects.equals(sort_by, "birth_date")) {
-            if (Objects.equals(direction, "ASC")) {
-                list = repository.findAll(Sort.by(Sort.Direction.ASC, sort_by));
-            } else {
-                list = repository.findAll(Sort.by(Sort.Direction.DESC, sort_by));
-            }
-        }
-
-
-        return list;
+        var dir = Objects.equals(direction.toUpperCase(), "ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        return  repository.findAll(Sort.by(dir, sort_by));
     }
 
     public Patient findById(Long id) {

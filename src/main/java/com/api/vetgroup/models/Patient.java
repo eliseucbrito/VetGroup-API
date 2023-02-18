@@ -26,13 +26,15 @@ public class Patient implements Serializable {
     private Integer kind;
     @Column(nullable = false, unique = false)
     private String owner;
-    private LocalDateTime created_at;
-    @Column(nullable = false, unique = false)
-    private String avatar_url;
-    @Column(nullable = false, unique = false)
-    private String owner_contact;
-    @Column(nullable = false, unique = false)
-    private Date birth_date;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+    @Column(name = "avatar_url", nullable = false, unique = false)
+    private String avatarUrl;
+    @Column(name = "owner_contact", nullable = false, unique = false)
+    private String ownerContact;
+    @Column(name = "birth_date", nullable = false, unique = false)
+    private Date birthDate;
     @Column(nullable = false, unique = false)
     private String name;
     @Column(nullable = false, unique = false)
@@ -69,39 +71,40 @@ public class Patient implements Serializable {
         this.owner = owner;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
-    public String getOwner_contact() {
-        return owner_contact;
+    public String getOwnerContact() {
+        return ownerContact;
     }
 
-    public void setOwner_contact(String owner_contact) {
-        this.owner_contact = owner_contact;
+    public void setOwnerContact(String ownerContact) {
+        this.ownerContact = ownerContact;
     }
 
-    public Date getBirth_date() {
-        return birth_date;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirth_date(String birth_date) {
+
+    public void setBirthDate(String birthDate) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         try {
-            Date dateFormatted = format.parse(birth_date);
-            this.birth_date = dateFormatted;
+            Date dateFormatted = format.parse(birthDate);
+            this.birthDate = dateFormatted;
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

@@ -24,7 +24,7 @@ public class UserMapper {
     public User convertStaffDtoToUser(StaffCreateDto staffDto) {
         User user = new User();
 
-        String[] nameArray = staffDto.getFull_name().split(" ");
+        String[] nameArray = staffDto.getFullName().split(" ");
         String userName = nameArray[0] + " " + nameArray[nameArray.length - 1];
 
         Role role = roleRepository.findByDescription(staffDto.getRole());
@@ -32,7 +32,7 @@ public class UserMapper {
         roleList.add(role);
 
         user.setUserName(staffDto.getEmail());
-        user.setFullName(staffDto.getFull_name());
+        user.setFullName(staffDto.getFullName());
         user.setPassword(passwordEncoder.encode(staffDto.getPassword()).substring("{pbkdf2}".length()));
         user.setEnabled(true);
         user.setAccountNonExpired(true);

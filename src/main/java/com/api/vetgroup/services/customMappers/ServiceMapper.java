@@ -1,6 +1,6 @@
 package com.api.vetgroup.services.customMappers;
 
-import com.api.vetgroup.dtos.ServiceCreateDto;
+import com.api.vetgroup.dtos.create.ServiceCreateDto;
 import com.api.vetgroup.dtos.response.ServiceResponseDto;
 import com.api.vetgroup.dtos.StaffReducedDto;
 import com.api.vetgroup.dtos.response.PatientResponseDto;
@@ -15,8 +15,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,10 +59,10 @@ public class ServiceMapper {
             StaffUser staff = staffService.findById(serviceDto.getStaff_id());
             Patient patient = patientService.findById(serviceDto.getPatient_id());
 
-            if (serviceDto.getService_date() != null) {
-                service.setService_date(new Date(serviceDto.getService_date()));
+            if (serviceDto.getServiceDate() != null) {
+                service.setServiceDate(new Date(serviceDto.getServiceDate()));
             } else {
-                service.setService_date(new Date());
+                service.setServiceDate(new Date());
             }
             service.setType(serviceDto.getType());
             service.setStaff(staff);

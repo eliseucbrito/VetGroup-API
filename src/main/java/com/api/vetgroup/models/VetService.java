@@ -24,10 +24,10 @@ public class VetService implements Serializable {
     private String title;
     @Column(nullable = false, unique = false)
     private String description;
-    @Column(nullable = false, unique = false)
-    private LocalDateTime created_at;
-    @Column(nullable = true, unique = false)
-    private Date service_date;
+    @Column(name = "created_at", nullable = false, unique = false)
+    private LocalDateTime createdAt;
+    @Column(name = "service_date", nullable = true, unique = false)
+    private Date serviceDate;
     @Column(nullable = false, unique = false)
     private Integer type;
     @Column(nullable = false, unique = false)
@@ -70,20 +70,20 @@ public class VetService implements Serializable {
         this.description = description;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getService_date() {
-        return service_date;
+    public Date getServiceDate() {
+        return serviceDate;
     }
 
-    public void setService_date(Date service_date) {
-        this.service_date = service_date;
+    public void setServiceDate(Date serviceDate) {
+        this.serviceDate = serviceDate;
     }
 
     public ServiceTypes getType() {

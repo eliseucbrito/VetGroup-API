@@ -20,11 +20,13 @@ public class Report implements Serializable {
     @Column(nullable = false, unique = false)
     private String description;
 
-    @Column(nullable = true, unique = false)
-    private Integer payment_value;
+    @Column(name = "payment_value", nullable = true, unique = false)
+    private Integer paymentValue;
     @Column(nullable = false, unique = false)
     private Integer type;
-    private LocalDateTime created_at;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
     @Column(nullable = true, unique = false)
     private Boolean approved;
     @ManyToOne
@@ -55,12 +57,12 @@ public class Report implements Serializable {
         this.description = description;
     }
 
-    public Integer getPayment_value() {
-        return payment_value;
+    public Integer getPaymentValue() {
+        return paymentValue;
     }
 
-    public void setPayment_value(Integer payment_value) {
-        this.payment_value = payment_value;
+    public void setPaymentValue(Integer paymentValue) {
+        this.paymentValue = paymentValue;
     }
 
     public ReportTypes getType() {
@@ -81,12 +83,12 @@ public class Report implements Serializable {
         this.staff = staff;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Boolean getApproved() {

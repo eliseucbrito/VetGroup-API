@@ -9,22 +9,30 @@ import java.time.LocalDateTime;
 
 public class ReportCreateDto {
 
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     @NotBlank
     @Size(max = 70, min = 15)
     private String title;
     @NotBlank
     private String description;
-    private Integer payment_value;
+    private Integer paymentValue;
     private Long staff_id;
     private ReportTypes type;
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Integer getPaymentValue() {
+        return paymentValue;
+    }
+
+    public void setPaymentValue(Integer paymentValue) {
+        this.paymentValue = paymentValue;
     }
 
     public String getTitle() {
@@ -41,14 +49,6 @@ public class ReportCreateDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getPayment_value() {
-        return payment_value;
-    }
-
-    public void setPayment_value(Integer payment_value) {
-        this.payment_value = payment_value;
     }
 
     public Long getStaff_id() {

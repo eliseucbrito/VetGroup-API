@@ -14,12 +14,12 @@ public class PatientResponseDto {
 
     private Long id;
     private String owner;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     private String name;
-    private String owner_contact;
+    private String ownerContact;
     private String breed;
-    private Date birth_date;
-    private String avatar_url;
+    private Date birthDate;
+    private String avatarUrl;
     private PatientKind kind;
 
     public Long getId() {
@@ -38,20 +38,12 @@ public class PatientResponseDto {
         this.owner = owner;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
-    }
-
-    public PatientKind getKind() {
-        return kind;
-    }
-
-    public void setKind(PatientKind kind) {
-        this.kind = kind;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getName() {
@@ -62,12 +54,12 @@ public class PatientResponseDto {
         this.name = name;
     }
 
-    public String getOwner_contact() {
-        return owner_contact;
+    public String getOwnerContact() {
+        return ownerContact;
     }
 
-    public void setOwner_contact(String owner_contact) {
-        this.owner_contact = owner_contact;
+    public void setOwnerContact(String ownerContact) {
+        this.ownerContact = ownerContact;
     }
 
     public String getBreed() {
@@ -78,19 +70,27 @@ public class PatientResponseDto {
         this.breed = breed;
     }
 
-    public Date getBirth_date() {
-        return birth_date;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirth_date(Date birth_date) {
-        this.birth_date = birth_date;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public PatientKind getKind() {
+        return kind;
+    }
+
+    public void setKind(PatientKind kind) {
+        this.kind = kind;
     }
 }

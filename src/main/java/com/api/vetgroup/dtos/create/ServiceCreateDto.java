@@ -1,4 +1,4 @@
-package com.api.vetgroup.dtos;
+package com.api.vetgroup.dtos.create;
 
 import com.api.vetgroup.models.enums.ServiceCity;
 import com.api.vetgroup.models.enums.ServiceStatus;
@@ -12,8 +12,8 @@ import java.util.Date;
 
 public class ServiceCreateDto {
 
-    private LocalDateTime created_at;
-    private String service_date;
+    private LocalDateTime createdAt;
+    private String serviceDate;
     @NotNull
     @Size(min = 5, max = 30)
     private String title;
@@ -39,20 +39,20 @@ public class ServiceCreateDto {
     private ServiceCity city;
 
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getService_date() {
-        return service_date;
+    public String getServiceDate() {
+        return serviceDate;
     }
 
-    public void setService_date(String service_date) {
-        this.service_date = service_date;
+    public void setServiceDate(String serviceDate) {
+        this.serviceDate = serviceDate;
     }
 
     public String getTitle() {

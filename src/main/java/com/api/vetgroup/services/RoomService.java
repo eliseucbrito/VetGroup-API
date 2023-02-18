@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,8 +28,10 @@ public class RoomService {
     @Autowired
     private StaffUserService staffService;
 
-    public List<Room> findAll() {
-        return repository.findAll();
+    public List<Room> findAll(String sort_by, String direction) {
+        var dir = Objects.equals(direction.toUpperCase(), "ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+        return repository.findAll(Sort.by(dir, sort_by));
     }
 
     public List<RoomAccessList> findAllRoomAccess() {
@@ -60,7 +63,7 @@ public class RoomService {
         Room room = findById(id);
 
         if (in_use && room.getIn_use()) {
-            throw new IllegalArgumentException("Room is already in use by "+room.getStaff().getFull_name());
+            throw new IllegalArgumentException("Room is already in use by "+room.getStaff().getFullName());
         }
 
         if (in_use) {
@@ -71,7 +74,7 @@ public class RoomService {
             RoomAccessList roomAccess = new RoomAccessList();
             roomAccess.setRoom(room);
             roomAccess.setStaff(staff);
-            roomAccess.setAccessed_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            roomAccess.setAccessedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
             roomAccessRepository.save(roomAccess);
 
             room.setIn_use(true);

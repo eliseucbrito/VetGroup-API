@@ -104,7 +104,7 @@ public class UserService implements UserDetailsService {
     }
 
     public ResponseEntity updateUserRole(RoleHistoric roleHistoric) {
-        User user = repository.findByFullName(roleHistoric.getStaff().getFull_name());
+        User user = repository.findByFullName(roleHistoric.getStaff().getFullName());
 
         //TODO change list of roles for unique role
         Optional<Role> role = roleRepository.findById(roleHistoric.getRole());

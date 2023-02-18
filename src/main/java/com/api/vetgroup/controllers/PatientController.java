@@ -33,7 +33,7 @@ public class PatientController {
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNewPatient(@RequestBody @Valid PatientCreateDto patientCreateDto) {
         try {
-            patientCreateDto.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            patientCreateDto.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
             service.insert(mapper.convertDtoToPatient(patientCreateDto));
 
             return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -48,7 +48,6 @@ public class PatientController {
             @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction
             )
     {
-        System.out.println(sort_by);
         List<Patient> list = service.findAll(sort_by, direction);
         List<PatientResponseDto> listDto = mapper.convertListToDto(list);
         return ResponseEntity.ok().body(listDto);

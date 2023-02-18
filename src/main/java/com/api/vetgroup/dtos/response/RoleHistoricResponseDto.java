@@ -7,18 +7,18 @@ import java.time.LocalDateTime;
 
 public class RoleHistoricResponseDto {
 
-    private LocalDateTime started_in;
+    private LocalDateTime startedIn;
     private String role;
-    private Integer base_salary;
-    private Integer weekly_work_load;
+    private Integer baseSalary;
+    private Integer weeklyWorkLoad;
     private StaffReducedDto promoter;
 
-    public LocalDateTime getStarted_in() {
-        return started_in;
+    public LocalDateTime getStartedIn() {
+        return startedIn;
     }
 
-    public void setStarted_in(LocalDateTime started_in) {
-        this.started_in = started_in;
+    public void setStartedIn(LocalDateTime startedIn) {
+        this.startedIn = startedIn;
     }
 
     public String getRole() {
@@ -29,20 +29,20 @@ public class RoleHistoricResponseDto {
         this.role = role;
     }
 
-    public Integer getBase_salary() {
-        return base_salary;
+    public Integer getBaseSalary() {
+        return baseSalary;
     }
 
-    public void setBase_salary(Integer base_salary) {
-        this.base_salary = base_salary;
+    public void setBaseSalary(Integer baseSalary) {
+        this.baseSalary = baseSalary;
     }
 
-    public Integer getWeekly_work_load() {
-        return weekly_work_load;
+    public Integer getWeeklyWorkLoad() {
+        return weeklyWorkLoad;
     }
 
-    public void setWeekly_work_load(Integer weekly_work_load) {
-        this.weekly_work_load = weekly_work_load;
+    public void setWeeklyWorkLoad(Integer weeklyWorkLoad) {
+        this.weeklyWorkLoad = weeklyWorkLoad;
     }
 
     public StaffReducedDto getPromoter() {
@@ -52,5 +52,4 @@ public class RoleHistoricResponseDto {
     public void setPromoter(StaffReducedDto promoter) {
         this.promoter = promoter;
     }
-
 }

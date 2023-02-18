@@ -11,12 +11,12 @@ spring:
       secret: 123
   datasource:
     url: jdbc:mysql://localhost:3306/vet-docker-test
-    username: developer
-    password: Schultz81449487
+    username: root
+    password: admin123
   jpa:
     properties:
       hibernate:
-        show_sql: 'true'
+#        show_sql: 'true'
         jdbc:
           lob:
             non_contextual_creation: 'true'

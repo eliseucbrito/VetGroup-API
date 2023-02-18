@@ -18,7 +18,7 @@ public class PatientMapper {
             BeanUtils.copyProperties(patient, patientDto);
 
             patientDto.setKind(patient.getKind());
-            patientDto.setBirth_date(patient.getBirth_date());
+            patientDto.setBirthDate(patient.getBirthDate());
 
             return patientDto;
         } catch (Exception e) {
@@ -32,7 +32,7 @@ public class PatientMapper {
             BeanUtils.copyProperties(patientDto, patient);
 
             patient.setKind(patientDto.getKind());
-            patient.setBirth_date(patientDto.getBirth_date());
+            patient.setBirthDate(patientDto.getBirthDate());
             return patient;
         } catch (Exception e) {
             throw new RuntimeException("Error during conversion to Patient");

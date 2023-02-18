@@ -19,10 +19,10 @@ public class ServiceResponseDto {
 
     private String title;
     private String description;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     @JsonSerialize(as = Date.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", timezone = "America/Sao_Paulo")
-    private Date service_date;
+    private Date serviceDate;
     private ServiceTypes type;
     private ServiceStatus status;
     private ServiceCity city;
@@ -54,20 +54,20 @@ public class ServiceResponseDto {
         this.description = description;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getService_date() {
-        return service_date;
+    public Date getServiceDate() {
+        return serviceDate;
     }
 
-    public void setService_date(Date service_date) {
-        this.service_date = service_date;
+    public void setServiceDate(Date serviceDate) {
+        this.serviceDate = serviceDate;
     }
 
     public ServiceTypes getType() {

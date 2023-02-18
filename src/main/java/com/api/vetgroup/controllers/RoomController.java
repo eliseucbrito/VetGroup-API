@@ -9,6 +9,7 @@ import com.api.vetgroup.services.customMappers.RoomAccessMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -35,7 +37,7 @@ public class RoomController {
         BeanUtils.copyProperties(roomDto, roomModel);
         roomModel.setIn_use(false);
         roomModel.setType(roomDto.getType());
-        roomModel.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        roomModel.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         service.insert(roomModel);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -56,8 +58,11 @@ public class RoomController {
 
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Room>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
+    public ResponseEntity<List<Room>> findAll(
+            @RequestParam(value = "sort_by", required = false, defaultValue = "id") String sort_by,
+            @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction)
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAll(sort_by, direction));
     }
 
     @GetMapping(value = "/access-list", produces = MediaType.APPLICATION_JSON_VALUE)

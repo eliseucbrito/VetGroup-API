@@ -10,15 +10,15 @@ public class StaffResponseDto {
 
     private Long id;
     private Role role;
-    private String full_name;
+    private String fullName;
     private String email;
-    private String avatar_url;
-    private LocalDateTime created_at;
+    private String avatarUrl;
+    private LocalDateTime createdAt;
     private String cpf;
-    private Integer base_salary;
-    private Boolean on_duty;
-    private Integer weekly_work_load; // in minutes
-    private Integer work_load_completed; // in minutes
+    private Integer baseSalary;
+    private Boolean onDuty;
+    private Integer weeklyWorkLoad; // in minutes
+    private Integer workLoadCompleted; // in minutes
     private List<RoleHistoricResponseDto> role_historic;
     private List<RoomAccessList> access_list;
 
@@ -38,12 +38,12 @@ public class StaffResponseDto {
         this.role = role;
     }
 
-    public String getFull_name() {
-        return full_name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -54,20 +54,20 @@ public class StaffResponseDto {
         this.email = email;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getCpf() {
@@ -78,36 +78,36 @@ public class StaffResponseDto {
         this.cpf = cpf;
     }
 
-    public Integer getBase_salary() {
-        return base_salary;
+    public Integer getBaseSalary() {
+        return baseSalary;
     }
 
-    public void setBase_salary(Integer base_salary) {
-        this.base_salary = base_salary;
+    public void setBaseSalary(Integer baseSalary) {
+        this.baseSalary = baseSalary;
     }
 
-    public Boolean getOn_duty() {
-        return on_duty;
+    public Boolean getOnDuty() {
+        return onDuty;
     }
 
-    public void setOn_duty(Boolean on_duty) {
-        this.on_duty = on_duty;
+    public void setOnDuty(Boolean onDuty) {
+        this.onDuty = onDuty;
     }
 
-    public Integer getWeekly_work_load() {
-        return weekly_work_load;
+    public Integer getWeeklyWorkLoad() {
+        return weeklyWorkLoad;
     }
 
-    public void setWeekly_work_load(Integer weekly_work_load) {
-        this.weekly_work_load = weekly_work_load;
+    public void setWeeklyWorkLoad(Integer weeklyWorkLoad) {
+        this.weeklyWorkLoad = weeklyWorkLoad;
     }
 
-    public Integer getWork_load_completed() {
-        return work_load_completed;
+    public Integer getWorkLoadCompleted() {
+        return workLoadCompleted;
     }
 
-    public void setWork_load_completed(Integer work_load_completed) {
-        this.work_load_completed = work_load_completed;
+    public void setWorkLoadCompleted(Integer workLoadCompleted) {
+        this.workLoadCompleted = workLoadCompleted;
     }
 
     public List<RoleHistoricResponseDto> getRole_historic() {

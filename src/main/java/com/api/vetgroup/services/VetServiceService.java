@@ -24,7 +24,10 @@ public class VetServiceService {
     @Autowired
     private StaffUserService staffService;
 
-    public List<VetService> findAll() {return repository.findAll(Sort.by(Sort.Direction.DESC, "id"));}
+    public List<VetService> findAll(String sort_by, String direction) {
+        var dir = Objects.equals(direction.toUpperCase(), "ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        return  repository.findAll(Sort.by(dir, sort_by));
+    }
 
     public VetService findById(Long id) {
         Optional<VetService> obj = repository.findById(id);
@@ -35,12 +38,12 @@ public class VetServiceService {
     public VetService insert(VetService newService) {
         var staff = staffService.findById(newService.getStaff().getId());
 
-        if (!staff.getOn_duty() && newService.getType() != ServiceTypes.EXAM) {
+        if (!staff.getOnDuty() && newService.getType() != ServiceTypes.EXAM) {
             throw new IllegalArgumentException("This staff is not on duty");
         }
 
         if (newService.getStatus() != ServiceStatus.SCHEDULED) {
-            newService.setService_date(null);
+            newService.setServiceDate(null);
         }
 
         return repository.save(newService);
@@ -105,4 +108,5 @@ public class VetServiceService {
 
         update(service);
     }
+
 }

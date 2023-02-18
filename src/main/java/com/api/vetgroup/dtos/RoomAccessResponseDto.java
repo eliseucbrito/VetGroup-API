@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class RoomAccessResponseDto {
 
     private Long id;
-    private LocalDateTime accessed_at;
+    private LocalDateTime accessedAt;
     private Room room;
     private StaffReducedDto staff;
 
@@ -20,12 +20,12 @@ public class RoomAccessResponseDto {
         this.id = id;
     }
 
-    public LocalDateTime getAccessed_at() {
-        return accessed_at;
+    public LocalDateTime getAccessedAt() {
+        return accessedAt;
     }
 
-    public void setAccessed_at(LocalDateTime accessed_at) {
-        this.accessed_at = accessed_at;
+    public void setAccessedAt(LocalDateTime accessedAt) {
+        this.accessedAt = accessedAt;
     }
 
     public Room getRoom() {

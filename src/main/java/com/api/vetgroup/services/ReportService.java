@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -18,7 +19,10 @@ public class ReportService {
     @Autowired
     private ReportRepository repository;
 
-    public List<Report> findAll() {return repository.findAll(Sort.by(Sort.Direction.DESC, "id"));}
+    public List<Report> findAll(String sort_by, String direction) {
+        var dir = Objects.equals(direction.toUpperCase(), "ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        return  repository.findAll(Sort.by(dir, sort_by));
+    }
 
     public Report findById(Long id) {
         Optional<Report> obj = repository.findById(id);
@@ -33,9 +37,9 @@ public class ReportService {
     @Transactional
     public Report insert(Report newReport) {
         if (newReport.getType() != ReportTypes.PAYMENT) {
-            newReport.setPayment_value(null);
+            newReport.setPaymentValue(null);
         }
-        if (newReport.getType() == ReportTypes.PAYMENT && newReport.getPayment_value() == null) {
+        if (newReport.getType() == ReportTypes.PAYMENT && newReport.getPaymentValue() == null) {
             throw new IllegalArgumentException("Report type payment cannot have a null payment_value");
         }
         return repository.save(newReport);

@@ -1,9 +1,8 @@
 package com.api.vetgroup.controllers;
 
-import com.api.vetgroup.dtos.ServiceCreateDto;
+import com.api.vetgroup.dtos.create.ServiceCreateDto;
 import com.api.vetgroup.dtos.UpdateDescriptionDto;
 import com.api.vetgroup.dtos.response.ServiceResponseDto;
-import com.api.vetgroup.dtos.ServiceStatusDto;
 import com.api.vetgroup.models.VetService;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.services.VetServiceService;
@@ -17,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -33,7 +32,7 @@ public class VetServiceController {
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createNewService(@RequestBody @Valid ServiceCreateDto serviceCreateDto) {
-        serviceCreateDto.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        serviceCreateDto.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         VetService serviceModel = mapper.convertDtoToService(serviceCreateDto);
 
         service.insert(serviceModel);
@@ -66,8 +65,12 @@ public class VetServiceController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ServiceResponseDto>> findAll() {
-        List<VetService> list = service.findAll();
+    public ResponseEntity<List<ServiceResponseDto>> findAll(
+            @RequestParam(value = "sort_by", required = false, defaultValue = "id") String sort_by,
+            @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction
+        )
+    {
+        List<VetService> list = service.findAll(sort_by, direction);
         return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
     }
 

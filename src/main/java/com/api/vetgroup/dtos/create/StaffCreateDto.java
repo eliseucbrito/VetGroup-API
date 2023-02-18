@@ -11,7 +11,7 @@ import java.util.List;
 public class StaffCreateDto {
 
     @NotBlank
-    private String full_name;
+    private String fullName;
     @NotBlank
     @Email
     private String email;
@@ -23,22 +23,21 @@ public class StaffCreateDto {
     private String cpf;
     @NotNull
     private String role;
-    private String avatar_url;
+    private String avatarUrl;
     @NotNull
-    private Integer base_salary;
-    private Boolean on_duty;
+    private Integer baseSalary;
+    private Boolean onDuty;
     @NotNull
-    private Integer weekly_work_load; // in minutes
-    private Integer work_load_completed; // in minutes
+    private Integer weeklyWorkLoad; // in minutes
+    private Integer workLoadCompleted; // in minutes
     private List<RoleHistoricResponseDto> role_historic;
 
-
-    public String getFull_name() {
-        return full_name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -65,22 +64,6 @@ public class StaffCreateDto {
         this.cpf = cpf;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
-    }
-
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
-    }
-
-    public Integer getBase_salary() {
-        return base_salary;
-    }
-
-    public void setBase_salary(Integer base_salary) {
-        this.base_salary = base_salary;
-    }
-
     public String getRole() {
         return role;
     }
@@ -89,28 +72,44 @@ public class StaffCreateDto {
         this.role = role;
     }
 
-    public Boolean getOn_duty() {
-        return on_duty;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setOn_duty(Boolean on_duty) {
-        this.on_duty = on_duty;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
-    public Integer getWeekly_work_load() {
-        return weekly_work_load;
+    public Integer getBaseSalary() {
+        return baseSalary;
     }
 
-    public void setWeekly_work_load(Integer weekly_work_load) {
-        this.weekly_work_load = weekly_work_load;
+    public void setBaseSalary(Integer baseSalary) {
+        this.baseSalary = baseSalary;
     }
 
-    public Integer getWork_load_completed() {
-        return work_load_completed;
+    public Boolean getOnDuty() {
+        return onDuty;
     }
 
-    public void setWork_load_completed(Integer work_load_completed) {
-        this.work_load_completed = work_load_completed;
+    public void setOnDuty(Boolean onDuty) {
+        this.onDuty = onDuty;
+    }
+
+    public Integer getWeeklyWorkLoad() {
+        return weeklyWorkLoad;
+    }
+
+    public void setWeeklyWorkLoad(Integer weeklyWorkLoad) {
+        this.weeklyWorkLoad = weeklyWorkLoad;
+    }
+
+    public Integer getWorkLoadCompleted() {
+        return workLoadCompleted;
+    }
+
+    public void setWorkLoadCompleted(Integer workLoadCompleted) {
+        this.workLoadCompleted = workLoadCompleted;
     }
 
     public List<RoleHistoricResponseDto> getRole_historic() {

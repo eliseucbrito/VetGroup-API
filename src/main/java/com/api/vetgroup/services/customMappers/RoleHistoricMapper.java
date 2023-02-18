@@ -26,9 +26,9 @@ public class RoleHistoricMapper {
             RoleHistoric roleHistoric = new RoleHistoric();
             StaffUser promoter = staffService.findById(1L);
 
-            roleHistoric.setBase_salary(staff.getBase_salary());
-            roleHistoric.setStarted_in(staff.getCreated_at());
-            roleHistoric.setWeekly_work_load(staff.getWeekly_work_load());
+            roleHistoric.setBaseSalary(staff.getBaseSalary());
+            roleHistoric.setStartedIn(staff.getCreatedAt());
+            roleHistoric.setWeeklyWorkLoad(staff.getWeeklyWorkLoad());
             roleHistoric.setRole(staff.getRole());
             roleHistoric.setPromoter(promoter);
             roleHistoric.setStaff(staff);

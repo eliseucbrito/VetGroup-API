@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -37,7 +38,6 @@ public class StaffUserController {
     private RoleHistoricService roleHistoricService;
     @Autowired
     private StaffMapper mapper;
-
     @Autowired
     private RoleMapper roleMapper;
     @Autowired
@@ -51,7 +51,7 @@ public class StaffUserController {
     public ResponseEntity createNewStaffUser(@RequestBody @Valid StaffCreateDto staffDto) {
         try {
             StaffUser staffModel = mapper.convertDtoToStaff(staffDto);
-            staffModel.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            staffModel.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
 
             service.insert(staffModel);
             roleHistoricService.insert(roleHistoricMapper.convertStaffToFirstRole(staffModel));
@@ -90,7 +90,7 @@ public class StaffUserController {
     public ResponseEntity disableUser(@PathVariable Long id) {
         try {
             StaffUser staff = service.findById(id);
-            userService.disableUser(staff.getFull_name());
+            userService.disableUser(staff.getFullName());
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -101,7 +101,7 @@ public class StaffUserController {
     public ResponseEntity enableUser(@PathVariable Long id) {
         try {
             StaffUser staff = service.findById(id);
-            userService.enableUser(staff.getFull_name());
+            userService.enableUser(staff.getFullName());
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -119,9 +119,11 @@ public class StaffUserController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<StaffResponseDto>> findAll() {
-        List<StaffUser> list = service.findAll();
-        roleMapper.convertCodeToString(1L);
+    public ResponseEntity<List<StaffResponseDto>> findAll(
+            @RequestParam(value = "sort_by", required = false, defaultValue = "id") String sort_by,
+            @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction
+    ) {
+        List<StaffUser> list = service.findAll(sort_by, direction);
         return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
     }
 
@@ -135,7 +137,7 @@ public class StaffUserController {
     public ResponseEntity delete(@PathVariable Long id) {
         try {
             StaffUser staff = service.findById(id);
-            userService.disableUser(staff.getFull_name());
+            userService.disableUser(staff.getFullName());
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {

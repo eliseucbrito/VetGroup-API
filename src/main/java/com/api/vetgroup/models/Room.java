@@ -1,7 +1,11 @@
 package com.api.vetgroup.models;
 
 import com.api.vetgroup.models.enums.RoomType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -20,10 +24,10 @@ public class Room implements Serializable {
     private String name;
     @Column(nullable = false)
     private Integer type;
-    @Column(nullable = false)
-    private Boolean in_use;
-    @Column(nullable = false)
-    private LocalDateTime created_at;
+    @Column(name = "in_use", nullable = false)
+    private Boolean inUse;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "staff_id")
@@ -31,6 +35,7 @@ public class Room implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "room")
+//    @Column(name = "access_list")
     private List<RoomAccessList> access_list = new ArrayList<>();
 
 
@@ -61,24 +66,24 @@ public class Room implements Serializable {
     }
 
     public Boolean getIn_use() {
-        return in_use;
+        return inUse;
     }
 
-    public void setIn_use(Boolean in_use) {
-        if (in_use == null || !in_use) {
-            this.in_use = false;
+    public void setIn_use(Boolean inUse) {
+        if (inUse == null || !inUse) {
+            this.inUse = false;
             this.staff = null;
         } else {
-            this.in_use = in_use;
+            this.inUse = inUse;
         }
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public StaffUser getStaff() {
@@ -100,11 +105,24 @@ public class Room implements Serializable {
 
         Room room = (Room) o;
 
-        return Objects.equals(id, room.id);
+        if (!Objects.equals(id, room.id)) return false;
+        if (!Objects.equals(name, room.name)) return false;
+        if (!Objects.equals(type, room.type)) return false;
+        if (!Objects.equals(inUse, room.inUse)) return false;
+        if (!Objects.equals(createdAt, room.createdAt)) return false;
+        if (!Objects.equals(staff, room.staff)) return false;
+        return Objects.equals(access_list, room.access_list);
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (inUse != null ? inUse.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        result = 31 * result + (staff != null ? staff.hashCode() : 0);
+        result = 31 * result + (access_list != null ? access_list.hashCode() : 0);
+        return result;
     }
 }

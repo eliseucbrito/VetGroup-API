@@ -31,7 +31,7 @@ public class ReportController {
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNewReport(@RequestBody @Valid ReportCreateDto reportCreateDto) {
         try {
-            reportCreateDto.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            reportCreateDto.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
             Report reportModel = mapper.convertDtoToReport(reportCreateDto);
             service.insert(reportModel);
             return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -54,8 +54,12 @@ public class ReportController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ReportResponseDto>> findAll() {
-        List<Report> list = service.findAll();
+    public ResponseEntity<List<ReportResponseDto>> findAll(
+            @RequestParam(value = "sort_by", required = false, defaultValue = "id") String sort_by,
+            @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction
+        )
+    {
+        List<Report> list = service.findAll(sort_by, direction);
         return ResponseEntity.ok().body(mapper.convertListToDto(list));
     }
 

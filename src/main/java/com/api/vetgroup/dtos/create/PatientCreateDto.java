@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class PatientCreateDto {
 
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     @NotBlank
     @Size(max = 15)
     private String owner;
@@ -18,21 +18,21 @@ public class PatientCreateDto {
     private String name;
     @NotBlank
     @Size(max = 11)
-    private String owner_contact;
+    private String ownerContact;
     @NotBlank
     private String breed;
     @NotBlank
-    private String birth_date;
-    private String avatar_url;
+    private String birthDate;
+    private String avatarUrl;
     @NotNull
     private PatientKind kind;
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getOwner() {
@@ -43,14 +43,6 @@ public class PatientCreateDto {
         this.owner = owner;
     }
 
-    public PatientKind getKind() {
-        return kind;
-    }
-
-    public void setKind(PatientKind kind) {
-        this.kind = kind;
-    }
-
     public String getName() {
         return name;
     }
@@ -59,12 +51,12 @@ public class PatientCreateDto {
         this.name = name;
     }
 
-    public String getOwner_contact() {
-        return owner_contact;
+    public String getOwnerContact() {
+        return ownerContact;
     }
 
-    public void setOwner_contact(String owner_contact) {
-        this.owner_contact = owner_contact;
+    public void setOwnerContact(String ownerContact) {
+        this.ownerContact = ownerContact;
     }
 
     public String getBreed() {
@@ -75,19 +67,27 @@ public class PatientCreateDto {
         this.breed = breed;
     }
 
-    public String getBirth_date() {
-        return birth_date;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirth_date(String birth_date) {
-        this.birth_date = birth_date;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public PatientKind getKind() {
+        return kind;
+    }
+
+    public void setKind(PatientKind kind) {
+        this.kind = kind;
     }
 }

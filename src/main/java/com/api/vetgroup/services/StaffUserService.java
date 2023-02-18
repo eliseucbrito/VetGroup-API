@@ -7,11 +7,13 @@ import com.api.vetgroup.security.jwt.JwtTokenProvider;
 import com.api.vetgroup.services.customMappers.UserMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -24,8 +26,9 @@ public class StaffUserService {
     private JwtTokenProvider jwtTokenProvider;
 
 
-    public List<StaffUser> findAll() {
-        return repository.findAll();
+    public List<StaffUser> findAll(String sort_by, String direction) {
+        var dir = Objects.equals(direction.toUpperCase(), "ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        return  repository.findAll(Sort.by(dir, sort_by));
     }
 
     public StaffUser findById(Long id) {
@@ -36,7 +39,7 @@ public class StaffUserService {
 
     public void setOnDutyState(Long id, Boolean on_duty) {
         StaffUser staff = findById(id);
-        staff.setOn_duty(on_duty);
+        staff.setOnDuty(on_duty);
         update(staff);
     }
 
@@ -48,8 +51,8 @@ public class StaffUserService {
         }
 
         staff.setRole(new_role.getRole());
-        staff.setWeekly_work_load(new_role.getWeekly_work_load());
-        staff.setBase_salary(new_role.getBase_salary());
+        staff.setWeeklyWorkLoad(new_role.getWeeklyWorkLoad());
+        staff.setBaseSalary(new_role.getBaseSalary());
 
         update(staff);
     }

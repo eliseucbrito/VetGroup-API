@@ -15,14 +15,16 @@ public class RoleHistoric implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = false)
-    private LocalDateTime started_in;
+    @Column(name = "started_in", nullable = false, unique = false)
+    private LocalDateTime startedIn;
 
     @Column(nullable = false, unique = false)
     private Long role;
-    @Column(nullable = false, unique = false)
-    private Integer base_salary;
-    private Integer weekly_work_load;
+    @Column(name = "base_salary", nullable = false, unique = false)
+    private Integer baseSalary;
+
+    @Column(name = "weekly_work_load")
+    private Integer weeklyWorkLoad;
 
     @ManyToOne
     @JoinColumn(name = "promoted_by")
@@ -40,12 +42,12 @@ public class RoleHistoric implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getStarted_in() {
-        return started_in;
+    public LocalDateTime getStartedIn() {
+        return startedIn;
     }
 
-    public void setStarted_in(LocalDateTime started_in) {
-        this.started_in = started_in;
+    public void setStartedIn(LocalDateTime startedIn) {
+        this.startedIn = startedIn;
     }
 
     public Long getRole() {
@@ -56,20 +58,20 @@ public class RoleHistoric implements Serializable {
         this.role = role;
     }
 
-    public Integer getBase_salary() {
-        return base_salary;
+    public Integer getBaseSalary() {
+        return baseSalary;
     }
 
-    public void setBase_salary(Integer base_salary) {
-        this.base_salary = base_salary;
+    public void setBaseSalary(Integer baseSalary) {
+        this.baseSalary = baseSalary;
     }
 
-    public Integer getWeekly_work_load() {
-        return weekly_work_load;
+    public Integer getWeeklyWorkLoad() {
+        return weeklyWorkLoad;
     }
 
-    public void setWeekly_work_load(Integer weekly_work_load) {
-        this.weekly_work_load = weekly_work_load;
+    public void setWeeklyWorkLoad(Integer weeklyWorkLoad) {
+        this.weeklyWorkLoad = weeklyWorkLoad;
     }
 
     public StaffUser getPromoter() {

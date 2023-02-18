@@ -27,6 +27,7 @@ public class RoleHistoricService {
 
     @Transactional
     public RoleHistoric insert(RoleHistoric new_role) {
+        System.out.println("INSERT NEW ROLE "+new_role.getStartedIn());
         return repository.save(new_role);
     }
 
