@@ -31,7 +31,7 @@ public class UserMapper {
         List<Role> roleList = new ArrayList<>();
         roleList.add(role);
 
-        user.setUserName(userName);
+        user.setUserName(staffDto.getEmail());
         user.setFullName(staffDto.getFull_name());
         user.setPassword(passwordEncoder.encode(staffDto.getPassword()).substring("{pbkdf2}".length()));
         user.setEnabled(true);

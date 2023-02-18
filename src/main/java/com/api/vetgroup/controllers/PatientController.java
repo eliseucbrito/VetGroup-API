@@ -7,6 +7,8 @@ import com.api.vetgroup.services.PatientService;
 import com.api.vetgroup.services.customMappers.PatientMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +32,24 @@ public class PatientController {
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNewPatient(@RequestBody @Valid PatientCreateDto patientCreateDto) {
-        patientCreateDto.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
-        service.insert(mapper.convertDtoToPatient(patientCreateDto));
+        try {
+            patientCreateDto.setCreated_at(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            service.insert(mapper.convertDtoToPatient(patientCreateDto));
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<PatientResponseDto>> findAll() {
-        List<Patient> list = service.findAll();
+    public ResponseEntity<List<PatientResponseDto>> findAll(
+            @RequestParam(value = "sort_by", required = false, defaultValue = "id") String sort_by,
+            @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction
+            )
+    {
+        System.out.println(sort_by);
+        List<Patient> list = service.findAll(sort_by, direction);
         List<PatientResponseDto> listDto = mapper.convertListToDto(list);
         return ResponseEntity.ok().body(listDto);
     }

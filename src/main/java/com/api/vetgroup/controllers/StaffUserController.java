@@ -59,7 +59,7 @@ public class StaffUserController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(staffModel.getId());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
