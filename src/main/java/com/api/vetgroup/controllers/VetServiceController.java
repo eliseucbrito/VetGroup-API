@@ -31,12 +31,16 @@ public class VetServiceController {
     private ServiceMapper mapper;
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createNewService(@RequestBody @Valid ServiceCreateDto serviceCreateDto) {
-        serviceCreateDto.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
-        VetService serviceModel = mapper.convertDtoToService(serviceCreateDto);
+    public ResponseEntity createNewService(@RequestBody @Valid ServiceCreateDto serviceCreateDto) {
+        try {
+            serviceCreateDto.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            VetService serviceModel = mapper.convertDtoToService(serviceCreateDto);
 
-        service.insert(serviceModel);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+            service.insert(serviceModel);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PatchMapping(value = "/{id}", params = "status", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,7 +48,7 @@ public class VetServiceController {
         try {
             service.changeStatus(id, status);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -62,36 +66,56 @@ public class VetServiceController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ServiceResponseDto>> findAll(
+    public ResponseEntity findAll(
             @RequestParam(value = "sort_by", required = false, defaultValue = "id") String sort_by,
             @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction
         )
     {
-        List<VetService> list = service.findAll(sort_by, direction);
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
+        try {
+            List<VetService> list = service.findAll(sort_by, direction);
+            return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ServiceResponseDto> findById(@PathVariable Long id) {
-        VetService obj = service.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertServiceToDto(obj));
+    public ResponseEntity findById(@PathVariable Long id) {
+        try {
+            VetService obj = service.findById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(mapper.convertServiceToDto(obj));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping(params = "patient-id", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ServiceResponseDto>> findPatientServices(@RequestParam(value = "patient-id") Long patient_id) {
-        List<VetService> list = service.findServicesByPatientId(patient_id);
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
+    public ResponseEntity findPatientServices(@RequestParam(value = "patient-id") Long patient_id) {
+        try {
+            List<VetService> list = service.findServicesByPatientId(patient_id);
+            return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping(params = "staff-id", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ServiceResponseDto>> findServiceByStaffId(@RequestParam(value = "staff-id") Long staff_id) {
-        List<VetService> list = service.findServicesByStaffId(staff_id);
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
+    public ResponseEntity findServiceByStaffId(@RequestParam(value = "staff-id") Long staff_id) {
+        try {
+            List<VetService> list = service.findServicesByStaffId(staff_id);
+            return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> deleteService(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity deleteService(@PathVariable Long id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

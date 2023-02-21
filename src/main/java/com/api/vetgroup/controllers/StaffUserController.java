@@ -119,18 +119,26 @@ public class StaffUserController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<StaffResponseDto>> findAll(
+    public ResponseEntity findAll(
             @RequestParam(value = "sort_by", required = false, defaultValue = "id") String sort_by,
             @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction
     ) {
-        List<StaffUser> list = service.findAll(sort_by, direction);
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
+        try {
+            List<StaffUser> list = service.findAll(sort_by, direction);
+            return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<StaffResponseDto> findById(@PathVariable Long id) {
-        StaffUser staff = service.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertStaffToDto(staff));
+    public ResponseEntity findById(@PathVariable Long id) {
+        try {
+            StaffUser staff = service.findById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(mapper.convertStaffToDto(staff));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -81,6 +81,11 @@ public class StaffUserService {
         String userEmail = jwtTokenProvider.decodedToken(jwtFormatted).getSubject();
 
         StaffUser staff = repository.findByEmail(userEmail);
+
+        if (staff == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+
         return staff;
     }
 

@@ -32,18 +32,22 @@ public class RoomController {
     private RoomAccessMapper accessMapper;
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createNewRoom(@RequestBody @Valid RoomDto roomDto) {
-        var roomModel = new Room();
-        BeanUtils.copyProperties(roomDto, roomModel);
-        roomModel.setIn_use(false);
-        roomModel.setType(roomDto.getType());
-        roomModel.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
-        service.insert(roomModel);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity createNewRoom(@RequestBody @Valid RoomDto roomDto) {
+        try {
+            var roomModel = new Room();
+            BeanUtils.copyProperties(roomDto, roomModel);
+            roomModel.setIn_use(false);
+            roomModel.setType(roomDto.getType());
+            roomModel.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            service.insert(roomModel);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PatchMapping(value = "/{id}", params = {"staff-id", "in-use"}, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> updateInUse(
+    public ResponseEntity updateInUse(
             @PathVariable Long id,
             @RequestParam(value = "staff-id", required = false) Long staff_id,
             @RequestParam(value = "in-use", required = true) Boolean in_use)
@@ -58,28 +62,44 @@ public class RoomController {
 
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Room>> findAll(
+    public ResponseEntity findAll(
             @RequestParam(value = "sort_by", required = false, defaultValue = "id") String sort_by,
             @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction)
     {
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAll(sort_by, direction));
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.findAll(sort_by, direction));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping(value = "/access-list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<RoomAccessResponseDto>> findAllRoomAccess() {
-        List<RoomAccessList> list = service.findAllRoomAccess();
-        return ResponseEntity.status(HttpStatus.OK).body(accessMapper.convertModelToDto(list));
+    public ResponseEntity findAllRoomAccess() {
+        try {
+            List<RoomAccessList> list = service.findAllRoomAccess();
+            return ResponseEntity.status(HttpStatus.OK).body(accessMapper.convertModelToDto(list));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Room> findById(@PathVariable Long id) {
-        Room obj = service.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(obj);
+    public ResponseEntity findById(@PathVariable Long id) {
+        try {
+            Room obj = service.findById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(obj);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity deleteRoom(@PathVariable Long id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

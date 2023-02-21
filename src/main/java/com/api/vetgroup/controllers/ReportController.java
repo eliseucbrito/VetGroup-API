@@ -80,14 +80,22 @@ public class ReportController {
     }
 
     @GetMapping(params = "staff-id", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ReportResponseDto>> findReportByStaffId(@RequestParam(value = "staff-id", required = true) Long staff_id) {
-        List<Report> list = service.findReportByStaffId(staff_id);
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
+    public ResponseEntity findReportByStaffId(@RequestParam(value = "staff-id", required = true) Long staff_id) {
+        try {
+            List<Report> list = service.findReportByStaffId(staff_id);
+            return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> deleteReport(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity deleteReport(@PathVariable Long id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

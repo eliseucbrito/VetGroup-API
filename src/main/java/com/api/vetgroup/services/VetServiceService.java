@@ -60,11 +60,21 @@ public class VetServiceService {
     }
 
     public List<VetService> findServicesByPatientId(Long id) {
-        return repository.findServicesByPatientId(id);
+        List<VetService> list = repository.findServicesByPatientId(id);
+
+
+
+        return list;
     }
 
     public List<VetService> findServicesByStaffId(Long id) {
-        return repository.findServiceByStaffId(id);
+        List<VetService> list = repository.findServiceByStaffId(id);
+
+        if (list.isEmpty()) {
+            throw new IllegalArgumentException("Services not found");
+        }
+
+        return list;
     }
 
     public void updateDescription(Long id, Long staff_id, String description) {

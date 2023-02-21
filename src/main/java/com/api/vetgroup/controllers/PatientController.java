@@ -43,27 +43,39 @@ public class PatientController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<PatientResponseDto>> findAll(
+    public ResponseEntity findAll(
             @RequestParam(value = "sort_by", required = false, defaultValue = "id") String sort_by,
             @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction
             )
     {
-        List<Patient> list = service.findAll(sort_by, direction);
-        List<PatientResponseDto> listDto = mapper.convertListToDto(list);
-        return ResponseEntity.ok().body(listDto);
+        try {
+            List<Patient> list = service.findAll(sort_by, direction);
+            List<PatientResponseDto> listDto = mapper.convertListToDto(list);
+            return ResponseEntity.ok().body(listDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PatientResponseDto> findByID(@PathVariable Long id) {
-        Patient patient = service.findById(id);
-        PatientResponseDto patientDto = mapper.convertPatientToDto(patient);
+    public ResponseEntity findByID(@PathVariable Long id) {
+        try {
+            Patient patient = service.findById(id);
+            PatientResponseDto patientDto = mapper.convertPatientToDto(patient);
 
-        return ResponseEntity.status(HttpStatus.OK).body(patientDto);
+            return ResponseEntity.status(HttpStatus.OK).body(patientDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity deleteById(@PathVariable Long id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
