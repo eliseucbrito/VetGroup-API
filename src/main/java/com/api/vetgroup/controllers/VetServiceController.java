@@ -54,9 +54,6 @@ public class VetServiceController {
                                                     @RequestBody(required = true) UpdateDescriptionDto descriptionDto)
     {
         try {
-            System.out.println("ID "+id);
-            System.out.println("STAFF "+descriptionDto.getStaff_id());
-            System.out.println("ID "+descriptionDto.getDescription());
             service.updateDescription(id, descriptionDto.getStaff_id(), descriptionDto.getDescription());
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {

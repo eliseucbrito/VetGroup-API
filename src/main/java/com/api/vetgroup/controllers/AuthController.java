@@ -38,8 +38,6 @@ public class AuthController {
     @PutMapping(value = "/refresh")
     public ResponseEntity refreshToken(@RequestHeader("Authorization") String refreshToken)
     {
-        System.out.println(refreshToken);
-
         if (checkIfParamsIsNotNull(refreshToken))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request");
 

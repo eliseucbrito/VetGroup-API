@@ -54,21 +54,29 @@ public class ReportController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ReportResponseDto>> findAll(
+    public ResponseEntity findAll(
             @RequestParam(value = "sort_by", required = false, defaultValue = "id") String sort_by,
             @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction
         )
     {
-        List<Report> list = service.findAll(sort_by, direction);
-        return ResponseEntity.ok().body(mapper.convertListToDto(list));
+        try {
+            List<Report> list = service.findAll(sort_by, direction);
+            return ResponseEntity.ok().body(mapper.convertListToDto(list));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping(value  = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ReportResponseDto> findById(@PathVariable Long id) {
-        Report report = service.findById(id);
-        ReportResponseDto reportDto = mapper.convertReportToDto(report);
+    public ResponseEntity findById(@PathVariable Long id) {
+        try {
+            Report report = service.findById(id);
+            ReportResponseDto reportDto = mapper.convertReportToDto(report);
 
-        return ResponseEntity.status(HttpStatus.OK).body(reportDto);
+            return ResponseEntity.status(HttpStatus.OK).body(reportDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping(params = "staff-id", produces = MediaType.APPLICATION_JSON_VALUE)
