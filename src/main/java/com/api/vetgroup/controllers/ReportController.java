@@ -3,9 +3,11 @@ package com.api.vetgroup.controllers;
 import com.api.vetgroup.dtos.create.ReportCreateDto;
 import com.api.vetgroup.dtos.response.ReportResponseDto;
 import com.api.vetgroup.models.Report;
+import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.services.ReportService;
 import com.api.vetgroup.services.StaffUserService;
 import com.api.vetgroup.services.customMappers.ReportMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,11 +30,14 @@ public class ReportController {
     @Autowired
     private ReportMapper mapper;
 
+
+
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createNewReport(@RequestBody @Valid ReportCreateDto reportCreateDto) {
+    public ResponseEntity<Object> createNewReport(@RequestBody @Valid ReportCreateDto reportCreateDto, HttpServletRequest req) {
         try {
             reportCreateDto.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
-            Report reportModel = mapper.convertDtoToReport(reportCreateDto);
+            String token = req.getHeader("Authorization");
+            Report reportModel = mapper.convertDtoToReport(reportCreateDto, token);
             service.insert(reportModel);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
@@ -43,7 +48,8 @@ public class ReportController {
     @PatchMapping(value = "/{id}", params = "approved", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateApproved(
             @PathVariable Long id,
-            @RequestParam(value = "approved", required = true) Boolean approved)
+            @RequestParam(value = "approved", required = true) Boolean approved
+        )
     {
         try {
             service.setApprovedReport(id, approved);

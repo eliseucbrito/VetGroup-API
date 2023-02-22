@@ -1,5 +1,6 @@
 package com.api.vetgroup.services;
 
+import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.models.VetService;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.models.enums.ServiceTypes;
@@ -70,10 +71,11 @@ public class VetServiceService {
         return list;
     }
 
-    public void updateDescription(Long id, Long staff_id, String description) {
+    public void updateDescription(Long id, String authorization, String description) {
         VetService service = findById(id);
+        StaffUser staff = staffService.findByJwt(authorization);
 
-        if (service.getStaff().getId() != staff_id) {
+        if (service.getStaff().getId() != staff.getId()) {
             throw new IllegalArgumentException("You don't have permission to update this description");
         }
 
@@ -86,8 +88,13 @@ public class VetServiceService {
     }
 
     @Transactional
-    public void changeStatus(Long id, ServiceStatus status) throws IllegalAccessException {
+    public void changeStatus(Long id, ServiceStatus status, String authorization) throws IllegalAccessException {
         VetService service = findById(id);
+        StaffUser staff = staffService.findByJwt(authorization);
+
+        if (service.getStaff().getId() != staff.getId()) {
+            throw new IllegalArgumentException("You don't have permission");
+        }
 
         if (service.getType() == ServiceTypes.EMERGENCY && status == ServiceStatus.SCHEDULED) {
             throw new IllegalAccessException("Service of EMERGENCY not accept the status SCHEDULED");

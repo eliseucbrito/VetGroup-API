@@ -16,7 +16,6 @@ public class ReportCreateDto {
     @NotBlank
     private String description;
     private Integer paymentValue;
-    private Long staff_id;
     private ReportTypes type;
 
     public LocalDateTime getCreatedAt() {
@@ -49,14 +48,6 @@ public class ReportCreateDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Long getStaff_id() {
-        return staff_id;
-    }
-
-    public void setStaff_id(Long staff_id) {
-        this.staff_id = staff_id;
     }
 
     public ReportTypes getType() {

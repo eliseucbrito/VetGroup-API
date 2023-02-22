@@ -1,6 +1,7 @@
 package com.api.vetgroup.services;
 
 import com.api.vetgroup.models.Report;
+import com.api.vetgroup.models.StaffUser;
 import com.api.vetgroup.models.enums.ReportTypes;
 import com.api.vetgroup.repositories.ReportRepository;
 import com.api.vetgroup.services.customMappers.ReportMapper;
@@ -18,6 +19,9 @@ public class ReportService {
 
     @Autowired
     private ReportRepository repository;
+
+    @Autowired
+    private StaffUserService staffService;
 
     public List<Report> findAll(String sort_by, String direction) {
         var dir = Objects.equals(direction.toUpperCase(), "ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;

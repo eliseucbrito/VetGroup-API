@@ -37,12 +37,16 @@ public class ReportMapper {
         }
     }
 
-    public Report convertDtoToReport(ReportCreateDto reportDto) {
+    public Report convertDtoToReport(ReportCreateDto reportDto, String jwt) {
         try {
             Report report = new Report();
             BeanUtils.copyProperties(reportDto, report);
 
-            StaffUser staff = staffService.findById(reportDto.getStaff_id());
+            StaffUser staff = staffService.findByJwt(jwt);
+
+            if (!staff.getOnDuty())  {
+                throw new IllegalArgumentException("Staff not on duty");
+            }
 
             report.setType(reportDto.getType());
             report.setStaff(staff);

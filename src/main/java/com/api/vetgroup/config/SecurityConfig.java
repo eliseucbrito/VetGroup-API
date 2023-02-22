@@ -73,11 +73,12 @@ public class SecurityConfig {
                                         "/api/staff/v1/**"
                                 ).permitAll()
 
-                                .requestMatchers(
-                                        "/api/staff/v1/create",
-                                        "/api/rooms/v1/create",
-                                        "/api/staff/v1/enable/**",
-                                        "/api/staff/v1/disable/**"
+                                .requestMatchers(HttpMethod.PUT, "/api/staff/v1/**"
+                                ).hasAnyAuthority("CEO", "GENERAL_MANAGER")
+
+                                .requestMatchers(HttpMethod.POST,
+                                        "/api/staff/v1/**",
+                                                "/api/rooms/v1/**"
                                 ).hasAnyAuthority("CEO", "GENERAL_MANAGER")
 
                                 .requestMatchers("/api/rooms/v1/create"

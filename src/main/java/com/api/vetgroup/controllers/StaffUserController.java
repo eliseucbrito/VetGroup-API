@@ -48,7 +48,7 @@ public class StaffUserController {
     private UserMapper userMapper;
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createNewStaffUser(@RequestBody @Valid StaffCreateDto staffDto) {
+    public ResponseEntity createNewStaffUser(@RequestBody @Valid StaffCreateDto staffDto, HttpServletRequest req) {
         try {
             StaffUser staffModel = mapper.convertDtoToStaff(staffDto);
             staffModel.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
@@ -69,7 +69,7 @@ public class StaffUserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity setNewRole(@PathVariable Long id, @RequestBody @Valid RoleHistoricCreateDto roleHistoricCreateDto) {
         try {
             roleHistoricCreateDto.setStarted_in(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
@@ -86,7 +86,7 @@ public class StaffUserController {
         }
     }
 
-    @PatchMapping(value = "/disable/{id}")
+    @PutMapping(value = "/disable/{id}")
     public ResponseEntity disableUser(@PathVariable Long id) {
         try {
             StaffUser staff = service.findById(id);
@@ -97,7 +97,7 @@ public class StaffUserController {
         }
     }
 
-    @PatchMapping(value = "/enable/{id}")
+    @PutMapping(value = "/enable/{id}")
     public ResponseEntity enableUser(@PathVariable Long id) {
         try {
             StaffUser staff = service.findById(id);

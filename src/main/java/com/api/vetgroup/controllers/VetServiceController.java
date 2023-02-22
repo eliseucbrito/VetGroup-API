@@ -7,6 +7,7 @@ import com.api.vetgroup.models.VetService;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.services.VetServiceService;
 import com.api.vetgroup.services.customMappers.ServiceMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,9 +45,14 @@ public class VetServiceController {
     }
 
     @PatchMapping(value = "/{id}", params = "status", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> changeStatus(@PathVariable Long id, @RequestParam(value = "status", required = true) ServiceStatus status) {
+    public ResponseEntity<Object> changeStatus(
+                @PathVariable Long id,
+                @RequestParam(value = "status", required = true) ServiceStatus status,
+                HttpServletRequest req
+            ) {
         try {
-            service.changeStatus(id, status);
+            String authorization = req.getHeader("Authorization");
+            service.changeStatus(id, status, authorization);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -54,11 +60,15 @@ public class VetServiceController {
     }
 
     @PatchMapping(value = "/{id}", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> updateDescription(@PathVariable Long id,
-                                                    @RequestBody(required = true) UpdateDescriptionDto descriptionDto)
+    public ResponseEntity<Object> updateDescription(
+            @PathVariable Long id,
+            @RequestBody(required = true) UpdateDescriptionDto descriptionDto,
+            HttpServletRequest req
+        )
     {
         try {
-            service.updateDescription(id, descriptionDto.getStaff_id(), descriptionDto.getDescription());
+            String authorization = req.getHeader("Authorization");
+            service.updateDescription(id, authorization, descriptionDto.getDescription());
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
