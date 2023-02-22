@@ -3,6 +3,7 @@ package com.api.vetgroup.controllers;
 import com.api.vetgroup.dtos.create.ServiceCreateDto;
 import com.api.vetgroup.dtos.UpdateDescriptionDto;
 import com.api.vetgroup.dtos.response.ServiceResponseDto;
+import com.api.vetgroup.exceptions.ExceptionResponse;
 import com.api.vetgroup.models.VetService;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.services.VetServiceService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,7 +47,7 @@ public class VetServiceController {
             service.insert(serviceModel);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -60,7 +62,7 @@ public class VetServiceController {
             service.changeStatus(id, status, authorization);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -76,7 +78,7 @@ public class VetServiceController {
             service.updateDescription(id, authorization, descriptionDto.getDescription());
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -90,7 +92,7 @@ public class VetServiceController {
             List<VetService> list = service.findAll(sort_by, direction);
             return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -100,7 +102,7 @@ public class VetServiceController {
             VetService obj = service.findById(id);
             return ResponseEntity.status(HttpStatus.OK).body(mapper.convertServiceToDto(obj));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -110,7 +112,7 @@ public class VetServiceController {
             List<VetService> list = service.findServicesByPatientId(patient_id);
             return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -120,7 +122,7 @@ public class VetServiceController {
             List<VetService> list = service.findServicesByStaffId(staff_id);
             return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -130,7 +132,7 @@ public class VetServiceController {
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 }

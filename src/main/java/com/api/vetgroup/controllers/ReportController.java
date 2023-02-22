@@ -41,7 +41,7 @@ public class ReportController {
             service.insert(reportModel);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -55,7 +55,7 @@ public class ReportController {
             service.setApprovedReport(id, approved);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -69,7 +69,7 @@ public class ReportController {
             List<Report> list = service.findAll(sort_by, direction);
             return ResponseEntity.ok().body(mapper.convertListToDto(list));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -81,7 +81,7 @@ public class ReportController {
 
             return ResponseEntity.status(HttpStatus.OK).body(reportDto);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -91,7 +91,7 @@ public class ReportController {
             List<Report> list = service.findReportByStaffId(staff_id);
             return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -101,7 +101,7 @@ public class ReportController {
             service.delete(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 }

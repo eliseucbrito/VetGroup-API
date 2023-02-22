@@ -59,7 +59,7 @@ public class StaffUserController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(staffModel.getId());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -82,7 +82,7 @@ public class StaffUserController {
 
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -93,7 +93,7 @@ public class StaffUserController {
             userService.disableUser(staff.getFullName());
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -104,7 +104,7 @@ public class StaffUserController {
             userService.enableUser(staff.getFullName());
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -114,7 +114,7 @@ public class StaffUserController {
             String token = req.getHeader("Authorization");
             return ResponseEntity.status(HttpStatus.OK).body(mapper.convertStaffToReducedDto(service.findByJwt(token)));
         } catch (TokenExpiredException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e);
         }
     }
 
@@ -127,7 +127,7 @@ public class StaffUserController {
             List<StaffUser> list = service.findAll(sort_by, direction);
             return ResponseEntity.status(HttpStatus.OK).body(mapper.convertListToDto(list));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
@@ -149,7 +149,7 @@ public class StaffUserController {
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 }

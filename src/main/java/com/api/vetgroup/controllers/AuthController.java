@@ -29,7 +29,7 @@ public class AuthController {
             if (token == null) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request");
             return token;
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e);
         }
     }
 
