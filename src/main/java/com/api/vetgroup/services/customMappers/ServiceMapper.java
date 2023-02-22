@@ -47,7 +47,7 @@ public class ServiceMapper {
 
             return serviceDto;
         } catch (Exception e) {
-            throw new RuntimeException("Error during conversion to ServiceDto");
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -82,7 +82,7 @@ public class ServiceMapper {
 
             return service;
         } catch (Exception e) {
-            throw new RuntimeException("Error during conversion to Service");
+            throw new RuntimeException(e.getMessage());
         }
     }
 

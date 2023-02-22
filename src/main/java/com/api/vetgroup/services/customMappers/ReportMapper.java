@@ -33,7 +33,7 @@ public class ReportMapper {
 
             return reportDto;
         } catch (Exception e) {
-            throw new RuntimeException("Error during conversion to ReportDto");
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -49,17 +49,21 @@ public class ReportMapper {
 
             return report;
         } catch (Exception e) {
-            throw new RuntimeException("Error during conversion to Report");
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     public List<ReportResponseDto> convertListToDto(List<Report> list) {
-        List<ReportResponseDto> listDto = new ArrayList<ReportResponseDto>();
+        try {
+            List<ReportResponseDto> listDto = new ArrayList<ReportResponseDto>();
 
-        for(Report report : list) {
-            listDto.add(convertReportToDto(report));
+            for(Report report : list) {
+                listDto.add(convertReportToDto(report));
+            }
+
+            return listDto;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
-
-        return listDto;
     }
 }

@@ -53,7 +53,7 @@ public class StaffMapper {
             staffDto.setRole_historic(roleHistoricResponseDto);
             return staffDto;
         } catch (Exception e) {
-            throw new RuntimeException("Error during conversion to StaffDto");
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -67,7 +67,7 @@ public class StaffMapper {
             staffModel.setRole(role.getId());
             return staffModel;
         } catch (Exception e) {
-            throw new RuntimeException("Error during conversion to StaffUser");
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -81,7 +81,7 @@ public class StaffMapper {
             staffReducedDto.setRole(role.get());
             return staffReducedDto;
         } catch (Exception e) {
-            throw new RuntimeException("Error during conversion to StaffReducedDto");
+            throw new RuntimeException(e.getMessage());
         }
     }
 

@@ -28,7 +28,7 @@ public class PatientMapper {
 
             return patientDto;
         } catch (Exception e) {
-            throw new RuntimeException("Error during conversion to PatientDto");
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -47,16 +47,20 @@ public class PatientMapper {
             patient.setBirthDate(patientDto.getBirthDate());
             return patient;
         } catch (Exception e) {
-            throw new RuntimeException("Error during conversion to Patient");
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     public List<PatientResponseDto> convertListToDto(List<Patient> list) {
-        List<PatientResponseDto> listDto = new ArrayList<PatientResponseDto>();
+        try {
+            List<PatientResponseDto> listDto = new ArrayList<PatientResponseDto>();
 
-        for(Patient patient : list) {
-            listDto.add(convertPatientToDto(patient));
+            for(Patient patient : list) {
+                listDto.add(convertPatientToDto(patient));
+            }
+            return listDto;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
-        return listDto;
     }
 }

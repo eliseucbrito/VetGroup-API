@@ -35,7 +35,7 @@ public class RoleHistoricMapper {
 
             return roleHistoric;
         } catch (Exception e) {
-            throw new RuntimeException("Error during conversion to RoleHistoric");
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -55,7 +55,7 @@ public class RoleHistoricMapper {
 
             return roleHistoric;
         } catch (Exception e) {
-            throw new RuntimeException("Error during conversion to RoleHistoric");
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
