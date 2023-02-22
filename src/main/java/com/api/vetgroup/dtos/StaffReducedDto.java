@@ -9,6 +9,7 @@ public class StaffReducedDto {
     private String fullName;
     private Role role;
     private String avatarUrl;
+    private Boolean onDuty;
 
     public Long getId() {
         return id;
@@ -40,5 +41,13 @@ public class StaffReducedDto {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public Boolean getOnDuty() {
+        return onDuty;
+    }
+
+    public void setOnDuty(Boolean onDuty) {
+        this.onDuty = onDuty;
     }
 }
