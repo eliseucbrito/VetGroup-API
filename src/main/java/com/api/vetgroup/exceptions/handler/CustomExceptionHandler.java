@@ -17,4 +17,10 @@ public class CustomExceptionHandler {
         ExceptionResponse errorResponse = new ExceptionResponse(new Date(), ex.getMessage(), HttpStatus.UNAUTHORIZED.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ExceptionResponse> handleBadRequestException(Exception ex) {
+        ExceptionResponse errorResponse = new ExceptionResponse(new Date(), ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }
