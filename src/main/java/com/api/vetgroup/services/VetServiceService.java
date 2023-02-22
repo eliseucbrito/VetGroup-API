@@ -62,18 +62,11 @@ public class VetServiceService {
     public List<VetService> findServicesByPatientId(Long id) {
         List<VetService> list = repository.findServicesByPatientId(id);
 
-
-
         return list;
     }
 
     public List<VetService> findServicesByStaffId(Long id) {
         List<VetService> list = repository.findServiceByStaffId(id);
-
-        if (list.isEmpty()) {
-            throw new IllegalArgumentException("Services not found");
-        }
-
         return list;
     }
 
@@ -81,7 +74,7 @@ public class VetServiceService {
         VetService service = findById(id);
 
         if (service.getStaff().getId() != staff_id) {
-            throw new IllegalArgumentException("You can't have permission to update this description");
+            throw new IllegalArgumentException("You don't have permission to update this description");
         }
 
         if (Objects.equals(service.getDescription(), description)) {
