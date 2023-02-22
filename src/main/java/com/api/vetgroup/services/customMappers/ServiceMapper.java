@@ -51,9 +51,15 @@ public class ServiceMapper {
         }
     }
 
-    public VetService convertDtoToService(ServiceCreateDto serviceDto) {
+    public VetService convertDtoToService(ServiceCreateDto serviceDto, String authorization) {
         try {
             VetService service = new VetService();
+            StaffUser staffCreator = staffService.findByJwt(authorization);
+
+            if (!staffCreator.getOnDuty())  {
+                throw new IllegalArgumentException("You aren't on duty");
+            }
+
             BeanUtils.copyProperties(serviceDto, service);
 
             StaffUser staff = staffService.findById(serviceDto.getStaff_id());

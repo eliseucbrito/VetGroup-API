@@ -90,10 +90,14 @@ public class VetServiceService {
     @Transactional
     public void changeStatus(Long id, ServiceStatus status, String authorization) throws IllegalAccessException {
         VetService service = findById(id);
-        StaffUser staff = staffService.findByJwt(authorization);
+        StaffUser staffCreator = staffService.findByJwt(authorization);
 
-        if (service.getStaff().getId() != staff.getId()) {
+        if (service.getStaff().getId() != staffCreator.getId()) {
             throw new IllegalArgumentException("You don't have permission");
+        }
+
+        if (!staffCreator.getOnDuty())  {
+            throw new IllegalArgumentException("You aren't on duty");
         }
 
         if (service.getType() == ServiceTypes.EMERGENCY && status == ServiceStatus.SCHEDULED) {

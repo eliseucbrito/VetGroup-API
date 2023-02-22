@@ -3,7 +3,10 @@ package com.api.vetgroup.services.customMappers;
 import com.api.vetgroup.dtos.create.PatientCreateDto;
 import com.api.vetgroup.dtos.response.PatientResponseDto;
 import com.api.vetgroup.models.Patient;
+import com.api.vetgroup.models.StaffUser;
+import com.api.vetgroup.services.StaffUserService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,6 +14,9 @@ import java.util.List;
 
 @Service
 public class PatientMapper {
+
+    @Autowired
+    private StaffUserService staffService;
 
     public PatientResponseDto convertPatientToDto(Patient patient) {
         try {
@@ -26,9 +32,15 @@ public class PatientMapper {
         }
     }
 
-    public Patient convertDtoToPatient(PatientCreateDto patientDto) {
+    public Patient convertDtoToPatient(PatientCreateDto patientDto , String authorization) {
         try {
             Patient patient = new Patient();
+            StaffUser staff = staffService.findByJwt(authorization);
+
+            if (!staff.getOnDuty())  {
+                throw new IllegalArgumentException("You aren't on duty");
+            }
+
             BeanUtils.copyProperties(patientDto, patient);
 
             patient.setKind(patientDto.getKind());

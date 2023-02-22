@@ -44,10 +44,6 @@ public class ReportMapper {
 
             StaffUser staff = staffService.findByJwt(jwt);
 
-            if (!staff.getOnDuty())  {
-                throw new IllegalArgumentException("Staff not on duty");
-            }
-
             report.setType(reportDto.getType());
             report.setStaff(staff);
 

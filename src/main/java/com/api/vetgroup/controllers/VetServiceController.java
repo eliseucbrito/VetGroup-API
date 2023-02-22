@@ -32,10 +32,15 @@ public class VetServiceController {
     private ServiceMapper mapper;
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createNewService(@RequestBody @Valid ServiceCreateDto serviceCreateDto) {
+    public ResponseEntity createNewService(
+            @RequestBody @Valid ServiceCreateDto serviceCreateDto,
+            HttpServletRequest req
+        )
+    {
         try {
             serviceCreateDto.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
-            VetService serviceModel = mapper.convertDtoToService(serviceCreateDto);
+            String token = req.getHeader("Authorization");
+            VetService serviceModel = mapper.convertDtoToService(serviceCreateDto, token);
 
             service.insert(serviceModel);
             return ResponseEntity.status(HttpStatus.CREATED).build();

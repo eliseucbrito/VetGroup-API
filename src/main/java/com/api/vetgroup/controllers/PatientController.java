@@ -5,6 +5,7 @@ import com.api.vetgroup.dtos.response.PatientResponseDto;
 import com.api.vetgroup.models.Patient;
 import com.api.vetgroup.services.PatientService;
 import com.api.vetgroup.services.customMappers.PatientMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -31,10 +32,15 @@ public class PatientController {
     private PatientMapper mapper;
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createNewPatient(@RequestBody @Valid PatientCreateDto patientCreateDto) {
+    public ResponseEntity<Object> createNewPatient(
+            @RequestBody @Valid PatientCreateDto patientCreateDto,
+            HttpServletRequest req
+        )
+    {
         try {
+            String token = req.getHeader("Authorization");
             patientCreateDto.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
-            service.insert(mapper.convertDtoToPatient(patientCreateDto));
+            service.insert(mapper.convertDtoToPatient(patientCreateDto, token));
 
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
