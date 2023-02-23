@@ -48,11 +48,13 @@ public class ReportController {
     @PatchMapping(value = "/{id}", params = "approved", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateApproved(
             @PathVariable Long id,
-            @RequestParam(value = "approved", required = true) Boolean approved
+            @RequestParam(value = "approved", required = true) Boolean approved,
+            HttpServletRequest req
         )
     {
         try {
-            service.setApprovedReport(id, approved);
+            String token = req.getHeader("Authorization");
+            service.setApprovedReport(id, approved, token);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);

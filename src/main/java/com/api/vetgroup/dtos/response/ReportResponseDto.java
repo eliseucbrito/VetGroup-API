@@ -16,6 +16,7 @@ public class ReportResponseDto {
     private LocalDateTime createdAt;
     private Boolean approved;
     private StaffReducedDto staff;
+    private StaffReducedDto approvedBy;
 
     public Long getId() {
         return id;
@@ -79,5 +80,13 @@ public class ReportResponseDto {
 
     public void setStaff(StaffReducedDto staff) {
         this.staff = staff;
+    }
+
+    public StaffReducedDto getApprovedBy() {
+        return approvedBy;
+    }
+
+    public void setApprovedBy(StaffReducedDto approvedBy) {
+        this.approvedBy = approvedBy;
     }
 }

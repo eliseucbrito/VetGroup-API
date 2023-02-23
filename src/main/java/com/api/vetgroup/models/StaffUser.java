@@ -46,6 +46,10 @@ public class StaffUser implements Serializable {
     @OneToMany(mappedBy = "staff")
     private List<Report> reports = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "approvedBy")
+    private List<Report> reports_approved = new ArrayList<>();
+
     @OneToMany(mappedBy = "staff")
     private List<RoleHistoric> role_historic = new ArrayList<>();
 
@@ -154,6 +158,10 @@ public class StaffUser implements Serializable {
 
     public void setWorkLoadCompleted(Integer workLoadCompleted) {
         this.workLoadCompleted = workLoadCompleted;
+    }
+
+    public List<Report> getReports_approved() {
+        return reports_approved;
     }
 
     public List<RoleHistoric> getRole_historic() {

@@ -50,6 +50,7 @@ CREATE TABLE `tb_service` (
 CREATE TABLE `tb_reports` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `approved` bit(1) DEFAULT NULL,
+  `approved_by` bigint DEFAULT NULL,
   `created_at` datetime(6) DEFAULT NULL,
   `description` varchar(255) NOT NULL,
   `payment_value` int DEFAULT NULL,

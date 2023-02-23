@@ -19,12 +19,10 @@ public class Report implements Serializable {
     private String title;
     @Column(nullable = false, unique = false)
     private String description;
-
     @Column(name = "payment_value", nullable = true, unique = false)
     private Integer paymentValue;
     @Column(nullable = false, unique = false)
     private Integer type;
-
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
     @Column(nullable = true, unique = false)
@@ -32,6 +30,10 @@ public class Report implements Serializable {
     @ManyToOne
     @JoinColumn(name = "staff_id")
     private StaffUser staff;
+
+    @ManyToOne
+    @JoinColumn(name = "approved_by")
+    private StaffUser approvedBy;
 
     public Long getId() {
         return id;
@@ -99,7 +101,13 @@ public class Report implements Serializable {
         this.approved = approved;
     }
 
+    public StaffUser getApprovedBy() {
+        return approvedBy;
+    }
 
+    public void setApprovedBy(StaffUser approvedBy) {
+        this.approvedBy = approvedBy;
+    }
 
     @Override
     public boolean equals(Object o) {

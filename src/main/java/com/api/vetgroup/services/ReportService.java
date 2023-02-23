@@ -59,8 +59,9 @@ public class ReportService {
         repository.save(report);
     }
 
-    public void setApprovedReport(Long id, Boolean approved) {
+    public void setApprovedReport(Long id, Boolean approved, String authorization) {
         Report report = findById(id);
+        StaffUser approvedBy = staffService.findByJwt(authorization);
 
         if (report.getType() == ReportTypes.REPORT) {
             throw new IllegalArgumentException("Report with type of REPORT can't be approved!");
@@ -73,6 +74,7 @@ public class ReportService {
             throw new IllegalArgumentException("This Report is already was denied!");
         }
 
+        report.setApprovedBy(approvedBy);
         report.setApproved(approved);
         update(report);
     }
