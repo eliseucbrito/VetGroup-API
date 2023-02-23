@@ -70,10 +70,16 @@ public class StaffUserController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity setNewRole(@PathVariable Long id, @RequestBody @Valid RoleHistoricCreateDto roleHistoricCreateDto) {
+    public ResponseEntity setNewRole(
+            @PathVariable Long id,
+            @RequestBody @Valid RoleHistoricCreateDto roleHistoricCreateDto,
+            HttpServletRequest req
+    )
+    {
         try {
+            String token = req.getHeader("Authorization");
             roleHistoricCreateDto.setStarted_in(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
-            RoleHistoric roleHistoric = roleHistoricMapper.convertToRoleHistoric(roleHistoricCreateDto, id);
+            RoleHistoric roleHistoric = roleHistoricMapper.convertToRoleHistoric(roleHistoricCreateDto, id, token);
 
 
             service.setNewRole(roleHistoric);

@@ -1,17 +1,22 @@
 package com.api.vetgroup.dtos.create;
 
 import com.api.vetgroup.models.enums.StaffRole;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 public class RoleHistoricCreateDto {
 
     private LocalDateTime started_in;
+
+    @NotNull
     private String role;
+
+    @NotNull
     private Integer base_salary;
+
+    @NotNull
     private Integer weekly_work_load;
-    private Long promoted_by;
-    private Long staff_id;
 
     public LocalDateTime getStarted_in() {
         return started_in;
@@ -45,19 +50,4 @@ public class RoleHistoricCreateDto {
         this.weekly_work_load = weekly_work_load;
     }
 
-    public Long getPromoted_by() {
-        return promoted_by;
-    }
-
-    public void setPromoted_by(Long promoted_by) {
-        this.promoted_by = promoted_by;
-    }
-
-    public Long getStaff_id() {
-        return staff_id;
-    }
-
-    public void setStaff_id(Long staff_id) {
-        this.staff_id = staff_id;
-    }
 }

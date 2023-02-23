@@ -39,12 +39,12 @@ public class RoleHistoricMapper {
         }
     }
 
-    public RoleHistoric convertToRoleHistoric(RoleHistoricCreateDto new_role, Long staff_id) {
+    public RoleHistoric convertToRoleHistoric(RoleHistoricCreateDto new_role, Long staff_id, String authorization) {
         try {
             RoleHistoric roleHistoric = new RoleHistoric();
             BeanUtils.copyProperties(new_role, roleHistoric);
 
-            StaffUser promoter = staffService.findById(new_role.getPromoted_by());
+            StaffUser promoter = staffService.findByJwt(authorization);
             StaffUser staff = staffService.findById(staff_id);
 
             Role role = roleRepository.findByDescription(new_role.getRole());
