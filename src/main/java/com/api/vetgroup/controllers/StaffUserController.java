@@ -78,12 +78,11 @@ public class StaffUserController {
     {
         try {
             String token = req.getHeader("Authorization");
-            roleHistoricCreateDto.setStarted_in(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            roleHistoricCreateDto.setStartedIn(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
             RoleHistoric roleHistoric = roleHistoricMapper.convertToRoleHistoric(roleHistoricCreateDto, id, token);
 
-
-            service.setNewRole(roleHistoric);
             roleHistoricService.insert(roleHistoric);
+            service.setNewRole(roleHistoric);
             userService.updateUserRole(roleHistoric);
 
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
