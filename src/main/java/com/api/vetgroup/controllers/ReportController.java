@@ -69,7 +69,7 @@ public class ReportController {
     {
         try {
             List<Report> list = service.findAll(sort_by, direction);
-            return ResponseEntity.ok().body(list);
+            return ResponseEntity.ok().body(mapper.convertListToDto(list));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }

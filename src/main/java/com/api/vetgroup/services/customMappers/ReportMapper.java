@@ -28,7 +28,8 @@ public class ReportMapper {
             StaffReducedDto staff = staffMapper.convertStaffToReducedDto(report.getStaff());
             BeanUtils.copyProperties(report, reportDto);
 
-            if (report.getApproved()) {
+                // getApproved can be NULL, for IF works correctly, needs to be TRUE
+            if (report.getApproved() != null) {
                 StaffReducedDto approvedBy = staffMapper.convertStaffToReducedDto(report.getApprovedBy());
                 reportDto.setApprovedBy(approvedBy);
             }
