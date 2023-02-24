@@ -26,11 +26,14 @@ public class ReportMapper {
         try {
             ReportResponseDto reportDto = new ReportResponseDto();
             StaffReducedDto staff = staffMapper.convertStaffToReducedDto(report.getStaff());
-            StaffReducedDto approvedBy = staffMapper.convertStaffToReducedDto(report.getApprovedBy());
             BeanUtils.copyProperties(report, reportDto);
 
+            if (report.getApproved()) {
+                StaffReducedDto approvedBy = staffMapper.convertStaffToReducedDto(report.getApprovedBy());
+                reportDto.setApprovedBy(approvedBy);
+            }
+
             reportDto.setType(report.getType());
-            reportDto.setApprovedBy(approvedBy);
             reportDto.setStaff(staff);
 
             return reportDto;
