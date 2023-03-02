@@ -35,6 +35,8 @@ CREATE TABLE `tb_service` (
   `description` text NOT NULL,
   `price` int DEFAULT NULL,
   `status` int NOT NULL,
+  `payment_status` int NOT NULL,
+  `status` int NOT NULL,
   `type` int NOT NULL,
   `patient_id` bigint DEFAULT NULL,
   `staff_id` bigint DEFAULT NULL,

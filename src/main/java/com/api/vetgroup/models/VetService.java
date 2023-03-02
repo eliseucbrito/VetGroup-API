@@ -1,5 +1,6 @@
 package com.api.vetgroup.models;
 
+import com.api.vetgroup.models.enums.PaymentStatus;
 import com.api.vetgroup.models.enums.ServiceCity;
 import com.api.vetgroup.models.enums.ServiceStatus;
 import com.api.vetgroup.models.enums.ServiceTypes;
@@ -30,6 +31,8 @@ public class VetService implements Serializable {
     private Date serviceDate;
     @Column(nullable = false, unique = false)
     private Integer type;
+    @Column(name = "payment_status", nullable = false, unique = false)
+    private Integer paymentStatus;
     @Column(nullable = false, unique = false)
     private Integer status;
     @Column(nullable = false, unique = false)
@@ -44,7 +47,6 @@ public class VetService implements Serializable {
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
-
 
     public Long getId() {
         return id;
@@ -93,6 +95,16 @@ public class VetService implements Serializable {
     public void setType(ServiceTypes type) {
         if (type != null) {
             this.type = type.getCode();
+        }
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return PaymentStatus.valueOf(paymentStatus);
+    }
+
+    public void setPaymentStatus(PaymentStatus status) {
+        if (status != null) {
+            this.paymentStatus = status.getCode();
         }
     }
 

@@ -43,8 +43,14 @@ public class StaffUserService {
         update(staff);
     }
 
-    public void setNewRole(RoleHistoric new_role) {
+    public StaffUser setNewRole(RoleHistoric new_role) {
         StaffUser staff = new_role.getStaff();
+
+        System.out.println("PEGOU STAFF");
+
+        if (staff == null) {
+            throw new IllegalArgumentException("STAFF TA NULO");
+        }
 
         if (staff.getRole() == new_role.getRole()) {
             throw new IllegalArgumentException("This employee is already in the role of "+ new_role.getRole());
@@ -55,6 +61,7 @@ public class StaffUserService {
         staff.setBaseSalary(new_role.getBaseSalary());
 
         update(staff);
+        return staff;
     }
 
     @Transactional

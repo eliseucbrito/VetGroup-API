@@ -70,7 +70,7 @@ public class StaffUserController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity setNewRole(
+    public ResponseEntity<Object> setNewRole(
             @PathVariable Long id,
             @RequestBody @Valid RoleHistoricCreateDto roleHistoricCreateDto,
             HttpServletRequest req
@@ -82,10 +82,10 @@ public class StaffUserController {
             RoleHistoric roleHistoric = roleHistoricMapper.convertToRoleHistoric(roleHistoricCreateDto, id, token);
 
             roleHistoricService.insert(roleHistoric);
-            service.setNewRole(roleHistoric);
+            StaffUser staff = service.setNewRole(roleHistoric);
             userService.updateUserRole(roleHistoric);
 
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.OK).body(mapper.convertStaffToDto(staff));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
@@ -95,7 +95,7 @@ public class StaffUserController {
     public ResponseEntity disableUser(@PathVariable Long id) {
         try {
             StaffUser staff = service.findById(id);
-            userService.disableUser(staff.getFullName());
+            userService.disableUser(staff.getEmail());
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
@@ -106,7 +106,7 @@ public class StaffUserController {
     public ResponseEntity enableUser(@PathVariable Long id) {
         try {
             StaffUser staff = service.findById(id);
-            userService.enableUser(staff.getFullName());
+            userService.enableUser(staff.getEmail());
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
@@ -150,7 +150,7 @@ public class StaffUserController {
     public ResponseEntity delete(@PathVariable Long id) {
         try {
             StaffUser staff = service.findById(id);
-            userService.disableUser(staff.getFullName());
+            userService.disableUser(staff.getEmail());
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {

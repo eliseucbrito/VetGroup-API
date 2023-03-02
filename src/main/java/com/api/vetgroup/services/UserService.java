@@ -61,16 +61,9 @@ public class UserService implements UserDetailsService {
         repository.save(user);
     }
 
-    public User findByFullName(String fullName) {
-        User user = repository.findByFullName(fullName);
 
-        if (user == null) throw new IllegalArgumentException("User of" +fullName+ " not found!");
-
-        return user;
-    }
-
-    public ResponseEntity disableUser(String fullName) {
-        User user = findByFullName(fullName);
+    public ResponseEntity disableUser(String email) {
+        User user = repository.findByUsername(email);
 
         if (!user.getAccountNonLocked()) {
             throw new IllegalArgumentException("This account is already locked!");
@@ -86,8 +79,8 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity enableUser(String fullName) {
-        User user = findByFullName(fullName);
+    public ResponseEntity enableUser(String email) {
+        User user = repository.findByUsername(email);
 
         if (user.getAccountNonLocked()) {
             throw new IllegalArgumentException("This account is already unlocked!");
@@ -104,7 +97,14 @@ public class UserService implements UserDetailsService {
     }
 
     public ResponseEntity updateUserRole(RoleHistoric roleHistoric) {
-        User user = repository.findByFullName(roleHistoric.getStaff().getFullName());
+        System.out.println("USER NAME " + roleHistoric.getStaff().getEmail());
+        User user = repository.findByUsername(roleHistoric.getStaff().getEmail());
+
+        System.out.println("PEGOU USER "+ user.getFullName());
+
+        if (user == null) {
+            throw new IllegalArgumentException("USER TA NULO");
+        }
 
         Optional<Role> role = roleRepository.findById(roleHistoric.getRole());
         List<Role> roleList = new ArrayList<>();
